@@ -1,0 +1,10 @@
+# JLCEDA automatic backups / local temp files
+*.epro2
+*_backup/
+*.tmp
+~$*
+
+# OS files
+Thumbs.db
+.DS_Store
+desktop.ini

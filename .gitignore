@@ -1,0 +1,19 @@
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# JLCEDA backups / temp
+*.bak
+*.zip
+*.tmp
+~$*
+
+# Python
+__pycache__/
+*.pyc
+
+# Large local outputs
+*.step
+*.stl
+*.3mf

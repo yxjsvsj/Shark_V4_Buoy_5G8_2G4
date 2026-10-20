@@ -1,0 +1,38 @@
+Ref,Qty,Value/Part,Package,Notes
+U1,1,STM32G030K8T6,LQFP32,64KB flash 8KB RAM
+U2,1,MX113H,SOT-23-6,Main motor H-bridge
+U3,1,MX113H,SOT-23-6,Lateral motor H-bridge
+U4,1,MX113H,SOT-23-6,Vertical motor H-bridge
+U5,1,5V boost 2A,MT3608 or TPS61023,1S to 5V
+U6,1,TLV70033,SOT-23-5,3.3V 300mA
+Q1,1,AON7403/AO3401,SOT-23/DFN,P-MOS power switch 5A+
+SW1,1,Reed switch,2-pin,Magnet power switch
+C1,3,100uF,0805,MX113H VCC decoupling
+C2,3,100nF,0402,MX113H VCC decoupling
+C3,1,10uF,0805,Boost input
+C4,1,22uF,0805,Boost output
+C5,1,1uF,0603,LDO output
+C6,1,100nF,0402,G030 decoupling
+C7,1,100nF,0402,VDDA
+C8,1,1uF,0603,VDDA bulk
+C9,1,100nF,0402,NRST
+C10,1,100nF,0402,Battery sense
+C11,1,100nF,0402,Gate-source
+R1,1,100k,0402,Battery divider top
+R2,1,100k,0402,Battery divider bottom
+R3,1,100k,0402,P-MOS gate pull-up
+R4,1,100k,0402,Leak pull-up
+R5,1,1k,0402,LED series
+R6,1,10k,0402,BOOT0 pull-down
+R7,1,22-100R,0402,UART series
+LED1,1,Green LED,0603,Status
+J1,1,JST-PH 2P,2.0mm,Battery
+J2,1,JST-SH 2P,1.0mm,Main motor
+J3,1,JST-SH 2P,1.0mm,Lateral motor
+J4,1,JST-SH 2P,1.0mm,Vertical motor
+J5,1,JST-SH 3P,1.0mm,Jaw servo
+J6,1,JST-SH 3P,1.0mm,Camera 5V/GND/VIDEO
+J7,1,JST-SH 6P,1.0mm,Buoy cable 5V/GND/VIDEO/UART/spare
+J8,1,4 pogo pads,1.27mm,SWD
+J9,1,JST-SH 2P,1.0mm,Leak pad
+PCB,1,20x30mm 4-layer,1.6mm,No RF

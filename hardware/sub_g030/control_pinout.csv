@@ -1,0 +1,22 @@
+Function,Port,Net,Peripheral,Notes
+Main motor IN1,PA8,MAIN_IN1,TIM1_CH1,20kHz PWM
+Main motor IN2,PA9,MAIN_IN2,TIM1_CH2,20kHz PWM
+Lateral motor IN1,PA10,LAT_IN1,TIM1_CH3,20kHz PWM
+Lateral motor IN2,PA11,LAT_IN2,TIM1_CH4,20kHz PWM
+Vertical motor IN1,PA6,VERT_IN1,TIM3_CH1,20kHz PWM
+Vertical motor IN2,PA7,VERT_IN2,TIM3_CH2,20kHz PWM
+Jaw servo,PB0,JAW_SERVO,TIM3_CH3,50Hz 500-2500us
+Buoy UART RX,PA3,BUOY_RX,USART2_RX,115200 from LimeCam pp
+Buoy UART TX,PA2,BUOY_TX,USART2_TX,Optional
+Battery sense,PA0,BAT_SENSE,ADC_IN0,100k/100k
+Leak sense,PA1,LEAK,GPIO input,100k pull-up
+Status LED,PB1,LED,GPIO,1k series
+SWDIO,PA13,SWDIO,SWD,
+SWCLK,PA14,SWCLK,SWD,
+Power,VDD,+3V3,Power,100nF each VDD pin
+Power,VSS,GND,Power,
+Power,VDDA,+3V3,Power,100nF+1uF
+Power,VSSA,GND,Power,
+Reset,NRST,NRST,Reset,100nF to GND
+Boot,BOOT0,BOOT0,Boot,10k to GND
+Spare,PA4/PA5/PA12/PB2-PB7,NC,-,Keep pads
