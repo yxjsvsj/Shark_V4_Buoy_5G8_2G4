@@ -1,6 +1,11 @@
 # Shark_V4_Buoy_F407_RevA
 
-New JLCEDA Pro project for the **buoy F407 receiver board**. It is a copy of `Shark_V3_SingleMCU_RevA`, used as a starting point. It is **not build-ready**.
+New JLCEDA Pro project copied from `Shark_V3_SingleMCU_RevA`. It contains two boards:
+
+- `Shark_Sub_G030` - renamed from `Board1`; **blank placeholder** for the G030 sub board.
+- `Shark_Buoy_F407` - buoy F407 receiver board (V3 pages, still to be stripped).
+
+It is **not build-ready**. The G030 schematic still needs to be drawn from `../V4_Buoy_5G8_2G4/control_board.md`.
 
 ## 1. What this board does
 
@@ -9,7 +14,7 @@ New JLCEDA Pro project for the **buoy F407 receiver board**. It is a copy of `Sh
 - Passes the shark camera CVBS video to the 5.8G VTX on the buoy.
 - No camera processing, no NRF1 video, no motor drivers.
 
-The shark control board (G030 + 3 thrusters + jaw) is a separate project. See:
+The shark control board (G030 + 3 thrusters + jaw) is the `Shark_Sub_G030` board in the same project. It is currently blank. See:
 `../V4_Buoy_5G8_2G4/control_board.md`.
 
 ## 2. Keep / remove from V3
@@ -37,7 +42,7 @@ Add:
 | `01_POWER` | Keep 1S protection + 3.3V; remove camera LDOs; add 5V cable input + VTX/camera 5V. |
 | `02_STM32` | Keep F407 minimum; keep NRF2/SPI2 and USART1; remove NRF1/video; keep SWD. |
 | `03_CAMERA_RF` | Remove OV2640/DCMI/SCCB/NRF1; keep NRF2; add camera/VTX video headers and 5.8G/2.4G antenna placement. |
-| `04_MOTOR_SERVO` | Do not use on this board; the G030 sub board handles motors. |
+| `04_MOTOR_SERVO` | Do not use on the F407 board; draw it on `Shark_Sub_G030`. |
 | `05_SENSORS_DEBUG` | Optional; not needed for the buoy. |
 
 ## 4. Firmware

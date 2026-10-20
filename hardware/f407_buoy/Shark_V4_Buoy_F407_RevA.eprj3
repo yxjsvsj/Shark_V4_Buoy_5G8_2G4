@@ -21,7 +21,7 @@
     "boards": {
       "6496845324cd2db9": {
         "uuid": "6496845324cd2db9",
-        "title": "Board1",
+        "title": "Shark_Sub_G030",
         "zIndex": 1
       },
       "35b26b48c40ea570": {
@@ -33,7 +33,7 @@
     "schematics": {
       "efa6fb88cfad8f15": {
         "uuid": "efa6fb88cfad8f15",
-        "name": "Schematic1",
+        "name": "G030",
         "board": "6496845324cd2db9",
         "source": "",
         "version": "1792394195925",
@@ -59,7 +59,7 @@
     "sheets": {
       "8c97e8a56a0743ed": {
         "uuid": "8c97e8a56a0743ed",
-        "title": "P1",
+        "title": "00_G030_Placeholder",
         "schematic_uuid": "efa6fb88cfad8f15",
         "zIndex": 1,
         "source": "",
