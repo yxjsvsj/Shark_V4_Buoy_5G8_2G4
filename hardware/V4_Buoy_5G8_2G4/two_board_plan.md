@@ -40,23 +40,24 @@ Use `buoy_rf_board.md`.
 
 | Pin | Net | Direction |
 |---|---|---|
-| 1 | +5V_BUOY | shark -> buoy |
+| 1 | +5V (cable label +5V_BUOY) | shark -> buoy |
 | 2 | GND_PWR | power return |
 | 3 | CVBS_VIDEO | shark -> buoy |
 | 4 | GND_VIDEO | video return |
 | 5 | PP_DOWN | F407 TX -> G030 RX |
 | 6 | TELEM_UP | G030 TX -> F407 RX |
 
-Use a separate shielded video pair/coax; not only the overall shield. 100uF at buoy input.
+Use a separate shielded video pair/coax; not only the overall shield. 100uF at buoy input. J7 is proposed **JST-PH 6P** (2A at 24AWG); JST-SH is incompatible with 24AWG and must not be used.
 
 ## 5. Power
 
-- Protected 1S -> `VBAT_MOTOR` -> 3x MX113H.
+- Protected 1S -> Q1 SiSS23DN -> `VMOTOR` -> 3x MX113H.
 - Protected 1S -> MT3608 5V/1A -> camera/buoy/servo -> TLV70033 3.3V/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO; do not stack a second boost without checking the LimeMini original.
-- 5V load ~0.72A; 5V/1A at 3.0V/85% is ~1.96A input, plus motor peaks.
+- +5V load ~0.72A nominal; +5V/1A at 3.0V/85% is ~1.96A input, plus motor peaks; L1 Isat >=3.5A.
+- Q1 SiSS23DN-T1-GE3: 6.3mohm max at VGS=-2.5V; ~4.96A continuous / ~6.46A peak budget.
 - Check DW01A/FS8205A or chosen protection continuous/peak; check battery 30C and connector.
-- 5V drop over 50cm: ~0.09V at 0.4A; verify at full load.
+- +5V drop over 50cm/24AWG: ~0.08V at 1A, ~0.17V at 2A loop; verify at full load and servo stall.
 
 ## 6. Firmware
 

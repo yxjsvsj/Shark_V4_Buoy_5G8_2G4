@@ -65,7 +65,8 @@ The F407 does not process video.
 - 5V -> 5.8G VTX + camera.
 - Current: F407 0.1A + NRF2 0.03A + VTX 0.2A + camera 0.1A = ~0.43A.
 - 100uF at input; 3.3V LDO TLV70033 200mA (F407+NRF2 ~0.13A); F407 decoupling as usual.
-- Check the 5V drop over 50cm and the buoy connector.
+- Check the +5V drop over 50cm and the buoy connector.
+- The buoy cable connector must mate with the G030 **JST-PH 6P** (2A at 24AWG); do not use JST-SH for 24AWG power/GND.
 
 ## 6. Size and layout
 

@@ -6,16 +6,18 @@ Test the buoy links before drawing the final sub PCB.
 
 - LimeRC receiver source/license resolved; PP polarity normal 3.3V TTL.
 - Thruster running/start/stall current measured; MX113H within 1A continuous / 1.5A peak.
-- 5V/3.3V power tree and protection current checked.
-- J7 50cm cable: 24AWG 5V/GND, separate shielded video; CVBS 75 ohm VTX termination checked.
+- Servo stall current measured; +5V budget includes camera/buoy/servo.
+- 5V/3.3V power tree and protection current checked; Q1/L1 thermal checked.
+- J7 50cm cable: proposed JST-PH 6P, 24AWG +5V/GND, separate shielded video; crimp pull test; CVBS 75 ohm VTX termination checked.
 
 ## 1. Buoy bench test
 
 - Leak test the empty buoy; then with a paper towel/desiccant, not electronics.
 - Float test: buoy upright, antennas vertical, cable gland above water.
 - Cable strain: pull gently on the cable; the tow loop/strength member takes the load, not the solder joints.
-- 5V at the buoy: measure 5V under load (VTX + receiver + camera).
+- +5V at the buoy: measure under load (VTX + receiver + camera), then with servo stall; check J7 voltage drop and heat.
 - Check 5.8G VTX and 2.4G receiver current; check heat at 25mW.
+- Check Q1 and L1 temperature at the worst-case +5V load plus motor peak.
 
 ## 2. 5.8G video test
 
@@ -36,7 +38,7 @@ Pass: stable 640x480 image, no freeze, acceptable noise at 30-40 cm camera depth
 4. Check failsafe: remote off -> motors stop, jaw open.
 5. Send malformed/partial PP frames; parser must reject them and keep motors stopped.
 6. At reset, all H-bridge IN1/IN2 must be 0; no motor twitch.
-5. Check the `pp` output mode is enabled on the remote (LimeCam default may be off).
+7. Check the `pp` output mode is enabled on the remote (LimeCam default may be off).
 
 Pass: no dropouts at the tank distance; failsafe works.
 
@@ -67,5 +69,5 @@ Pass: buoy upright, cable not tangled, video/control stable, no leaks.
 - Buoy: upright, positive buoyancy, no leaks, cable not tangled.
 - Failsafe: motors stop and jaw opens on loss of control.
 - Reset: H-bridges off; no motor motion before valid PP.
-- Power: thruster peak within MX113H rating; 5V/3.3V rails stable.
+- Power: thruster peak within MX113H rating; +5V/+3V3 rails stable; Q1/L1/J7 not overheating; servo stall does not brown out the G030.
 - Buoyancy: shark surfaces on power/control loss.

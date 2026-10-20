@@ -6,14 +6,14 @@ Lateral motor IN2,PA11,22,AF2,LAT_IN2,TIM1_CH4 20kHz; default PA11, do not enabl
 Vertical motor IN1,PA6,13,AF1,VERT_IN1,TIM3_CH1 20kHz
 Vertical motor IN2,PA7,14,AF1,VERT_IN2,TIM3_CH2 20kHz
 Jaw servo,PB1,16,AF0,JAW_SERVO,TIM14_CH1 50Hz; Table 14 AF0
-Status LED,PB0,15,GPIO,LED,Active high; 1k series
-Buoy PP RX,PA3,10,AF1,BUOY_RX,USART2_RX 115200; from buoy F407 TX
-Buoy telemetry TX,PA2,9,AF1,BUOY_TX,USART2_TX; to buoy F407 RX
+Status LED,PB0,15,GPIO,LED_GPIO,Active high; PB0 -> R7 1k -> LED1 -> GND
+Buoy PP RX,PA3,10,AF1,BUOY_RX,USART2_RX 115200; from buoy F407 TX through R8
+Buoy telemetry TX,PA2,9,AF1,TELEM_UP,USART2_TX; to buoy F407 RX
 Battery sense,PA0,7,ADC_IN0,BAT_SENSE,100k/100k divider
 Leak sense,PA1,8,GPIO,LEAK,External 100k pull-up
 SWDIO,PA13,24,AF0,SWDIO,SWD
 SWCLK/BOOT0,PA14,25,AF0,SWCLK,SWCLK; BOOT0 option bit; no separate BOOT0 pin
-VDD/VDDA,VDD/VDDA,4,PWR,+3V3,Merged pin; 100nF + 4.7uF
+VDD/VDDA,VDD/VDDA,4,PWR,+3V3,Merged pin; 100nF + 4.7uF; canonical net +3V3
 VSS/VSSA,VSS/VSSA,5,PWR,GND,Merged pin
 NRST,NRST,6,RST,NRST,100nF to GND; connect to SWD NRST
 Spare,PA4,11,-,NC,Keep pad

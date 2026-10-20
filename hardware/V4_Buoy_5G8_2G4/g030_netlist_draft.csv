@@ -1,11 +1,11 @@
 Net,RefDes,Pin,Notes
 VBAT,J1,1,XT30 battery positive
-VBAT,Q1,1,P-MOS source
 VBAT,Q1,2,P-MOS source
 VBAT,Q1,3,P-MOS source
+VBAT,Q1,4,P-MOS source
 VBAT,R5,1,Gate pull-up
 VBAT,C14,1,Gate-source cap
-PWR_GATE,Q1,4,P-MOS gate
+PWR_GATE,Q1,1,P-MOS gate
 PWR_GATE,R5,2,Gate pull-up
 PWR_GATE,SW1,2,Reed switch
 PWR_GATE,C14,2,Gate-source cap
@@ -30,25 +30,25 @@ VMOTOR,R3,1,Battery divider top
 SW,L1,2,Boost inductor switch
 SW,U5,1,MT3608 SW
 SW,D1,1,Schottky anode
-5V,D1,2,Schottky cathode
-5V,C8,1,Boost output cap
-5V,R1,1,Feedback top
-5V,U6,1,LDO input
-5V,U6,3,LDO enable
-5V,J5,1,Servo 5V
-5V,J6,1,Camera 5V
-5V,J7,1,Buoy 5V
++5V,D1,2,Schottky cathode
++5V,C8,1,Boost output cap
++5V,R1,1,Feedback top
++5V,U6,1,LDO input
++5V,U6,3,LDO enable
++5V,J5,1,Servo 5V
++5V,J6,1,Camera 5V
++5V,J7,1,Buoy 5V
 FB,U5,3,MT3608 feedback
 FB,R1,2,Feedback top
 FB,R2,1,Feedback bottom
-3V3,U6,5,LDO output
-3V3,C9,1,LDO output cap
-3V3,C10,1,G030 VDD/VDDA decoupling
-3V3,C11,1,G030 VDD/VDDA bulk
-3V3,U1,4,VDD/VDDA pin 4
-3V3,R6,1,Leak pull-up
-3V3,R7,1,LED series
-3V3,J8,1,SWD 3V3
++3V3,U6,5,LDO output
++3V3,C9,1,LDO output cap
++3V3,C10,1,G030 VDD/VDDA decoupling
++3V3,C11,1,G030 VDD/VDDA bulk
++3V3,U1,4,VDD/VDDA pin 4
++3V3,R6,1,Leak pull-up
+LED_GPIO,R7,1,PB0 to LED series resistor
++3V3,J8,1,SWD 3V3
 GND,J1,2,Battery negative
 GND,U2,2,MX113H main GND
 GND,U3,2,MX113H lateral GND
@@ -86,9 +86,9 @@ BAT_SENSE,U1,7,PA0 ADC_IN0
 LEAK,R6,2,Pull-up
 LEAK,U1,8,PA1
 LEAK,J9,1,Leak pad
-LED,R7,2,LED series
-LED,LED1,1,LED anode
-LED,U1,15,PB0 GPIO
+LED_A,R7,2,LED series resistor to anode
+LED_A,LED1,1,LED anode
+LED_GPIO,U1,15,PB0 GPIO
 MAIN_IN1,U1,18,PA8 TIM1_CH1
 MAIN_IN1,U2,5,MX113H IN1
 MAIN_IN2,U1,19,PA9 TIM1_CH2
@@ -113,16 +113,16 @@ VERT_OUT1,U4,3,MX113H OUT1
 VERT_OUT1,J4,1,Vertical motor
 VERT_OUT2,U4,1,MX113H OUT2
 VERT_OUT2,J4,2,Vertical motor
-JAW,U1,16,PB1 TIM14_CH1
-JAW,J5,3,Servo signal
-CAM_VIDEO,J6,3,Camera video
-CAM_VIDEO,J7,3,Buoy video
-BUOY_RX_J7,J7,5,PP_DOWN from F407
-BUOY_RX_J7,R8,1,Series resistor
-BUOY_RX_MCU,R8,2,Series resistor
-BUOY_RX_MCU,U1,10,PA3 USART2_RX
-BUOY_TX,U1,9,PA2 USART2_TX
-BUOY_TX,J7,6,TELEM_UP to F407
+JAW_SERVO,U1,16,PB1 TIM14_CH1
+JAW_SERVO,J5,3,Servo signal
+CVBS_VIDEO,J6,3,Camera video
+CVBS_VIDEO,J7,3,Buoy video
+PP_DOWN,J7,5,PP_DOWN from F407
+PP_DOWN,R8,1,Series resistor input
+BUOY_RX,R8,2,Series resistor output
+BUOY_RX,U1,10,PA3 USART2_RX
+TELEM_UP,U1,9,PA2 USART2_TX
+TELEM_UP,J7,6,TELEM_UP to F407
 SWDIO,U1,24,PA13
 SWDIO,J8,3,SWD
 SWCLK,U1,25,PA14/SWCLK

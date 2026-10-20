@@ -32,11 +32,13 @@ Control: LimeRC remote -> buoy 2.4G -> `pp` -> 50 cm cable -> G030.
 
 ### 2. Power tree
 
-- 1S protected battery -> `VBAT_MOTOR` -> 3x MX113H.
+- 1S protected battery -> Q1 SiSS23DN -> `VMOTOR` -> 3x MX113H.
 - 1S -> 5V boost -> camera/buoy VTX/receiver/servo.
 - 5V -> 3.3V LDO, or a dedicated 3.3V buck-boost for G030/F407.
 - Do not stack a second boost without checking the original LimeMini power design.
-- Budget: MT3608 5V/1A at 3.0V/85% is ~1.96A input; actual buoy load is ~0.4A, but 3 motors + buoy peak must be summed. TLV70033 is 200mA max.
+- Budget: MT3608 +5V/1A at 3.0V/85% is ~1.96A input; actual buoy load is ~0.4A, but 3 motors + buoy peak must be summed. L1 must be >=3.5A saturation / >=2.2A RMS. TLV70033 is 200mA max.
+- Q1: SiSS23DN-T1-GE3, 20V/50A, 6.3mohm max at VGS=-2.5V, PowerPAK 1212-8S. AON7403 has no published -2.5V RDS(on) and is not approved for 1S.
+- Servo stall current is not measured; do not assume 0.2A. Check simultaneous +5V load.
 - Check DW01A/FS8205A or chosen protection continuous/peak current; check battery 30C and connector.
 - 3.3V LDO from 1S is not acceptable for a stable 3.3V rail; use boost/buck-boost or 5V-derived LDO.
 
@@ -53,7 +55,7 @@ Recommended 6-core pinout:
 
 | Pin | Net | Direction |
 |---|---|---|
-| 1 | +5V_BUOY | shark -> buoy |
+| 1 | +5V (cable label +5V_BUOY) | shark -> buoy |
 | 2 | GND_PWR | power return |
 | 3 | CVBS_VIDEO | shark -> buoy |
 | 4 | GND_VIDEO | video return |
@@ -61,6 +63,7 @@ Recommended 6-core pinout:
 | 6 | TELEM_UP | G030 TX -> F407 RX |
 
 - Use a separate shielded video pair/coax, not only the overall shield.
+- J7: proposed **JST-PH 6P** (2A at 24AWG, 24-30AWG). JST-SH 1A/28-32AWG is incompatible with 24AWG and must not remain.
 - CVBS is 75 ohm; check whether the VTX input has a 75 ohm termination to avoid double termination.
 - 50 cm is for shallow testing; for 50 cm depth plus float/connector margin, make a longer version.
 - Define connector, strain relief, neutral buoyancy and max depth.

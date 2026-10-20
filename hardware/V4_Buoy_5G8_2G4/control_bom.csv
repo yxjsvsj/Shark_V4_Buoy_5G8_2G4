@@ -5,8 +5,8 @@ U3,1,MX113H,SOT-23-6,Lateral motor H-bridge
 U4,1,MX113H,SOT-23-6,Vertical motor H-bridge
 U5,1,MT3608,SOT-23-6,5V/1A boost; not TPS61023
 U6,1,TLV70033,SOT-23-5,3.3V 200mA max
-Q1,1,AON7403,DFN3x3,P-MOS power switch; source 1-3 gate 4 drain 5-8 (verify)
-L1,1,22uH,6x6mm,MT3608 inductor; saturation >2.5A
+Q1,1,SiSS23DN-T1-GE3,PowerPAK 1212-8S,P-MOS 20V/50A; RDS(on) 6.3mohm max at VGS=-2.5V; pin1 gate pins2-4 source pins5-8 drain; replaces AON7403; footprint verify
+L1,1,22uH,6x6mm,MT3608 inductor; Isat >=3.5A; Irms >=2.2A; verify at 3.0V/1A
 D1,1,SS34,SMA,MT3608 Schottky
 C1,1,100uF,0805,MX113H U2 VCC
 C2,1,100uF,0805,MX113H U3 VCC
@@ -38,7 +38,7 @@ J3,1,JST-SH 2P,1.0mm,Lateral motor; 1A rating; upgrade if needed
 J4,1,JST-SH 2P,1.0mm,Vertical motor; 1A rating; upgrade if needed
 J5,1,JST-SH 3P,1.0mm,Jaw servo
 J6,1,JST-SH 3P,1.0mm,Camera 5V/GND/VIDEO
-J7,1,JST-SH 6P,1.0mm,Buoy cable 5V/GND/CVBS/GND_VIDEO/PP_DOWN/TELEM_UP
-J8,1,5 pogo pads,1.27mm,SWD 3V3/GND/SWDIO/SWCLK/NRST
+J7,1,JST-PH 6P,2.0mm,Buoy cable; 2A at 24AWG; 24-30AWG; B6B-PH-K-S / PHR-6 / SPH-002T-P0.5S; series change pending confirmation
+J8,1,5 pogo pads,1.27mm,SWD +3V3/GND/SWDIO/SWCLK/NRST
 J9,1,JST-SH 2P,1.0mm,Leak pad
 PCB,1,26x40-46mm 4-layer,1.6mm,First-pass size; not frozen

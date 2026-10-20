@@ -7,7 +7,7 @@ This is a connection-level draft to draw in JLCEDA Pro. It is not a `.esch2` sch
 
 | Page | Content |
 |---|---|
-| `01_POWER` | XT30, protected 1S pack, Q1 AON7403, MT3608 5V, TLV70033 3.3V, battery sense |
+| `01_POWER` | XT30, protected 1S pack, Q1 SiSS23DN, MT3608 +5V, TLV70033 +3V3, battery sense |
 | `02_G030` | G030K8T6, VDD/VDDA pin4, VSS/VSSA pin5, NRST, SWD, PA14-BOOT0 option |
 | `03_MOTOR` | 3x MX113H, motor connectors J2-J4, gate/decoupling |
 | `04_IO` | Servo J5, camera J6, buoy J7, leak J9, LED, PP UART |
@@ -16,17 +16,19 @@ This is a connection-level draft to draw in JLCEDA Pro. It is not a `.esch2` sch
 
 ```
 Protected 1S pack -> XT30 J1 -> VBAT
-VBAT -> Q1 AON7403 -> VMOTOR
-VMOTOR -> U5 MT3608 -> 5V
-5V -> U6 TLV70033 -> 3V3 -> U1 G030
+VBAT -> Q1 SiSS23DN -> VMOTOR
+VMOTOR -> U5 MT3608 -> +5V
++5V -> U6 TLV70033 -> +3V3 -> U1 G030
 ```
 
-- Q1 AON7403: source 1-3 = VBAT, gate 4 = PWR_GATE, drain 5-8 = VMOTOR. R5 100k pull-up, SW1 reed to GND, C14 100nF gate-source.
-- U5 MT3608: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 22uH, D1 SS34, C7 10uF, C8 22uF, R1 73.2k, R2 10k -> 5.0V; 5V/1A continuous.
-- U6 TLV70033: IN/EN = 5V, OUT = 3V3; 200mA max.
-- 5V loads: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A; 1A boost.
-- 3.3V load: G030 ~20mA; 200mA LDO is enough.
-- **BLOCKED:** 1S protection continuous/peak current, motor start/stall current, 5V input current and thermal are not measured.
+- Q1 SiSS23DN-T1-GE3: pin 1 gate = PWR_GATE, pins 2-4 source = VBAT, pins 5-8 drain = VMOTOR. R5 100k pull-up, SW1 reed to GND, C14 100nF gate-source.
+- Q1 is rated 20V/50A package-limited; RDS(on) 6.3mohm max at VGS=-2.5V. It replaces AON7403, which has no published -2.5V RDS(on). Verify the PowerPAK 1212-8S footprint and copper.
+- U5 MT3608: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 22uH, D1 SS34, C7 10uF, C8 22uF, R1 73.2k, R2 10k -> 5.0V; +5V/1A continuous.
+- U6 TLV70033: IN/EN = +5V, OUT = +3V3; 200mA max.
+- +5V loads nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A; 1A boost.
+- Input current at 3.0V/85% for 5V/1A is ~1.96A; L1 Isat >=3.5A, Irms >=2.2A.
+- +3V3 load: G030 ~20mA; 200mA LDO is enough.
+- **BLOCKED:** 1S protection continuous/peak current, motor start/stall current, servo stall current, 5V input current and thermal are not measured.
 
 ## 3. MCU connections
 
@@ -53,24 +55,27 @@ See `control_pinout.csv` for the authoritative pin/AF table.
 
 - J1 XT30: VBAT/GND.
 - J2/J3/J4: motor outputs.
-- J5: 5V/GND/JAW.
-- J6: 5V/GND/CAM_VIDEO.
-- J7: +5V_BUOY, GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP.
-- J8: 3V3/GND/SWDIO/SWCLK/NRST.
+- J5: +5V/GND/JAW_SERVO.
+- J6: +5V/GND/CVBS_VIDEO.
+- J7: +5V, GND_PWR (tied to board GND), CVBS_VIDEO, GND_VIDEO (tied to board GND), PP_DOWN, TELEM_UP. Proposed **JST-PH 6P**; SH is 1A/28-32AWG and cannot take 24AWG.
+- J8: +3V3/GND/SWDIO/SWCLK/NRST.
 - J9: LEAK/GND.
 
 ## 6. Netlist and BOM
 
-- `g030_netlist_draft.csv` - 131 connections, 31 nets. Manual check: no single-node nets, no duplicate pins, no pin on two nets. This is **not** an EDA ERC.
-- `control_bom.csv` - unique refs; MT3608/TLV70033/AON7403 are fixed, no "or" selection; no BOOT0 resistor; no separate VDDA/VSSA.
+- `g030_netlist_draft.csv` - connection-level netlist. Automated check: no single-node nets, no duplicate pins, no pin on two nets; LED/Q1/J7 rules checked. This is **not** an EDA ERC.
+- `check_netlist.py` - committed structural checker; run `python hardware/V4_Buoy_5G8_2G4/check_netlist.py`.
+- `control_bom.csv` - unique refs; MT3608/TLV70033/SiSS23DN are fixed, no "or" selection; no BOOT0 resistor; no separate VDDA/VSSA.
 
 ## 7. Not verified / BLOCKED
 
 - JLCEDA `.esch2` drawing: not created; no ERC.
 - Board outline/placement: not drawn; 26x40-46mm is a first-pass target only.
 - Motor current/thrust/MX113H thermal: not measured.
-- 5V boost inductor saturation/thermal: calculated only, not measured.
+- 5V boost inductor saturation/thermal: calculated only, not measured; L1 Isat >=3.5A required.
+- Servo stall current and simultaneous +5V load: not measured.
 - Protected pack/J1/XT30/protection current: not measured.
+- Q1 PowerPAK 1212-8S footprint/copper temperature: not verified.
 - CVBS 75 ohm VTX termination: not confirmed.
 - Positive buoyancy: design requirement, not tank-verified.
 - **Do not order PCB or mark production-ready.**

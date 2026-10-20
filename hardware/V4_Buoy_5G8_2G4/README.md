@@ -11,7 +11,7 @@ The shark tows a short cable to a small surface buoy. All RF stays above water.
   camera CVBS + G030 + 3 ESC/MX113H + jaw servo + 1S + 5V boost
         |
         | 50 cm, 6-core cable:
-        | +5V_BUOY, GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
+        | +5V (cable +5V_BUOY), GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
         v
 [Buoy, on the surface]
   5.8G 25mW VTX + cloverleaf
@@ -75,14 +75,16 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 
 ## 6. Power and cable
 
-- Protected 1S -> `VBAT_MOTOR` -> 3x MX113H.
-- Protected 1S -> MT3608 5V/1A -> camera/buoy/servo -> TLV70033 3.3V/200mA -> G030.
+- Protected 1S -> Q1 SiSS23DN-T1-GE3 -> `VMOTOR` -> 3x MX113H.
+- Protected 1S -> MT3608 +5V/1A -> camera/buoy/servo -> TLV70033 +3V3/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO. Do not stack a second boost without checking the LimeMini original.
-- 5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.72A; 1A boost.
-- 5V/1A at 3.0V/85% is ~1.96A input; sum motor peaks and check protection.
-- Cable: 50 cm, 6 cores, 26-28AWG, separate shielded video pair/coax.
-- Pins: 1=+5V_BUOY, 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
-- Add 100uF + 100nF at the buoy 5V input and a ferrite/LC filter for the camera/video.
+- +5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.72A nominal; 1A boost. Servo stall is not yet measured and may exceed 1A with the other loads.
+- +5V/1A at 3.0V/85% is ~1.96A input; L1 must be >=3.5A saturation; sum motor peaks and check protection.
+- Q1 is rated 20V/50A and 6.3mohm max at VGS=-2.5V; AON7403 is not approved for 1S gate drive.
+- Cable: 50 cm, 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax.
+- J7: **JST-PH 6P, 2.0mm, 2A at 24AWG** (proposed; series change pending confirmation). JST-SH 1A/28-32AWG cannot take 24AWG.
+- Pins: 1=+5V (cable +5V_BUOY), 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
+- Add 100uF + 100nF at the buoy +5V input and a ferrite/LC filter for the camera/video.
 - Use a Kevlar/string strength member; the cable must not be the tow load.
 - Waterproof gland at the buoy; potted/gland at the shark; strain relief loop at both ends.
 - 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
@@ -124,6 +126,8 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - `control_board.md` - G030 sub control board.
 - `control_pinout.csv` - G030 pin/peripheral map.
 - `control_bom.csv` - G030 BOM.
+- `g030_netlist_draft.csv` - G030 connection-level netlist.
+- `check_netlist.py` - structural netlist checker; run `python hardware/V4_Buoy_5G8_2G4/check_netlist.py`.
 - `buoy_rf_board.md` - stripped F407 buoy RF board and firmware gate.
 - `two_board_plan.md` - two-board redesign plan.
 - `keep_remove.md` - keep/remove from the open-source boards.
@@ -136,5 +140,6 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - 5.8G is chosen because the antenna is above water; do not put the 5.8G VTX underwater.
 - **Firmware gate:** LimeRC receiver source/license, RF module, pairing, clock (V3 24MHz vs original 25MHz), PP polarity. If only HEX is available, use the original LimeCam board or get source/permission; do not stub tasks blindly.
 - **Motor gate:** measure thruster current/thrust and MX113H thermal before layout.
+- **Power/connector gate:** Q1 SiSS23DN footprint/thermal, L1 >=3.5A saturation, servo stall, and J7 JST-PH confirmation must be closed before layout freeze.
 - **Size gate:** board sizes are not frozen; layout first.
 - If the buoy/cable proves troublesome, the fallback is a thin shore tether or a smaller antenna float.
