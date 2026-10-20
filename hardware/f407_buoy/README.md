@@ -16,7 +16,7 @@ The shark control board (G030 + 3 thrusters + jaw) is a separate project. See:
 
 | Keep | Remove |
 |---|---|
-| F407VET6 minimum system, 24 MHz HSE | OV2640, DCMI, SCCB, JPEG |
+| F407VET6 minimum system (HSE 24/25 MHz to confirm) | OV2640, DCMI, SCCB, JPEG |
 | SWD, BOOT0, NRST, VCAP, decoupling | NRF1 / SPI1 video |
 | NRF2 / SPI2 2.4G control | USB, CAN, SD, OLED, WS2812 |
 | USART1 `pp` output | Camera 2.8 V / 1.3 V LDOs |
@@ -42,18 +42,17 @@ Add:
 
 ## 4. Firmware
 
-Start from `LimeCam_Release`:
+**Firmware source gate:** LimeRC hardware is CC BY-SA 4.0, but source copyright is separate. Confirm compilable source, RF module, pairing, clock and PP polarity before layout.
 
-- Keep `App/nrfMessage.c`, `LimeNrfLib/Lime_nrf_slave.c`, `Lime_nrf_slave_ports.c`, `Agreement/agreement_pp.c`, USART1, SPI2.
-- Remove camera/video/USB/CAN/SD/OLED tasks.
-- Provide a stub for `nrfPhotoTask_Suspend()`; keep `Lime_GlobalData`/pairing.
-- Output `pp` at 115200 on USART1.
+- With source: keep `App/nrfMessage.c`, `LimeNrfLib/Lime_nrf_slave.c`, `Lime_nrf_slave_ports.c`, `Agreement/agreement_pp.c`, USART1, SPI2; remove camera/video tasks only after proving NRF2/SPI2/USART1/pairing independently.
+- With HEX only: use the original LimeCam board as-is; do not assume a new F407 board runs the HEX; do not stub `nrfPhotoTask_Suspend()` blindly.
+- Output `pp` at 115200 on USART1; normal 3.3V TTL, not inverted.
 - The LimeRC remote must enable `pp` output mode.
 - The remote screen will not show video; use a separate 5.8G monitor.
 
 ## 5. Board target
 
-- Target 30x30mm, 4-layer preferred; F407 LQFP100 in the center; NRF2 at one edge with antenna keepout.
+- Target 30x30mm, allow 30x35mm; 4-layer preferred; F407 LQFP100 in the center; NRF2 at one edge with antenna keepout.
 - 5.8G/camera headers on the opposite side; keep 2.4G and 5.8G antennas >=5 cm apart.
 - 4x M1.6 holes; fits the 55x70mm buoy.
 - The V3 board outline is only a reference; resize after placement.
@@ -69,4 +68,4 @@ Start from `LimeCam_Release`:
 Use JLCEDA Pro V4.1.78 to open `Shark_V4_Buoy_F407_RevA.eprj3`.
 Save As a new project before editing; the internal UUIDs came from V3.
 
-The original V3 notes are kept in `V3_REFERENCE.md`.
+The original V3 notes are kept in `V3_REFERENCE.md`. See `../V4_Buoy_5G8_2G4/design_review.md` for the P0 gates.

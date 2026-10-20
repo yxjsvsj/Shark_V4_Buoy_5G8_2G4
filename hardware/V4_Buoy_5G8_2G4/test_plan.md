@@ -2,6 +2,12 @@
 
 Test the buoy links before drawing the final sub PCB.
 
+## 0. Preconditions
+
+- LimeRC receiver source/license resolved; PP polarity normal 3.3V TTL.
+- Thruster running/start/stall current measured; MX113H within 1A continuous / 1.5A peak.
+- 5V/3.3V power tree and protection current checked.
+
 ## 1. Buoy bench test
 
 - Leak test the empty buoy; then with a paper towel/desiccant, not electronics.
@@ -27,6 +33,8 @@ Pass: stable 640x480 image, no freeze, acceptable noise at 30-40 cm camera depth
 2. Connect `pp` to the G030 UART2; verify channels in the debug print.
 3. Run 10 minutes at 5-10 m; record dropouts.
 4. Check failsafe: remote off -> motors stop, jaw open.
+5. Send malformed/partial PP frames; parser must reject them and keep motors stopped.
+6. At reset, all H-bridge IN1/IN2 must be 0; no motor twitch.
 5. Check the `pp` output mode is enabled on the remote (LimeCam default may be off).
 
 Pass: no dropouts at the tank distance; failsafe works.
@@ -38,6 +46,7 @@ Pass: no dropouts at the tank distance; failsafe works.
 3. Open/close the jaw; check camera view.
 4. Run 10 minutes; check leaks, cable tangle, buoy trim.
 5. Bring the shark to the surface; check the buoy did not flood.
+6. Cut power/control; confirm the shark is positively buoyant and surfaces.
 
 Pass: buoy upright, cable not tangled, video/control stable, no leaks.
 
@@ -56,3 +65,6 @@ Pass: buoy upright, cable not tangled, video/control stable, no leaks.
 - 2.4G control: no dropouts for 10 minutes at the tank distance.
 - Buoy: upright, positive buoyancy, no leaks, cable not tangled.
 - Failsafe: motors stop and jaw opens on loss of control.
+- Reset: H-bridges off; no motor motion before valid PP.
+- Power: thruster peak within MX113H rating; 5V/3.3V rails stable.
+- Buoyancy: shark surfaces on power/control loss.

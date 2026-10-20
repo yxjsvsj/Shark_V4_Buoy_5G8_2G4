@@ -7,10 +7,10 @@ The shark tows a 50 cm cable to the buoy; all RF stays above water.
 
 ```
 Shark (fully submerged)
-  camera CVBS + G030 + 3 thrusters + jaw + 1S + 5V boost
+  camera CVBS + G030 + 3 thrusters + jaw + protected 1S + 5V boost
         |
-        | 50 cm, 6-core shielded cable:
-        | 5V, GND, VIDEO, UART_TX, UART_RX, spare
+        | 50 cm, 6-core cable:
+        | +5V_BUOY, GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
         v
 Buoy (surface)
   5.8G 25mW VTX + cloverleaf
@@ -29,30 +29,30 @@ Buoy (surface)
 
 | Path | What |
 |---|---|
-| `hardware/f407_buoy/` | JLCEDA Pro project for the buoy F407 receiver board (copy of V3 as a starting point). Open `Shark_V4_Buoy_F407_RevA.eprj3`. |
-| `hardware/sub_g030/` | Design docs for the shark G030 control board. The JLCEDA G030 project still needs to be created. |
-| `docs/system.md` | Full buoy system plan, dimensions, cost, success. |
-| `docs/two_board_plan.md` | Two-board redesign plan. |
-| `docs/buoy_rf_board.md` | Stripped LimeCam F407 buoy board. |
-| `docs/keep_remove.md` | What to keep/remove from the open-source boards. |
-| `docs/mechanical.md` | Buoy dimensions, cable, sealing. |
-| `docs/test_plan.md` | Tank test plan. |
-| `docs/bom.csv` | Buoy and tank-edge BOM. |
+| `hardware/f407_buoy/` | JLCEDA Pro project for the buoy F407 receiver board (copy of V3). Open `Shark_V4_Buoy_F407_RevA.eprj3`. |
+| `hardware/V4_Buoy_5G8_2G4/` | System, two-board plan, buoy RF, G030 control, keep/remove, mechanical, test, BOM, design review. |
 
 ## Status
 
 - No PCB has been fabricated.
-- The F407 project is a **copy of the V3 project**, not build-ready. It still contains the V3 camera/NRF1 pages; remove them per `docs/buoy_rf_board.md`.
-- The G030 control board is documented but not yet a JLCEDA project.
+- The F407 project is a **copy of the V3 project**, not build-ready. It still contains the V3 camera/NRF1 pages.
+- **P0 gate:** LimeRC receiver source/license, clock (24 vs 25 MHz), pairing, PP polarity. If only HEX is available, use the original LimeCam board or get source/permission.
+- **P0 gate:** measure thruster current/stall and MX113H thermal before layout.
+- Board sizes are not frozen: first-pass G030 26x40-46 mm, buoy 30x30-30x35 mm.
 - First milestone: 5.8G video + 2.4G `pp` + 50 cm cable test in the tank.
-- Do not draw/fabricate the final PCBs until the buoy links pass.
+- Do not draw/fabricate the final PCBs until the gates pass.
 
 ## Next steps
 
-1. Buy the 5.8G VTX, 5.8G receiver, CVBS camera, antennas, buoy materials, 50 cm cable.
-2. Run the tests in `docs/test_plan.md`.
-3. If pass, finish the F407 buoy board and create the G030 sub board.
-4. If fail, fall back to 900M analog or a thin tether; do not return to 2.4G/5.8G underwater RF.
+1. Resolve LimeRC receiver source/license/clock/pin/PP polarity.
+2. Measure thruster current/thrust and MX113H thermal.
+3. Buy the 5.8G VTX, receiver, CVBS camera, antennas, buoy materials, 50 cm cable; run the tank test.
+4. Finish the G030 schematic, then the F407 schematic; layout before freezing sizes.
+5. If a link fails, use 900M analog or a thin tether; do not return to 2.4G/5.8G underwater RF.
+
+## Design review
+
+See `hardware/V4_Buoy_5G8_2G4/design_review.md` for the P0/P1 gates and the final V1 selection (F407 buoy + G030 brushed).
 
 ## Notes
 

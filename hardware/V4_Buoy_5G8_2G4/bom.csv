@@ -7,13 +7,13 @@ Buoy,5V filter,1,"5V LC/ferrite + 100uF",5-15,At buoy input
 Buoy,Buoy shell,1,"PETG 3D print 55x70mm",10-30,Screw lid + O-ring
 Buoy,Foam/keel/mast,1,"EVA foam + 10-15g keel + 20mm mast",5-15,Positive buoyancy
 Buoy,Cable gland/strain relief,1,"M8/M10 waterproof gland",5-10,Cable exits bottom
-Buoy,6-core cable,1,"26-28AWG shielded silicone 50cm",10-20,5V GND VIDEO TX RX spare
+Buoy,6-core cable,1,"26-28AWG, separate shielded video, 50cm",10-20,+5V GND_PWR CVBS GND_VIDEO PP_DOWN TELEM_UP
 Buoy,Connectors,1,"JST-SH 6P",5-10,Service connector optional
 Video,CVBS camera,1,"1/3 CMOS 1200TVL 2.1mm 5V",40-100,Nose camera
 Video,5.8G receiver,1,"5.8G 40CH RX5808-class AV out",50-150,Tank edge
 Video,5.8G RX antenna,1,"5.8G 三叶草/平板 SMA",10-30,Tank edge
 Video,USB AV capture,1,"AV转USB UVC",30-60,Or 5" monitor
-Video,5 inch monitor,1,"5寸 FPV 5.8G monitor",150-300,Optional
+Video,5 inch monitor,1,"5 inch FPV 5.8G monitor",150-300,Optional
 Shark,G030/G031 board,1,"G030K8T6 20x30 / existing G030",0-Planned,No RF on shark
 Shark,3x MX113H or 1S 4-in-1 ESC,1,"3x MX113H / 1S 4-in-1 5A",TBD,Brushed or brushless
 Shark,3 thrusters,3,"1204/0802 or 6mm brushed",TBD,Main/lateral/vertical
@@ -21,3 +21,4 @@ Shark,Jaw servo,1,"1.7g/2g digital",TBD,
 Shark,Battery,1,"1S 450mAh 30C",TBD,
 Shark,5V boost,1,"1S to 5V 1A",5-15,Feeds buoy and camera
 Tank edge,12V/5V supply,1,"5V 2A / 12V 1A",10-20,Receiver power
+

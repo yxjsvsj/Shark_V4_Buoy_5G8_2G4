@@ -10,8 +10,8 @@ The shark tows a short cable to a small surface buoy. All RF stays above water.
 [Shark, fully submerged]
   camera CVBS + G030 + 3 ESC/MX113H + jaw servo + 1S + 5V boost
         |
-        | 50 cm, 6-core shielded cable:
-        | 5V, GND, VIDEO, UART_TX, UART_RX, spare
+        | 50 cm, 6-core cable:
+        | +5V_BUOY, GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
         v
 [Buoy, on the surface]
   5.8G 25mW VTX + cloverleaf
@@ -75,13 +75,17 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 
 ## 6. Power and cable
 
-- Shark 1S -> 5V boost (1A) -> cable 5V -> buoy VTX + LimeCam + camera.
-- 5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A = ~0.4A; 1A boost is enough.
-- Cable: 6 cores, 26-28AWG silicone, shielded pair for video; 50 cm.
-- Pins: 1=5V, 2=GND, 3=VIDEO, 4=UART_TX (buoy->sub), 5=UART_RX (sub->buoy), 6=spare/GND.
+- Protected 1S -> `VBAT_MOTOR` -> 3x MX113H.
+- Protected 1S -> 5V boost 2A -> camera/buoy/servo -> 3.3V LDO -> G030.
+- Do not use a 1S-to-3.3V LDO. Do not stack a second boost without checking the LimeMini original.
+- 5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.6A; 2A boost.
+- 5V/2A at 3.3V/85% is ~3.6A input at full load; sum motor peaks and check protection.
+- Cable: 50 cm, 6 cores, 26-28AWG, separate shielded video pair/coax.
+- Pins: 1=+5V_BUOY, 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
 - Add 100uF + 100nF at the buoy 5V input and a ferrite/LC filter for the camera/video.
 - Use a Kevlar/string strength member; the cable must not be the tow load.
 - Waterproof gland at the buoy; potted/gland at the shark; strain relief loop at both ends.
+- 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
 
 ## 7. Buoy mechanical
 
@@ -94,10 +98,13 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 
 ## 8. Shark side
 
-- G030/G031 board: 3 ESC outputs (or 3x MX113H), 1 jaw servo, camera 5V, 5V boost, battery ADC, leak, UART2 for `pp`. No RF.
+- New G030 board (the user has no original board): 3x MX113H, 1 jaw servo, camera 5V, 5V boost, 3.3V from 5V, battery ADC, leak, UART2 `pp`. No RF.
+- First-pass board 26x40-46 mm; target 20x30 mm after layout.
 - Camera in the nose behind a 2 mm acrylic window; 2.1 mm lens; white LED fill.
 - Cable exits the top/back; the shark tows the buoy; keep the cable slack.
 - 1S 450mAh 30C; 3 thrusters; jaw; 10-15 cm hull.
+- H-bridges off at reset; PP frame validation; watchdog; low voltage/leak; positive buoyancy.
+- Measure thruster running/start/stall current before layout; MX113H 1A continuous / 1.5A peak.
 
 ## 9. Test plan
 
@@ -114,10 +121,20 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - `bom.csv` - buoy + tank-edge BOM.
 - `mechanical.md` - buoy dimensions, cable, sealing.
 - `test_plan.md` - detailed test steps and pass criteria.
+- `control_board.md` - G030 sub control board.
+- `control_pinout.csv` - G030 pin/peripheral map.
+- `control_bom.csv` - G030 BOM.
+- `buoy_rf_board.md` - stripped F407 buoy RF board and firmware gate.
+- `two_board_plan.md` - two-board redesign plan.
+- `keep_remove.md` - keep/remove from the open-source boards.
+- `design_review.md` - P0/P1 review, firmware source, clock, power, cable, sizes, safety.
 
-## 11. Caveats
+## 11. Caveats and gates
 
 - This is a **short-tether buoy**, not a fully wireless submarine. The shark is fully submerged; the buoy is on the surface.
 - The buoy adds drag and visibility; keep it small and streamlined.
 - 5.8G is chosen because the antenna is above water; do not put the 5.8G VTX underwater.
+- **Firmware gate:** LimeRC receiver source/license, RF module, pairing, clock (V3 24MHz vs original 25MHz), PP polarity. If only HEX is available, use the original LimeCam board or get source/permission; do not stub tasks blindly.
+- **Motor gate:** measure thruster current/thrust and MX113H thermal before layout.
+- **Size gate:** board sizes are not frozen; layout first.
 - If the buoy/cable proves troublesome, the fallback is a thin shore tether or a smaller antenna float.

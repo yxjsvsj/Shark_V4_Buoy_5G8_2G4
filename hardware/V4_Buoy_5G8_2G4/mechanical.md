@@ -13,9 +13,9 @@ Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and an
 
 ## 2. Cable
 
-- 50 cm, 6 cores, 26-28AWG silicone, shielded pair for video.
-- Pins: 1=5V, 2=GND, 3=VIDEO, 4=UART_TX (buoy->shark), 5=UART_RX (shark->buoy), 6=spare/GND.
-- Kevlar/string strength member inside the jacket.
+- 50 cm, 6 cores, 26-28AWG silicone, separate shielded video pair/coax. 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
+- Pins: 1=+5V_BUOY, 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN (buoy->shark), 6=TELEM_UP (shark->buoy).
+- Kevlar/string strength member inside the jacket; CVBS is 75 ohm; check VTX input termination.
 - Loop/strain relief at both ends; do not pull on the solder joints.
 - Neutral buoyancy: add a small foam bead or use a thin cable; the buoy must not be pulled under.
 
