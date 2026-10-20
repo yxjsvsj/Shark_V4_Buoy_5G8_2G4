@@ -6,7 +6,7 @@ For the buoy architecture, the shark side has no RF and the buoy side does not n
 
 | Keep | Remove | Add |
 |---|---|---|
-| G030 + 3.3V LDO | 2 unused servo channels/connectors | 5V 2A boost |
+| G030 + 3.3V LDO | 2 unused servo channels/connectors | MT3608 5V/1A boost |
 | UART2 `pp` input | Extra headers/test points/LEDs | Camera 5V/GND/VIDEO connector |
 | 3 motor H-bridges | Unused ADC/keys if not wired | Buoy 6-pin connector |
 | 1 servo channel (jaw) | 2 servo connectors | LC/ferrite on camera/buoy 5V |
@@ -49,7 +49,7 @@ For the buoy architecture, the shark side has no RF and the buoy side does not n
 
 ## 4. What not to remove
 
-- 3.3V/5V decoupling, SWD, BOOT0, NRST, HSE.
+- 3.3V/5V decoupling, SWD, BOOT0 option, NRST, HSE.
 - UART2 on the sub; USART1 on the buoy.
 - nRF24 NRF2 + antenna; LimeRC pairing.
 - Failsafe/watchdog; battery/leak protection.

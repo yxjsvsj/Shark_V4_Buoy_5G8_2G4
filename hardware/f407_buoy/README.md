@@ -25,8 +25,9 @@ The shark control board (G030 + 3 thrusters + jaw) is the `Shark_Sub_G030` board
 | SWD, BOOT0, NRST, VCAP, decoupling | NRF1 / SPI1 video |
 | NRF2 / SPI2 2.4G control | USB, CAN, SD, OLED, WS2812 |
 | USART1 `pp` output | Camera 2.8 V / 1.3 V LDOs |
-| 1S protection, TPS63802 3.3V | Camera PWDN / reset |
-| Battery sense, 2.4G antenna | Motor/servo page (separate G030 board) |
+| 5V cable input + 3.3V LDO | Camera PWDN / reset |
+| 2.4G antenna | V3 1S protection + TPS63802 boost |
+|  | Motor/servo page (separate G030 board) |
 
 Add:
 - 5V input from the buoy cable.
@@ -34,12 +35,13 @@ Add:
 - Camera video header: 5V / GND / VIDEO (pass-through to VTX).
 - 100uF + 100nF + LC/ferrite on the 5V/camera rail.
 - 2.4G 31 mm antenna keepout; 5.8G antenna on the buoy.
+- No buoy battery and no reverse feed: 5V comes only from the 50cm cable; TLV70033 200mA for F407+NRF2.
 
 ## 3. Page changes
 
 | Page | Action |
 |---|---|
-| `01_POWER` | Keep 1S protection + 3.3V; remove camera LDOs; add 5V cable input + VTX/camera 5V. |
+| `01_POWER` | Remove V3 1S protection + TPS63802; add 5V cable input -> TLV70033 3.3V/200mA; remove camera LDOs; add VTX/camera 5V. |
 | `02_STM32` | Keep F407 minimum; keep NRF2/SPI2 and USART1; remove NRF1/video; keep SWD. |
 | `03_CAMERA_RF` | Remove OV2640/DCMI/SCCB/NRF1; keep NRF2; add camera/VTX video headers and 5.8G/2.4G antenna placement. |
 | `04_MOTOR_SERVO` | Do not use on the F407 board; draw it on `Shark_Sub_G030`. |

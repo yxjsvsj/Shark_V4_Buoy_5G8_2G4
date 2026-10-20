@@ -13,7 +13,8 @@ Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and an
 
 ## 2. Cable
 
-- 50 cm, 6 cores, 26-28AWG silicone, separate shielded video pair/coax. 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
+- 50 cm, 6 cores: **24AWG for 5V/GND_PWR**, 28AWG for signals, separate shielded video pair/coax. 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
+- Current check: 5V rail ~0.72A; at 50cm/24AWG the drop is small, but verify at full load; J7 and cable must be rated for the sum of buoy + camera + servo.
 - Pins: 1=+5V_BUOY, 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN (buoy->shark), 6=TELEM_UP (shark->buoy).
 - Kevlar/string strength member inside the jacket; CVBS is 75 ohm; check VTX input termination.
 - Loop/strain relief at both ends; do not pull on the solder joints.
@@ -56,8 +57,8 @@ Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and an
 - Buoy: positive buoyancy; with 50-80 g electronics, use ~100-150 cm3 foam/air.
 - Keel: 10-15 g at the bottom; antenna mast adds windage but not much weight.
 - If the buoy flips, add keel or a small drop keel; keep the antennas vertical.
-- Shark: slightly negative/neutral; the vertical thruster holds depth; the buoy cable adds a small upward pull.
-- Test in the tank before installing electronics: float, tilt, cable pull.
+- Shark: **slightly positive buoyancy**; the vertical thruster holds depth; on power/control loss it must surface naturally. The buoy cable adds a small upward pull.
+- Test in the tank before installing electronics: float, tilt, cable pull; then verify power-off surfacing with the complete shark.
 
 ## 6. Sealing
 

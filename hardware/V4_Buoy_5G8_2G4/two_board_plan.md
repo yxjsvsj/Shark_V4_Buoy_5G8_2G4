@@ -17,7 +17,7 @@ Target 20x30 (G030) and 30x30 (F407) only after layout feasibility.
 
 Use `control_board.md`.
 
-- G030K8T6; 3x MX113H; 1 jaw servo; protected 1S; 5V boost; 3.3V from 5V; battery/leak; UART2 `pp`.
+- G030K8T6; 3x MX113H; 1 jaw servo; protected 1S; MT3608 5V/1A; TLV70033 3.3V/200mA; battery/leak; UART2 `pp`.
 - Camera CVBS J6 -> J7 pass-through; no MCU video.
 - H-bridges off at reset; PP frame validation; watchdog; low voltage/leak; positive buoyancy.
 - Measure thruster running/start/stall current before layout; MX113H 1A continuous / 1.5A peak.
@@ -52,9 +52,9 @@ Use a separate shielded video pair/coax; not only the overall shield. 100uF at b
 ## 5. Power
 
 - Protected 1S -> `VBAT_MOTOR` -> 3x MX113H.
-- Protected 1S -> 5V boost 2A -> camera/buoy/servo -> 3.3V LDO -> G030.
+- Protected 1S -> MT3608 5V/1A -> camera/buoy/servo -> TLV70033 3.3V/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO; do not stack a second boost without checking the LimeMini original.
-- 5V load ~0.75A; 5V/2A at 3.3V/85% is ~3.6A input at full load, plus motor peaks.
+- 5V load ~0.72A; 5V/1A at 3.0V/85% is ~1.96A input, plus motor peaks.
 - Check DW01A/FS8205A or chosen protection continuous/peak; check battery 30C and connector.
 - 5V drop over 50cm: ~0.09V at 0.4A; verify at full load.
 

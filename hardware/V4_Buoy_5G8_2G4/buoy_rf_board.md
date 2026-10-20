@@ -61,10 +61,10 @@ The F407 does not process video.
 
 ## 5. Power
 
-- 5V from the 50cm cable -> 3.3V LDO -> F407 + NRF2.
+- 5V from the 50cm cable -> TLV70033 3.3V/200mA -> F407 + NRF2. No V3 1S protection/TPS63802 and no buoy battery; no reverse feed.
 - 5V -> 5.8G VTX + camera.
 - Current: F407 0.1A + NRF2 0.03A + VTX 0.2A + camera 0.1A = ~0.43A.
-- 100uF at input; 3.3V LDO 300mA; F407 decoupling as usual.
+- 100uF at input; 3.3V LDO TLV70033 200mA (F407+NRF2 ~0.13A); F407 decoupling as usual.
 - Check the 5V drop over 50cm and the buoy connector.
 
 ## 6. Size and layout
@@ -86,7 +86,25 @@ The F407 does not process video.
   - use the original LimeCam board as-is (camera can remain connected but unused);
   - do not build a new F407 board around the HEX unless the hardware/clock match is proven.
 
-## 8. G030 alternative
+## 8. Current status and firmware dependencies
+
+Status: **BLOCKED / minimum-system and interface draft only. RF nets are not frozen. No JLCEDA ERC.**
+
+| Dependency | Status | Evidence / action |
+|---|---|---|
+| Legally usable, compilable LimeRC receiver source | BLOCKED | Need author/source/license confirmation |
+| Exact RF module/chip (NRF2) | BLOCKED | Do not assume E01C-ML01S is compatible |
+| CE/CSN/IRQ/EN pins and SPI2 | BLOCKED | Verify against the real LimeCam receiver schematic |
+| USART1 `pp` at 115200 | TBD | Verify pins/baud |
+| Pairing/flash storage | BLOCKED | Need source and hardware match |
+| HSE 24MHz vs 25MHz and PLL | BLOCKED | Must match final firmware |
+| PP normal vs inverted 3.3V TTL | BLOCKED | Measure/verify; new design uses normal TTL |
+| NRF1/video task removal | BLOCKED | Do not remove until control link is proven |
+| Camera task removal / `nrfPhotoTask_Suspend` | BLOCKED | Do not stub blindly; task dependencies unknown |
+| 5.8G VTX 75 ohm termination | TBD | Check VTX datasheet/input |
+| V3 1S protection/boost removal | FIXED in docs | Buoy is 5V cable -> 3.3V LDO; no V3 battery/boost |
+
+## 9. G030 alternative
 
 - G030K8T6 + nRF24L01+ + 3.3V LDO + `pp` UART; 20x30mm.
 - Requires porting `Lime_nrf_slave`/`Lime_nrf_slave_ports` and the pairing protocol.

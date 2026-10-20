@@ -36,7 +36,7 @@ Control: LimeRC remote -> buoy 2.4G -> `pp` -> 50 cm cable -> G030.
 - 1S -> 5V boost -> camera/buoy VTX/receiver/servo.
 - 5V -> 3.3V LDO, or a dedicated 3.3V buck-boost for G030/F407.
 - Do not stack a second boost without checking the original LimeMini power design.
-- Budget: 5V/2A at 3.3V/85% is ~3.6A input at full load; actual buoy load is ~0.4A, but 3 motors + buoy peak must be summed.
+- Budget: MT3608 5V/1A at 3.0V/85% is ~1.96A input; actual buoy load is ~0.4A, but 3 motors + buoy peak must be summed. TLV70033 is 200mA max.
 - Check DW01A/FS8205A or chosen protection continuous/peak current; check battery 30C and connector.
 - 3.3V LDO from 1S is not acceptable for a stable 3.3V rail; use boost/buck-boost or 5V-derived LDO.
 
@@ -61,7 +61,7 @@ Recommended 6-core pinout:
 | 6 | TELEM_UP | G030 TX -> F407 RX |
 
 - Use a separate shielded video pair/coax, not only the overall shield.
-- CVBS is 75Ω; check whether the VTX input has a 75Ω termination to avoid double termination.
+- CVBS is 75 ohm; check whether the VTX input has a 75 ohm termination to avoid double termination.
 - 50 cm is for shallow testing; for 50 cm depth plus float/connector margin, make a longer version.
 - Define connector, strain relief, neutral buoyancy and max depth.
 
@@ -87,7 +87,13 @@ Recommended 6-core pinout:
 4. Only then finish F407 schematic, after firmware/hardware correspondence is proven.
 5. Layout first, then freeze board sizes.
 
+## P0 remediation
+
+See p0_status.md for the P0/P1 status table, evidence and remaining BLOCKED items. The G030 connection-level schematic draft is g030_schematic_draft.md + g030_netlist_draft.csv; it is not EDA-ERC verified.
+
 ## Repo note
 
 The design docs are under `hardware/V4_Buoy_5G8_2G4/` in the new repository:
 https://github.com/yxjsvsj/Shark_V4_Buoy_5G8_2G4
+
+

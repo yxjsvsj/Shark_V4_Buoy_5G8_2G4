@@ -1,38 +1,44 @@
 Ref,Qty,Value/Part,Package,Notes
-U1,1,STM32G030K8T6,LQFP32,64KB flash 8KB RAM
+U1,1,STM32G030K8T6,LQFP32,64KB flash 8KB RAM; VDD/VDDA pin4; VSS/VSSA pin5
 U2,1,MX113H,SOT-23-6,Main motor H-bridge
 U3,1,MX113H,SOT-23-6,Lateral motor H-bridge
 U4,1,MX113H,SOT-23-6,Vertical motor H-bridge
-U5,1,5V boost 2A,MT3608 or TPS61023,1S to 5V
-U6,1,TLV70033,SOT-23-5,3.3V 300mA
-Q1,1,AON7403/AO3401,SOT-23/DFN,P-MOS power switch 5A+
-SW1,1,Reed switch,2-pin,Magnet power switch
-C1,3,100uF,0805,MX113H VCC decoupling
-C2,3,100nF,0402,MX113H VCC decoupling
-C3,1,10uF,0805,Boost input
-C4,1,22uF,0805,Boost output
-C5,1,1uF,0603,LDO output
-C6,1,100nF,0402,G030 decoupling
-C7,1,100nF,0402,VDDA
-C8,1,1uF,0603,VDDA bulk
-C9,1,100nF,0402,NRST
-C10,1,100nF,0402,Battery sense
-C11,1,100nF,0402,Gate-source
-R1,1,100k,0402,Battery divider top
-R2,1,100k,0402,Battery divider bottom
-R3,1,100k,0402,P-MOS gate pull-up
-R4,1,100k,0402,Leak pull-up
-R5,1,1k,0402,LED series
-R6,1,10k,0402,BOOT0 pull-down
-R7,1,22-100R,0402,UART series
+U5,1,MT3608,SOT-23-6,5V/1A boost; not TPS61023
+U6,1,TLV70033,SOT-23-5,3.3V 200mA max
+Q1,1,AON7403,DFN3x3,P-MOS power switch; source 1-3 gate 4 drain 5-8 (verify)
+L1,1,22uH,6x6mm,MT3608 inductor; saturation >2.5A
+D1,1,SS34,SMA,MT3608 Schottky
+C1,1,100uF,0805,MX113H U2 VCC
+C2,1,100uF,0805,MX113H U3 VCC
+C3,1,100uF,0805,MX113H U4 VCC
+C4,1,100nF,0402,MX113H U2 VCC
+C5,1,100nF,0402,MX113H U3 VCC
+C6,1,100nF,0402,MX113H U4 VCC
+C7,1,10uF,0805,MT3608 input
+C8,1,22uF,0805,MT3608 output
+C9,1,1uF,0603,TLV70033 output
+C10,1,100nF,0402,G030 VDD/VDDA pin4
+C11,1,4.7uF,0805,G030 VDD/VDDA bulk
+C12,1,100nF,0402,NRST
+C13,1,100nF,0402,Battery sense filter
+C14,1,100nF,0402,Q1 gate-source
+R1,1,73.2k,0402,MT3608 feedback top
+R2,1,10k,0402,MT3608 feedback bottom
+R3,1,100k,0402,Battery divider top
+R4,1,100k,0402,Battery divider bottom
+R5,1,100k,0402,Q1 gate pull-up
+R6,1,100k,0402,Leak pull-up
+R7,1,1k,0402,LED series
+R8,1,22R,0402,UART series
 LED1,1,Green LED,0603,Status
-J1,1,JST-PH 2P,2.0mm,Battery
-J2,1,JST-SH 2P,1.0mm,Main motor
-J3,1,JST-SH 2P,1.0mm,Lateral motor
-J4,1,JST-SH 2P,1.0mm,Vertical motor
+SW1,1,Reed switch,2-pin,Power on with magnet
+J1,1,XT30 2P,XT30,Battery; not JST-PH
+J2,1,JST-SH 2P,1.0mm,Main motor; 1A rating; upgrade to XH/solder pads if stall >1A
+J3,1,JST-SH 2P,1.0mm,Lateral motor; 1A rating; upgrade if needed
+J4,1,JST-SH 2P,1.0mm,Vertical motor; 1A rating; upgrade if needed
 J5,1,JST-SH 3P,1.0mm,Jaw servo
 J6,1,JST-SH 3P,1.0mm,Camera 5V/GND/VIDEO
-J7,1,JST-SH 6P,1.0mm,Buoy cable 5V/GND/VIDEO/UART/spare
-J8,1,4 pogo pads,1.27mm,SWD
+J7,1,JST-SH 6P,1.0mm,Buoy cable 5V/GND/CVBS/GND_VIDEO/PP_DOWN/TELEM_UP
+J8,1,5 pogo pads,1.27mm,SWD 3V3/GND/SWDIO/SWCLK/NRST
 J9,1,JST-SH 2P,1.0mm,Leak pad
-PCB,1,20x30mm 4-layer,1.6mm,No RF
+PCB,1,26x40-46mm 4-layer,1.6mm,First-pass size; not frozen

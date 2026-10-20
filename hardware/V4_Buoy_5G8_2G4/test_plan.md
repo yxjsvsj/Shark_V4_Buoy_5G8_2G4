@@ -7,6 +7,7 @@ Test the buoy links before drawing the final sub PCB.
 - LimeRC receiver source/license resolved; PP polarity normal 3.3V TTL.
 - Thruster running/start/stall current measured; MX113H within 1A continuous / 1.5A peak.
 - 5V/3.3V power tree and protection current checked.
+- J7 50cm cable: 24AWG 5V/GND, separate shielded video; CVBS 75 ohm VTX termination checked.
 
 ## 1. Buoy bench test
 

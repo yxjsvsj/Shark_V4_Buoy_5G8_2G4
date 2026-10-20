@@ -1,22 +1,32 @@
-Function,Port,Net,Peripheral,Notes
-Main motor IN1,PA8,MAIN_IN1,TIM1_CH1,20kHz PWM
-Main motor IN2,PA9,MAIN_IN2,TIM1_CH2,20kHz PWM
-Lateral motor IN1,PA10,LAT_IN1,TIM1_CH3,20kHz PWM
-Lateral motor IN2,PA11,LAT_IN2,TIM1_CH4,20kHz PWM
-Vertical motor IN1,PA6,VERT_IN1,TIM3_CH1,20kHz PWM
-Vertical motor IN2,PA7,VERT_IN2,TIM3_CH2,20kHz PWM
-Jaw servo,PB0,JAW_SERVO,TIM3_CH3,50Hz 500-2500us
-Buoy UART RX,PA3,BUOY_RX,USART2_RX,115200 from LimeCam pp
-Buoy UART TX,PA2,BUOY_TX,USART2_TX,Optional
-Battery sense,PA0,BAT_SENSE,ADC_IN0,100k/100k
-Leak sense,PA1,LEAK,GPIO input,100k pull-up
-Status LED,PB1,LED,GPIO,1k series
-SWDIO,PA13,SWDIO,SWD,
-SWCLK,PA14,SWCLK,SWD,
-Power,VDD,+3V3,Power,100nF each VDD pin
-Power,VSS,GND,Power,
-Power,VDDA,+3V3,Power,100nF+1uF
-Power,VSSA,GND,Power,
-Reset,NRST,NRST,Reset,100nF to GND
-Boot,BOOT0,BOOT0,Boot,10k to GND
-Spare,PA4/PA5/PA12/PB2-PB7,NC,-,Keep pads
+Function,Port,LQFP32_Pin,AF,Net,Notes
+Main motor IN1,PA8,18,AF2,MAIN_IN1,TIM1_CH1 20kHz
+Main motor IN2,PA9,19,AF2,MAIN_IN2,TIM1_CH2 20kHz
+Lateral motor IN1,PA10,21,AF2,LAT_IN1,TIM1_CH3 20kHz
+Lateral motor IN2,PA11,22,AF2,LAT_IN2,TIM1_CH4 20kHz; default PA11, do not enable PA9/PA10 remap
+Vertical motor IN1,PA6,13,AF1,VERT_IN1,TIM3_CH1 20kHz
+Vertical motor IN2,PA7,14,AF1,VERT_IN2,TIM3_CH2 20kHz
+Jaw servo,PB1,16,AF0,JAW_SERVO,TIM14_CH1 50Hz; Table 14 AF0
+Status LED,PB0,15,GPIO,LED,Active high; 1k series
+Buoy PP RX,PA3,10,AF1,BUOY_RX,USART2_RX 115200; from buoy F407 TX
+Buoy telemetry TX,PA2,9,AF1,BUOY_TX,USART2_TX; to buoy F407 RX
+Battery sense,PA0,7,ADC_IN0,BAT_SENSE,100k/100k divider
+Leak sense,PA1,8,GPIO,LEAK,External 100k pull-up
+SWDIO,PA13,24,AF0,SWDIO,SWD
+SWCLK/BOOT0,PA14,25,AF0,SWCLK,SWCLK; BOOT0 option bit; no separate BOOT0 pin
+VDD/VDDA,VDD/VDDA,4,PWR,+3V3,Merged pin; 100nF + 4.7uF
+VSS/VSSA,VSS/VSSA,5,PWR,GND,Merged pin
+NRST,NRST,6,RST,NRST,100nF to GND; connect to SWD NRST
+Spare,PA4,11,-,NC,Keep pad
+Spare,PA5,12,-,NC,Keep pad
+Spare,PA12,23,-,NC,PA12[PA10]; unused
+Spare,PB2,17,-,NC,Keep pad
+Spare,PB3,27,-,NC,Keep pad
+Spare,PB4,28,-,NC,Keep pad
+Spare,PB5,29,-,NC,Keep pad
+Spare,PB6,30,-,NC,Keep pad
+Spare,PB7,31,-,NC,Keep pad
+Spare,PB8,32,-,NC,Keep pad
+Spare,PB9,1,-,NC,Keep pad
+Spare,PC6,20,-,NC,TIM3_CH1 alternative; unused
+Spare,PC14,2,-,NC,OSC32_IN; unused
+Spare,PC15,3,-,NC,OSC32_OUT; unused

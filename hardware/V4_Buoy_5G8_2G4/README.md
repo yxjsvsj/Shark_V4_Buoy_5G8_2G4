@@ -76,10 +76,10 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 ## 6. Power and cable
 
 - Protected 1S -> `VBAT_MOTOR` -> 3x MX113H.
-- Protected 1S -> 5V boost 2A -> camera/buoy/servo -> 3.3V LDO -> G030.
+- Protected 1S -> MT3608 5V/1A -> camera/buoy/servo -> TLV70033 3.3V/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO. Do not stack a second boost without checking the LimeMini original.
-- 5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.6A; 2A boost.
-- 5V/2A at 3.3V/85% is ~3.6A input at full load; sum motor peaks and check protection.
+- 5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.72A; 1A boost.
+- 5V/1A at 3.0V/85% is ~1.96A input; sum motor peaks and check protection.
 - Cable: 50 cm, 6 cores, 26-28AWG, separate shielded video pair/coax.
 - Pins: 1=+5V_BUOY, 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
 - Add 100uF + 100nF at the buoy 5V input and a ferrite/LC filter for the camera/video.
