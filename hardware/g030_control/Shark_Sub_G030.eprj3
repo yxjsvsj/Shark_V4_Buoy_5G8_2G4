@@ -1,0 +1,80 @@
+{
+  "name": "Shark_Sub_G030",
+  "owner_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "creator_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "created_at": "2026-10-20 00:00:00",
+  "updated_at": "2026-10-20 00:00:00",
+  "modifier_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "content": "G030 control board candidate schematic. Generated from g030_netlist_draft.csv; GUI open and ERC not performed.",
+  "archive": false,
+  "cbb_project": 0,
+  "thumb": "",
+  "ticket": 1,
+  "g_ticket": 1,
+  "boards": [],
+  "block_symbol_attrs_groups": {},
+  "default_sheet": "c3d4e5f60718293a",
+  "branch_uuid": "",
+  "pcb_count": 0,
+  "format": "folder",
+  "profile": {
+    "boards": {
+      "a1b2c3d4e5f60718": {
+        "uuid": "a1b2c3d4e5f60718",
+        "title": "Shark_Sub_G030",
+        "zIndex": 1
+      }
+    },
+    "schematics": {
+      "b2c3d4e5f6071829": {
+        "uuid": "b2c3d4e5f6071829",
+        "name": "Schematic1",
+        "board": "a1b2c3d4e5f60718",
+        "source": "",
+        "version": "candidate",
+        "updateTime": 0
+      }
+    },
+    "sheets": {
+      "c3d4e5f60718293a": {
+        "uuid": "c3d4e5f60718293a",
+        "title": "Shark_Sub_G030",
+        "schematic_uuid": "b2c3d4e5f6071829",
+        "zIndex": 1,
+        "source": "",
+        "version": "candidate",
+        "updateTime": 0
+      }
+    },
+    "pcbs": {},
+    "panels": {},
+    "blockSymbols": {},
+    "owner": {
+      "uuid": "8470ff7b08204e4b91556aa49c3adf02"
+    },
+    "simSchematics": {},
+    "simulations": {}
+  },
+  "config": {
+    "defaultSheet": "c3d4e5f60718293a",
+    "settings": {
+      "UNIVERSAL": {
+        "dataType": "UNIVERSAL",
+        "data": {
+          "allowLibRename": true,
+          "defaultNetName": true,
+          "wireMultipleNet": true,
+          "netFlagCrossLayerConnection": true,
+          "netLabelCrossPageConnection": true,
+          "busGenerateNetClass": true,
+          "relevanceDisplayRow": "SINGLE",
+          "relevanceBelongSchPage": "NAME",
+          "relevanceLocation": "ZONE",
+          "multipartCrossLayer": true,
+          "nonElectronicAddIntoBom": false,
+          "nonElectronicUpdatePcb": false
+        }
+      }
+    }
+  }
+}

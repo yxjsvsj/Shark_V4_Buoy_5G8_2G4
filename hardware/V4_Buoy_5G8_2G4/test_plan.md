@@ -6,9 +6,11 @@ Test the buoy links before drawing the final sub PCB.
 
 - LimeRC receiver source/license resolved; PP polarity normal 3.3V TTL.
 - Thruster running/start/stall current measured; MX113H within 1A continuous / 1.5A peak.
-- Servo stall current measured; +5V budget includes camera/buoy/servo.
-- 5V/3.3V power tree and protection current checked; Q1/L1 thermal checked.
-- J7 50cm cable: proposed JST-PH 6P, 24AWG +5V/GND, separate shielded video; crimp pull test; CVBS 75 ohm VTX termination checked.
+- Servo model and stall current measured; +5V budget includes camera/buoy/servo.
+- 5V power tree and protection current checked; MT3608 thermal test at 3.0V/0.4/0.72/1A; Q1/L1 thermal checked.
+- C1-C3 polymer ripple/case temperature checked at 20kHz PWM.
+- J7 50cm cable: proposed JST-PH 6P, 24AWG +5V/GND (insulation 0.9-1.5mm), separate shielded video; crimp pull test; CVBS 75 ohm VTX termination checked.
+- J7/cable/gland mock-up checked for 5.0-5.5mm OD and 30mm static bend.
 
 ## 1. Buoy bench test
 
@@ -39,8 +41,10 @@ Pass: stable 640x480 image, no freeze, acceptable noise at 30-40 cm camera depth
 5. Send malformed/partial PP frames; parser must reject them and keep motors stopped.
 6. At reset, all H-bridge IN1/IN2 must be 0; no motor twitch.
 7. Check the `pp` output mode is enabled on the remote (LimeCam default may be off).
+8. Link loss: turn off only the 2.4GHz transmitter while UART stays connected; capture UART and confirm one 2048 neutral frame, then silence; confirm G030 stops motors and opens jaw within 500ms.
+9. Restore the link; confirm PP frames resume and the G030 does not require a power cycle.
 
-Pass: no dropouts at the tank distance; failsafe works.
+Pass: no dropouts at the tank distance; failsafe works; link-loss behavior matches the source review.
 
 ## 4. Integrated tank test
 
@@ -70,4 +74,7 @@ Pass: buoy upright, cable not tangled, video/control stable, no leaks.
 - Failsafe: motors stop and jaw opens on loss of control.
 - Reset: H-bridges off; no motor motion before valid PP.
 - Power: thruster peak within MX113H rating; +5V/+3V3 rails stable; Q1/L1/J7 not overheating; servo stall does not brown out the G030.
+- MT3608: record case temperature and 5V ripple at 3.0V/0.4/0.72/1A; if 0.72A/1A exceeds the limit, the 5V architecture is not approved.
+- C1-C3: case temperature and ripple within the polymer capacitor rating at 20kHz.
+- J7: 24AWG crimp pull test, housing latch, 30mm bend and gland mock-up pass.
 - Buoyancy: shark surfaces on power/control loss.

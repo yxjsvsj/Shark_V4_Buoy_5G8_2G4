@@ -19,5 +19,5 @@ Shark,MX113H,3,MX113H SOT-23-6,TBD,Brushed H-bridge; current test BLOCKED
 Shark,Thrusters,3,1204/0802 or 6mm brushed,TBD,Main/lateral/vertical
 Shark,Jaw servo,1,1.7g/2g digital,TBD,
 Shark,Battery,1,Protected 1S 450mAh 30C XT30,TBD,PCM pack or add protection; see control_board.md
-Shark,5V boost,1,MT3608 5V/1A,5-15,On control board U5
+Shark,5V boost,1,MT3608 candidate,5-15,On control board U5; thermal fails at 0.72A/1A from 3.0V; see power_budget.md
 Tank edge,12V/5V supply,1,5V 2A / 12V 1A,10-20,Receiver power

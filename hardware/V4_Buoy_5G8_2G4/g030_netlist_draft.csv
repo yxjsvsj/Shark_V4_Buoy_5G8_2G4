@@ -35,6 +35,9 @@ SW,D1,1,Schottky anode
 +5V,R1,1,Feedback top
 +5V,U6,1,LDO input
 +5V,U6,3,LDO enable
++5V,C15,1,LDO input decoupling
++5V,C16,1,Camera connector decoupling
++5V,C17,1,Buoy connector decoupling
 +5V,J5,1,Servo 5V
 +5V,J6,1,Camera 5V
 +5V,J7,1,Buoy 5V
@@ -65,6 +68,9 @@ GND,R2,2,Feedback bottom
 GND,U5,2,MT3608 GND
 GND,U6,2,LDO GND
 GND,C9,2,LDO output return
+GND,C15,2,LDO input return
+GND,C16,2,Camera connector return
+GND,C17,2,Buoy connector return
 GND,C10,2,G030 decoupling return
 GND,C11,2,G030 bulk return
 GND,U1,5,VSS/VSSA pin 5

@@ -136,6 +136,30 @@ class Checker:
             ("Q1", "6", "VMOTOR"),
             ("Q1", "7", "VMOTOR"),
             ("Q1", "8", "VMOTOR"),
+            ("U2", "1", "MAIN_OUT2"),
+            ("U2", "2", "GND"),
+            ("U2", "3", "MAIN_OUT1"),
+            ("U2", "4", "VMOTOR"),
+            ("U2", "5", "MAIN_IN1"),
+            ("U2", "6", "MAIN_IN2"),
+            ("U3", "1", "LAT_OUT2"),
+            ("U3", "2", "GND"),
+            ("U3", "3", "LAT_OUT1"),
+            ("U3", "4", "VMOTOR"),
+            ("U3", "5", "LAT_IN1"),
+            ("U3", "6", "LAT_IN2"),
+            ("U4", "1", "VERT_OUT2"),
+            ("U4", "2", "GND"),
+            ("U4", "3", "VERT_OUT1"),
+            ("U4", "4", "VMOTOR"),
+            ("U4", "5", "VERT_IN1"),
+            ("U4", "6", "VERT_IN2"),
+            ("U5", "1", "SW"),
+            ("U5", "2", "GND"),
+            ("U5", "3", "FB"),
+            ("U5", "4", "VMOTOR"),
+            ("U5", "5", "VMOTOR"),
+            ("U6", "3", "+5V"),
             ("J5", "1", "+5V"),
             ("J5", "2", "GND"),
             ("J6", "1", "+5V"),
@@ -185,8 +209,8 @@ class Checker:
         if "2.0mm" not in j7.get("Package", ""):
             self.error("J7 BOM package must be 2.0mm")
         l1 = self.bom_rows.get("L1", {})
-        if "3.5A" not in l1.get("Notes", ""):
-            self.error("L1 BOM notes must require Isat >=3.5A")
+        if "Isat 5.6A" not in l1.get("Notes", "") or "Irms 3.8A" not in l1.get("Notes", ""):
+            self.error("L1 BOM notes must specify Isat 5.6A and Irms 3.8A")
 
     def run(self):
         self.load()

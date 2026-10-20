@@ -11,6 +11,8 @@ Status: **BLOCKED / minimum-system and interface draft only. RF nets are not fro
 
 These are **candidates**, not verified against the actual LimeCam receiver hardware.
 
+A public LimeRC source review (`pp_link_behavior.md`) confirms the PP link-loss behavior of that source tree, but it does **not** prove the exact receiver hardware, firmware build, RF module, clock or pairing. F407 remains BLOCKED.
+
 ## Firmware dependencies
 
 | Dependency | Status | Action |

@@ -1,0 +1,67 @@
+{
+  "ok": true,
+  "generatedAt": "2026-10-20T10:11:12.393012+00:00",
+  "checker": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\V4_Buoy_5G8_2G4\\check_netlist.py",
+  "note": "These are structural negative tests, not EDA ERC.",
+  "tests": [
+    {
+      "name": "short_led",
+      "mutation": "R7.2 moved onto LED_GPIO (shorted series resistor)",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "net 'LED_A' has fewer than two nodes",
+        "expected R7.2 on 'LED_A', found 'LED_GPIO'",
+        "LED_GPIO must contain exactly U1.15 and R7.1",
+        "LED_A must contain exactly R7.2 and LED1.1"
+      ]
+    },
+    {
+      "name": "swap_q1_gate_source",
+      "mutation": "Q1 gate and source pins exchanged",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "expected Q1.1 on 'PWR_GATE', found 'VBAT'",
+        "expected Q1.2 on 'VBAT', found 'PWR_GATE'"
+      ]
+    },
+    {
+      "name": "swap_j7_video_power",
+      "mutation": "J7 pin1/pin3 nets exchanged",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "expected J7.3 on 'CVBS_VIDEO', found '+5V'",
+        "expected J7.1 on '+5V', found 'CVBS_VIDEO'"
+      ]
+    },
+    {
+      "name": "mcu_pin_two_nets",
+      "mutation": "U1.15 added to +3V3 while still on LED_GPIO",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "U1.15 on two nets: LED_GPIO, +3V3"
+      ]
+    },
+    {
+      "name": "missing_bom_part",
+      "mutation": "C15 removed from BOM",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "netlist ref C15 is missing from BOM"
+      ]
+    },
+    {
+      "name": "change_motor_power",
+      "mutation": "U2.4 moved from VMOTOR to VBAT",
+      "rejected": true,
+      "exitCode": 1,
+      "errors": [
+        "expected U2.4 on 'VMOTOR', found 'VBAT'"
+      ]
+    }
+  ]
+}

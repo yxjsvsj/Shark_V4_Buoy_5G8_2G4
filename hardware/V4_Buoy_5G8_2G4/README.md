@@ -76,15 +76,19 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 ## 6. Power and cable
 
 - Protected 1S -> Q1 SiSS23DN-T1-GE3 -> `VMOTOR` -> 3x MX113H.
-- Protected 1S -> MT3608 +5V/1A -> camera/buoy/servo -> TLV70033 +3V3/200mA -> G030.
+- Protected 1S -> MT3608 +5V boost candidate -> camera/buoy/servo -> TLV70033 +3V3/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO. Do not stack a second boost without checking the LimeMini original.
-- +5V current: VTX 0.2A + LimeCam 0.1A + camera 0.1A + servo 0.2A = ~0.72A nominal; 1A boost. Servo stall is not yet measured and may exceed 1A with the other loads.
-- +5V/1A at 3.0V/85% is ~1.96A input; L1 must be >=3.5A saturation; sum motor peaks and check protection.
+- **MT3608 is not thermally approved for 0.72A or 1A at 3.0V.** The datasheet 250C/W package estimate gives about 199C at 0.72A and 261C at 1A in 40C ambient. The 0.4A case is about 128C; still not a comfortable design. See `power_budget.md`.
+- +5V nominal load is ~0.72A, but servo stall is not measured and may exceed 1A with the other loads. **The 5V source must be resized or split before layout.**
+- +5V/1A at 3.0V/85% is ~1.96A input; L1 is SRP6060FA-220M, Isat 5.6A, Irms 3.8A.
 - Q1 is rated 20V/50A and 6.3mohm max at VGS=-2.5V; AON7403 is not approved for 1S gate drive.
-- Cable: 50 cm, 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax.
+- C1-C3 are **100uF 6.3V polymer tantalum 1206** (T520A107M006ATE070), not 100uF/0805 X5R.
+- Cable: 50 cm, 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax. Finished OD is **~5.0-5.5mm**, not 3mm.
 - J7: **JST-PH 6P, 2.0mm, 2A at 24AWG** (proposed; series change pending confirmation). JST-SH 1A/28-32AWG cannot take 24AWG.
+- J7/24AWG insulation OD must be 0.9-1.5mm; crimp pull test required. 30mm static / 55mm dynamic bend is tight in a 55mm buoy.
 - Pins: 1=+5V (cable +5V_BUOY), 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
 - Add 100uF + 100nF at the buoy +5V input and a ferrite/LC filter for the camera/video.
+- PP link loss: LimeCam sends one neutral frame after ~100ms, then stops; use the 500ms G030 frame timeout for failsafe. See `pp_link_behavior.md`.
 - Use a Kevlar/string strength member; the cable must not be the tow load.
 - Waterproof gland at the buoy; potted/gland at the shark; strain relief loop at both ends.
 - 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
@@ -128,6 +132,11 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - `control_bom.csv` - G030 BOM.
 - `g030_netlist_draft.csv` - G030 connection-level netlist.
 - `check_netlist.py` - structural netlist checker; run `python hardware/V4_Buoy_5G8_2G4/check_netlist.py`.
+- `tests/run_negative_tests.py` - six structural negative tests; results in `tests/negative_test_results.json`.
+- `power_budget.md` - MT3608/Q1/servo/capacitor budget and measured-data gaps.
+- `pp_link_behavior.md` - LimeCam PP link-loss behavior and G030 safety logic.
+- `mechanical/j7_assembly.md` - J7/cable dimensions, bend radius and fit conclusion.
+- `g030_control/` - candidate JLCEDA Pro `.eprj3`/`.esch2` schematic; format-validated only.
 - `buoy_rf_board.md` - stripped F407 buoy RF board and firmware gate.
 - `two_board_plan.md` - two-board redesign plan.
 - `keep_remove.md` - keep/remove from the open-source boards.
@@ -140,6 +149,7 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - 5.8G is chosen because the antenna is above water; do not put the 5.8G VTX underwater.
 - **Firmware gate:** LimeRC receiver source/license, RF module, pairing, clock (V3 24MHz vs original 25MHz), PP polarity. If only HEX is available, use the original LimeCam board or get source/permission; do not stub tasks blindly.
 - **Motor gate:** measure thruster current/thrust and MX113H thermal before layout.
-- **Power/connector gate:** Q1 SiSS23DN footprint/thermal, L1 >=3.5A saturation, servo stall, and J7 JST-PH confirmation must be closed before layout freeze.
+- **Power/connector gate:** MT3608 0.72A/1A thermal rejection, Q1 footprint/thermal, L1 SRP6060FA-220M, servo stall, C1-C3 ripple, and J7 mechanical fit must be closed before layout freeze.
+- **Schematic gate:** `Shark_Sub_G030.esch2` is a candidate with generic symbols and no footprint binding. Open it in JLCEDA, run ERC, and fix it before calling it drafted.
 - **Size gate:** board sizes are not frozen; layout first.
 - If the buoy/cable proves troublesome, the fallback is a thin shore tether or a smaller antenna float.

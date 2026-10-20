@@ -36,9 +36,11 @@ Control: LimeRC remote -> buoy 2.4G -> `pp` -> 50 cm cable -> G030.
 - 1S -> 5V boost -> camera/buoy VTX/receiver/servo.
 - 5V -> 3.3V LDO, or a dedicated 3.3V buck-boost for G030/F407.
 - Do not stack a second boost without checking the original LimeMini power design.
-- Budget: MT3608 +5V/1A at 3.0V/85% is ~1.96A input; actual buoy load is ~0.4A, but 3 motors + buoy peak must be summed. L1 must be >=3.5A saturation / >=2.2A RMS. TLV70033 is 200mA max.
+- Budget: MT3608 +5V/1A at 3.0V/85% is ~1.96A input; L1 is SRP6060FA-220M (22uH, 5.6A Isat, 3.8A Irms). TLV70033 is 200mA max.
+- **MT3608 thermal rejection:** with 250C/W thetaJA, TJ is ~199C at 5V/0.72A and ~261C at 1A in 40C ambient. The package also exceeds 0.6W PD at 0.72A. The 5V architecture is BLOCKED until the boost is replaced or the load is reduced/split. See `power_budget.md`.
 - Q1: SiSS23DN-T1-GE3, 20V/50A, 6.3mohm max at VGS=-2.5V, PowerPAK 1212-8S. AON7403 has no published -2.5V RDS(on) and is not approved for 1S.
-- Servo stall current is not measured; do not assume 0.2A. Check simultaneous +5V load.
+- Servo stall current is not measured; do not assume 0.2A. With 0.52A other load, 0.5A servo already exceeds the 1A boost.
+- C1-C3 are 100uF 6.3V polymer tantalum 1206; the 100uF/0805 X5R assumption is rejected because of DC-bias loss.
 - Check DW01A/FS8205A or chosen protection continuous/peak current; check battery 30C and connector.
 - 3.3V LDO from 1S is not acceptable for a stable 3.3V rail; use boost/buck-boost or 5V-derived LDO.
 
@@ -64,6 +66,7 @@ Recommended 6-core pinout:
 
 - Use a separate shielded video pair/coax, not only the overall shield.
 - J7: proposed **JST-PH 6P** (2A at 24AWG, 24-30AWG). JST-SH 1A/28-32AWG is incompatible with 24AWG and must not remain.
+- J7/cable mechanical: mated body ~13.9 x 4.5 x 8.0mm; cable OD ~5.0-5.5mm; 30mm static / 55mm dynamic bend. Top-entry plus bend is tight in the 55mm buoy; mechanical fit PENDING. See `mechanical/j7_assembly.md`.
 - CVBS is 75 ohm; check whether the VTX input has a 75 ohm termination to avoid double termination.
 - 50 cm is for shallow testing; for 50 cm depth plus float/connector margin, make a longer version.
 - Define connector, strain relief, neutral buoyancy and max depth.
@@ -78,6 +81,7 @@ Recommended 6-core pinout:
 
 - H-bridges must be off at reset (IN1=IN2=0).
 - `pp` parser must validate frame format and ranges; reject malformed frames.
+- LimeCam link loss: one neutral PP frame after ~100ms, then silence. Use the 500ms frame timeout as the freshness detector; do not rely on last values. See `pp_link_behavior.md`.
 - Independent watchdog; low-voltage and leak -> safe state.
 - 500 ms `pp` timeout -> motors 0, jaw open.
 - Shark must be positively buoyant enough to surface on power/control loss.
@@ -92,7 +96,7 @@ Recommended 6-core pinout:
 
 ## P0 remediation
 
-See p0_status.md for the P0/P1 status table, evidence and remaining BLOCKED items. The G030 connection-level schematic draft is g030_schematic_draft.md + g030_netlist_draft.csv; it is not EDA-ERC verified.
+See p0_status.md for the P0/P1 status table, evidence and remaining BLOCKED items. The G030 candidate schematic is `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; it is format-validated but has not been opened in JLCEDA, has generic symbols, no footprint binding, and no ERC. `g030_schematic_draft.md` + `g030_netlist_draft.csv` remain the connection-level reference.
 
 ## Repo note
 

@@ -7,7 +7,7 @@ V1 uses a new G030 board. It does only: `pp`, 3x MX113H, jaw servo, power, camer
 ```
 Protected 1S pack (XT30)
   |-> VBAT -> Q1 SiSS23DN -> VMOTOR -> 3x MX113H -> 3 thrusters
-  |-> VMOTOR -> U5 MT3608 +5V/1A -> +5V
+  |-> VMOTOR -> U5 MT3608 +5V candidate -> +5V
         |-> camera +5V
         |-> buoy VTX/receiver +5V
         |-> jaw servo +5V
@@ -62,14 +62,17 @@ Notes:
 
 - Protected 1S pack with PCM, XT30 connector; J1 XT30.
 - Q1 **SiSS23DN-T1-GE3** P-MOS, PowerPAK 1212-8S: pin 1 gate, pins 2-4 source to VBAT, pins 5-8 drain to VMOTOR. R5 100k gate pull-up; SW1 reed to GND; C14 100nF gate-source. This replaces AON7403, which does not specify RDS(on) at VGS=-2.5V.
-- Q1 budget: 3x MX113H at 1A continuous = 3A, plus 5V rail input at 3.0V/85% = 5V*1A/(0.85*3.0V) = 1.96A -> **~4.96A continuous**; 3x 1.5A MX113H peak + 1.96A = **~6.46A peak**. SiSS23DN is 50A package-limited, 27A at TA=25C, and 6.3mohm max at VGS=-2.5V. At 6.5A, P ~= 0.27W; using 63C/W steady-state RthJA, rise ~17C. Verify copper and thermal in layout.
-- U5 **MT3608** SOT-23-6: VIN/EN VMOTOR; L1 22uH; D1 SS34; C7 10uF input; C8 22uF output; R1 73.2k / R2 10k feedback -> 5.0V; +5V/1A continuous.
-- 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input, not 1.4A. L1 must have Isat >=3.5A and Irms >=2.2A; 2.5A saturation is not enough.
-- Servo stall is **TBD**: a 5V hobby servo can exceed 0.2A and may exceed the remaining 1A boost headroom when camera/buoy loads are present. Measure stall current; if simultaneous stall + loads >1A, use a larger 5V source, separate servo rail, or enforce a load/current limit. Do not mark the 5V rail verified.
-- U6 **TLV70033** 3.3V **200mA max** (not 300mA); G030 load is ~20mA; 200mA is enough.
+- Q1 budget: 3x MX113H at 1A continuous = 3A, plus 5V rail input at 3.0V/85% = 1.96A -> **~4.96A continuous**; 3x 1.5A MX113H peak + 1.96A = **~6.46A peak**. SiSS23DN is 50A package-limited, 27A at TA=25C, and 6.3mohm max at VGS=-2.5V. At 6.5A and 1.4x hot RDS(on), P ~= 0.37W; with 63C/W steady-state RthJA, rise ~23C. Verify copper and temperature.
+- U5 **MT3608** SOT-23-6 is retained only as a **candidate**. At 3.0V input, 85% efficiency and 40C ambient, its calculated TJ is about 128C at 5V/0.4A, **199C at 0.72A** and **261C at 1A**, using the datasheet 250C/W thetaJA. The package PD is exceeded at 0.72A. **The 5V/0.72A and 5V/1A cases are thermally rejected.**
+- MT3608 parts: L1 **Bourns SRP6060FA-220M** 22uH, 6.6x6.4mm, Isat 5.6A, Irms 3.8A, DCR 55mohm; D1 SS34; C7/C8 22uF 25V 0805 X5R; R1 73.2k / R2 10k.
+- 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input. See `power_budget.md` for the full table.
+- Servo stall is **TBD** and not assumed to be 0.2A. With 0.52A of other load, even 0.5A servo current exceeds the 1A boost; the 0.72A nominal case already fails MT3608 thermal. **Do not mark the 5V rail capable.** Resize/split the 5V source or reduce the load after measuring the actual servo.
+- C1/C2/C3: **KEMET T520A107M006ATE070**, 100uF 6.3V polymer tantalum, 1206/3216, 70mohm ESR. This replaces the unreliable 100uF/0805 X5R assumption. Ripple rating is 1.035A at 45C, 724.5mA at 85C; verify 20kHz motor ripple and case temperature.
+- C15 adds 1uF at the TLV70033 input; C16/C17 add 100nF at the camera and buoy connectors.
+- U6 **TLV70033** 3.3V **200mA max** (not 300mA); G030 load is ~20mA; C9/C15 1uF and C10/C11 decoupling.
 - Battery sense R3/R4 100k/100k + C13 100nF to PA0.
 - Leak: +3V3 -> R6 100k -> pad -> water -> GND -> PA1.
-- **BLOCKED:** protection pack continuous/peak current, J1/XT30, motor start/stall current, servo stall current, and measured 5V input current.
+- **BLOCKED:** MT3608 thermal validation, protection pack current, motor start/stall current, servo current/stall, 5V transient, and C1-C3 ripple/temperature.
 
 ## 5. Connectors and cable
 
@@ -91,6 +94,9 @@ Notes:
 - Buoy PP J7 pin5 -> R8 -> G030 PA3; G030 telemetry J7 pin6 -> buoy F407 RX.
 - +5V/GND J7 pins1/2 -> buoy; 50cm cable: 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax.
 - 24AWG drop at 50cm: about 0.084 ohm loop, ~0.08V at 1A and ~0.17V at 2A; check the buoy input voltage under load.
+- **Cable OD is not 3mm.** Two 24AWG power wires, two 28AWG signal wires, a 75 ohm micro coax, shield/filler and jacket yield about **5.0-5.5mm** finished OD. See `mechanical/j7_assembly.md`.
+- Mated connector envelope is about 13.9 x 4.5 x 8.0mm. A 5.5mm cable needs about 30mm static / 55mm dynamic bend radius. A top-entry J7 plus that bend is tight in the 55x70mm buoy; a side-entry header or larger buoy may be required.
+- 24AWG insulation OD must be 0.9-1.5mm for `SPH-002T-P0.5S`; crimp pull test and housing latch are required.
 - 50cm is a shallow-test version; for 50cm depth plus float/connector margin, make a longer version.
 - CVBS is 75 ohm; check whether the VTX input has 75 ohm termination.
 
@@ -98,7 +104,11 @@ Notes:
 
 - H-bridges off at reset: IN1=IN2=0; no motion before valid PP.
 - PP parser validates header, field count, ranges; malformed frames rejected.
-- 500ms no valid PP -> motors 0, jaw open, LED blink.
+- PP link-loss source behavior: after about 100ms without an NRF packet, LimeCam sends **one neutral frame** (sticks 2048), then stops sending. It does not repeat the last frame. Evidence: `pp_link_behavior.md`.
+- G030 records the last valid PP timestamp. **500ms no valid PP -> motors 0, jaw open, LED blink.** The 500ms timeout is the link-freshness detector; do not use repeated channel values as proof of link health.
+- Exact receiver firmware must be verified by a UART capture; a different build may not match the reviewed source.
+- A receiver link-status wire is not available on J7. If independent status is required, use a 7-pin cable or a defined telemetry frame; do not repurpose `TELEM_UP`.
+- Magnet switch is **hold-to-run**: the magnet must stay near SW1 to keep Q1 on. A short-touch toggle requires a latch and is **not designed**.
 - IWDG 1s; low voltage (<3.4V) or leak -> safe state.
 - Jaw 0-45 deg; spring-open on power loss.
 - Shark must be slightly positive buoyancy; surfaces on power/control loss.
@@ -120,15 +130,19 @@ Notes:
 3. Each MX113H: forward/reverse/stop; running/stall current; heat at 1A.
 4. Failsafe: stop PP; motors stop; jaw open.
 5. Camera video J6->J7; 75 ohm/termination check.
-6. Full 50cm cable + buoy tank test; positive buoyancy check.
+6. Link loss: disconnect only 2.4GHz; confirm one neutral PP frame then silence, and G030 failsafe within 500ms.
+7. MT3608: 3.0V input at 0.4/0.72/1.0A; record case temperature, 5V ripple and shutdown. Treat 0.72/1.0A as fail if TJ/package limits are exceeded.
+8. J7: 24AWG crimp pull test, housing latch, 30mm bend, gland mock-up.
+9. Full 50cm cable + buoy tank test; positive buoyancy check.
 
 ## 9. Status
 
-- Second P0 remediation updates net names, LED topology, Q1, J7, and MT3608 margin.
+- Third-round review adds PP link-loss evidence, MT3608 thermal rejection, polymer motor capacitors, J7 dimensional model, and a candidate `.esch2`.
 - Q1 is **SiSS23DN-T1-GE3** with a published 6.3mohm max at VGS=-2.5V; AON7403 is not approved for 1S gate drive.
-- J7 is proposed as **JST-PH 6P**; the series change is pending confirmation. It must not silently remain JST-SH.
-- L1 must be >=3.5A saturation / >=2.2A RMS; the previous 2.5A note was insufficient.
-- G030 schematic is a **connection-level draft** (`g030_schematic_draft.md`), not a JLCEDA ERC-verified schematic.
-- JLCEDA G030 board is still blank; ERC not run.
-- Motor current, servo stall, protection current, 5V thermal, Q1 copper temperature, and board fit are **BLOCKED/TBD** until measured.
-- `check_netlist.py` performs structural/netlist checks only; it is **not** ERC and does not prove the circuit.
+- J7 is proposed as **JST-PH 6P**; the series change is pending confirmation. Cable OD is **5.0-5.5mm**, not 3mm; top-entry plus bend is tight.
+- **MT3608 is not approved for 0.72A or 1A at 3.0V** because of package thermal limits. The 5V architecture is BLOCKED pending a larger boost/split rail/load reduction.
+- L1 is now **SRP6060FA-220M** (22uH, Isat 5.6A, Irms 3.8A); the previous 6x6 1.8A part is insufficient.
+- C1-C3 are **100uF 6.3V polymer tantalum 1206**, not 100uF/0805 X5R. C15/C16/C17 add LDO input and connector decoupling.
+- G030 candidate schematic: `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; format-validated only. **Not opened in JLCEDA, no ERC/DRC, generic symbols, no footprint binding.**
+- `check_netlist.py` results: 137 rows, 32 nets, 45 refs; six negative tests pass. This is **not** EDA ERC.
+- Motor current, servo current/stall, protection current, MT3608 thermal, C1-C3 ripple, and board fit remain **BLOCKED/TBD** until measured.

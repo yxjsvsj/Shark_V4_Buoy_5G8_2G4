@@ -1,7 +1,7 @@
 # G030 schematic draft (connection level)
 
-Status: **DRAFT / NOT EDA-ERC VERIFIED / NOT PRODUCTION READY.**
-This is a connection-level draft to draw in JLCEDA Pro. It is not a `.esch2` schematic and no JLCEDA ERC has been run.
+Status: **DRAFT / CANDIDATE `.esch2` FORMAT-VALIDATED / NOT GUI-OPENED / NOT EDA-ERC VERIFIED / NOT PRODUCTION READY.**
+The connection-level reference is still this file plus `g030_netlist_draft.csv`. A generated candidate page exists at `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; it uses project-local generic symbols and is not a manufacturer-library or ERC-verified schematic.
 
 ## 1. Page plan
 
@@ -23,10 +23,10 @@ VMOTOR -> U5 MT3608 -> +5V
 
 - Q1 SiSS23DN-T1-GE3: pin 1 gate = PWR_GATE, pins 2-4 source = VBAT, pins 5-8 drain = VMOTOR. R5 100k pull-up, SW1 reed to GND, C14 100nF gate-source.
 - Q1 is rated 20V/50A package-limited; RDS(on) 6.3mohm max at VGS=-2.5V. It replaces AON7403, which has no published -2.5V RDS(on). Verify the PowerPAK 1212-8S footprint and copper.
-- U5 MT3608: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 22uH, D1 SS34, C7 10uF, C8 22uF, R1 73.2k, R2 10k -> 5.0V; +5V/1A continuous.
-- U6 TLV70033: IN/EN = +5V, OUT = +3V3; 200mA max.
-- +5V loads nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A; 1A boost.
-- Input current at 3.0V/85% for 5V/1A is ~1.96A; L1 Isat >=3.5A, Irms >=2.2A.
+- U5 MT3608 is a candidate only: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 SRP6060FA-220M 22uH, D1 SS34, C7/C8 22uF 25V, R1 73.2k, R2 10k -> 5.0V. **MT3608 thermal fails at 0.72A/1A from 3.0V; see `power_budget.md`.**
+- U6 TLV70033: IN/EN = +5V, OUT = +3V3; 200mA max; C15 1uF input, C9 1uF output.
+- +5V loads nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A; 1A boost not thermally approved.
+- Input current at 3.0V/85% for 5V/1A is ~1.96A; L1 Isat 5.6A, Irms 3.8A.
 - +3V3 load: G030 ~20mA; 200mA LDO is enough.
 - **BLOCKED:** 1S protection continuous/peak current, motor start/stall current, servo stall current, 5V input current and thermal are not measured.
 
@@ -63,19 +63,24 @@ See `control_pinout.csv` for the authoritative pin/AF table.
 
 ## 6. Netlist and BOM
 
-- `g030_netlist_draft.csv` - connection-level netlist. Automated check: no single-node nets, no duplicate pins, no pin on two nets; LED/Q1/J7 rules checked. This is **not** an EDA ERC.
+- `g030_netlist_draft.csv` - 137 connections, 32 nets, 45 refs. Automated structural check passes; this is **not** an EDA ERC.
 - `check_netlist.py` - committed structural checker; run `python hardware/V4_Buoy_5G8_2G4/check_netlist.py`.
-- `control_bom.csv` - unique refs; MT3608/TLV70033/SiSS23DN are fixed, no "or" selection; no BOOT0 resistor; no separate VDDA/VSSA.
+- `tests/run_negative_tests.py` - six negative tests; all rejected as expected.
+- `hardware/g030_control/` - candidate `.eprj3`/`.esch2`; 45 components, 137 wires, 32 nets, 15 generic symbol docs, 45 device docs. Format-only validation; no GUI/ERC.
+- `control_bom.csv` - unique refs; MT3608/TLV70033/SiSS23DN are fixed, no "or" selection; no BOOT0 resistor; no separate VDDA/VSSA. C1-C3 are polymer 1206, C15-C17 added.
 
 ## 7. Not verified / BLOCKED
 
-- JLCEDA `.esch2` drawing: not created; no ERC.
+- JLCEDA candidate `.esch2` exists, but has not been opened in the GUI; no ERC/DRC. Symbols are generic; footprints are not bound.
+- MT3608 thermal budget fails at 0.72A/1A from 3.0V; the 5V rail is not approved. See `power_budget.md`.
 - Board outline/placement: not drawn; 26x40-46mm is a first-pass target only.
 - Motor current/thrust/MX113H thermal: not measured.
-- 5V boost inductor saturation/thermal: calculated only, not measured; L1 Isat >=3.5A required.
-- Servo stall current and simultaneous +5V load: not measured.
+- L1 SRP6060FA-220M saturation/thermal: calculated only, not measured.
+- Servo current/stall and simultaneous +5V load: not measured.
+- C1-C3 100uF polymer ripple/temperature: not measured.
 - Protected pack/J1/XT30/protection current: not measured.
 - Q1 PowerPAK 1212-8S footprint/copper temperature: not verified.
+- J7/cable mechanical fit: envelope model only, not physically checked.
 - CVBS 75 ohm VTX termination: not confirmed.
 - Positive buoyancy: design requirement, not tank-verified.
 - **Do not order PCB or mark production-ready.**
