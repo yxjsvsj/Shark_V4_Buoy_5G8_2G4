@@ -11,8 +11,8 @@
     "FB",
     "+5V",
     "+3V3",
-    "NRST",
     "BAT_SENSE",
+    "NRST",
     "LEAK",
     "TELEM_UP",
     "BUOY_RX",
@@ -26,6 +26,7 @@
     "LAT_IN2",
     "SWDIO",
     "SWCLK",
+    "LED_A",
     "MAIN_OUT2",
     "MAIN_OUT1",
     "LAT_OUT2",
@@ -33,8 +34,7 @@
     "VERT_OUT2",
     "VERT_OUT1",
     "CVBS_VIDEO",
-    "PP_DOWN",
-    "LED_A"
+    "PP_DOWN"
   ],
   "missing": [],
   "extra": [],

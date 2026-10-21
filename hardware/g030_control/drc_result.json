@@ -1,115 +1,55 @@
 {
   "drcPassed": false,
-  "violationCount": 1,
-  "warnings": [
+  "pages": [
     {
-      "ref": "U5",
-      "pin": "6"
+      "name": "01_POWER",
+      "violations": 138,
+      "passed": false
     },
     {
-      "ref": "U6",
-      "pin": "4"
+      "name": "02_G030",
+      "violations": 138,
+      "passed": false
     },
     {
-      "ref": "U1",
-      "pin": "1"
+      "name": "03_MOTOR",
+      "violations": 138,
+      "passed": false
     },
     {
-      "ref": "U1",
-      "pin": "2"
-    },
-    {
-      "ref": "U1",
-      "pin": "3"
-    },
-    {
-      "ref": "U1",
-      "pin": "11"
-    },
-    {
-      "ref": "U1",
-      "pin": "12"
-    },
-    {
-      "ref": "U1",
-      "pin": "17"
-    },
-    {
-      "ref": "U1",
-      "pin": "20"
-    },
-    {
-      "ref": "U1",
-      "pin": "23"
-    },
-    {
-      "ref": "U1",
-      "pin": "26"
-    },
-    {
-      "ref": "U1",
-      "pin": "27"
-    },
-    {
-      "ref": "U1",
-      "pin": "28"
-    },
-    {
-      "ref": "U1",
-      "pin": "29"
-    },
-    {
-      "ref": "U1",
-      "pin": "30"
-    },
-    {
-      "ref": "U1",
-      "pin": "31"
-    },
-    {
-      "ref": "U1",
-      "pin": "32"
-    },
-    {
-      "ref": "J5",
-      "pin": "0"
-    },
-    {
-      "ref": "J6",
-      "pin": "0"
-    },
-    {
-      "ref": "J9",
-      "pin": "4"
-    },
-    {
-      "ref": "J9",
-      "pin": "3"
-    },
-    {
-      "ref": "J2",
-      "pin": "4"
-    },
-    {
-      "ref": "J2",
-      "pin": "3"
-    },
-    {
-      "ref": "J3",
-      "pin": "4"
-    },
-    {
-      "ref": "J3",
-      "pin": "3"
-    },
-    {
-      "ref": "J4",
-      "pin": "4"
-    },
-    {
-      "ref": "J4",
-      "pin": "3"
+      "name": "04_IO",
+      "violations": 138,
+      "passed": false
     }
   ],
-  "note": "Single CHECKFLOATPIN warning covers intentionally unused MCU/IC pins and connector shield/extra pins; not an ERC-clean schematic."
+  "note": "NETOBJECTONGRID warnings from net-name stubs plus unused-pin CHECKFLOATPIN; schematic not ERC-clean.",
+  "unusedPins": [
+    "U5.6",
+    "U6.4",
+    "U1.1",
+    "U1.2",
+    "U1.3",
+    "U1.11",
+    "U1.12",
+    "U1.17",
+    "U1.20",
+    "U1.23",
+    "U1.26",
+    "U1.27",
+    "U1.28",
+    "U1.29",
+    "U1.30",
+    "U1.31",
+    "U1.32",
+    "J2.4",
+    "J2.3",
+    "J3.4",
+    "J3.3",
+    "J4.4",
+    "J4.3",
+    "J5.0",
+    "J6.0",
+    "J9.4",
+    "J9.3"
+  ]
 }

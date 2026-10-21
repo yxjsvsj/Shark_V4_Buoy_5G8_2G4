@@ -1,65 +1,63 @@
-# Shark_Sub_G030 JLCEDA Pro project
+# Shark_Sub_G030 JLCEDA Pro project (RevB, four pages)
 
-Status: **REAL JLCEDA PROJECT / SCHEMATIC DRAFTED / DRC HAS 1 WARNING / PCB EMPTY / NOT PRODUCTION READY.**
+Status: **REAL JLCEDA PROJECT / FOUR-PAGE SCHEMATIC DRAFT / DRC HAS 138 WARNINGS / PCB EMPTY / NOT PRODUCTION READY.**
 
-Open this folder project:
+Open:
 
-`hardware/g030_control/Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3`
+`hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3`
 
-Project tree after opening:
+Project tree:
 
 - Board: `Shark_Sub_G030`
 - Schematic: `G030_Control`
-- Page: `01_G030_CONTROL`
+- Pages:
+  - `01_POWER`
+  - `02_G030`
+  - `03_MOTOR`
+  - `04_IO`
 - PCB: `PCB1` (empty by design)
 
-## What is real now
+## What is real
 
 - 45 components placed from the JLCEDA system library with real symbols, footprints, LCSC part numbers and 3D model links.
 - 137 net-name stub wires, one per `g030_netlist_draft.csv` row.
-- 32 nets.
-- Netlist export `Shark_Sub_G030_RevA/g030_export.net` was compared against the CSV: **137/137 pins and 32/32 nets match; no missing or extra connections**.
-- The page is A0 and contains **actual JLCEDA library symbols**, not the earlier generic candidate symbols.
-- The project opens in JLCEDA Pro 4.1.78; GUI DRC was run.
+- 32 nets across the four pages.
+- Exported netlist matches the CSV exactly: **137/137 pins, 32/32 nets, no missing or extra connections**.
+- All four pages are A3 and have title blocks.
 
-## DRC result
+## DRC
 
-`drc_result.json` records one `CHECKFLOATPIN` warning. It covers intentionally unused pins:
+`drc_result.json` records **138 warnings**:
 
-- U1: unused GPIO/oscillator/PA12 pins
-- U5: NC pin 6
-- U6: NC pin 4
-- J2/J3/J4/J9: shield/extra mechanical pins 3/4
-- J5/J6: shield pin 0
+- 137 `NETOBJECTONGRID` warnings from the net-name stubs.
+- 1 `CHECKFLOATPIN` warning for intentionally unused U1/U5/U6 pins and connector shield/extra pins.
 
-This is a warning, not a clean ERC pass. The schematic must be reviewed before calling it complete.
+This is **not ERC-clean**. The schematic is a netlist-valid draft, not a release schematic.
 
 ## Limitations
 
-- The PCB is intentionally empty; no footprints were placed on a board and no layout exists.
-- The schematic uses short net-name stubs, not fully routed wires. The netlist is correct; the drawing is not a presentation-quality routed schematic.
-- Some connector symbols are the closest real library parts, not necessarily the final mechanical part:
-  - J5/J6 = SH1.0-3P
-  - J2-J4/J9 = SH1.0-2P
-  - J8 = HDR1X5, not a 1.27mm pogo pad array
-- Symbol/footprint pin mappings must still be checked against the exact purchased parts.
+- The PCB is empty; no footprint placement or layout.
+- The schematic uses short net-name stubs, not fully routed presentation wiring.
+- J5/J6 use `SH1.0-3P`; J2-J4/J9 use `SH1.0-2P`; J8 uses `HDR1X5`, not a 1.27mm pogo array. Verify against purchased parts.
+- The MT3608 5V rail is still BLOCKED by thermal analysis; see `../V4_Buoy_5G8_2G4/power_budget.md`.
 - No Gerber, no PCB order, no production release.
 
 ## Files
 
-- `Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3` - JLCEDA project.
-- `Shark_Sub_G030_RevA/sch/G030_Control/01_G030_CONTROL.esch2` - schematic source.
-- `Shark_Sub_G030_RevA/g030_schema.png` - exported schematic image.
-- `Shark_Sub_G030_RevA/g030_export.net` - exported Protel netlist.
+- `Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3` - JLCEDA project.
+- `Shark_Sub_G030_RevB/sch/G030_Control/01_POWER.esch2` ... `04_IO.esch2` - four page sources.
+- `Shark_Sub_G030_RevB/01_POWER.png` ... `04_IO.png` - exported page images.
+- `Shark_Sub_G030_RevB/g030_export.net` - exported Protel netlist.
 - `netlist_compare.json` - exact CSV-vs-export comparison.
-- `drc_result.json` - GUI DRC warning list.
+- `drc_result.json` - DRC warning summary.
 - `schematic_pinmap.csv` - Ref/Pin/PinName/Net/Package mapping.
 
-## What to do next in JLCEDA
+## Open in JLCEDA
 
-1. Open `Shark_Sub_G030_RevA.eprj3`.
-2. Double-click `Shark_Sub_G030` -> `G030_Control` -> `01_G030_CONTROL`; the page now has content.
-3. Review symbol/footprint pin mappings, especially connectors.
-4. Mark unused pins NC or accept/annotate the single DRC warning.
-5. Do not click `PCB1` expecting content; it is intentionally empty.
-6. Only after schematic review should a PCB be imported/laid out.
+1. Close any old `Shark_Sub_G030`/`Board1` project window.
+2. File -> Open -> Local project.
+3. Select `Shark_Sub_G030_RevB.eprj3`.
+4. Expand `Shark_Sub_G030` -> `G030_Control`.
+5. Open `01_POWER`, `02_G030`, `03_MOTOR`, `04_IO` separately.
+
+`PCB1` is expected to be empty. Do not look for the schematic inside the PCB page.

@@ -20,8 +20,8 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-11 | LimeRC receiver source/license | Public GPL-3.0 source exists, but production hardware/HEX compatibility is not proven | **BLOCKED** | Do not freeze buoy RF PCB; verify source/license/hardware match |
 | P0-12 | F407 HSE 24 vs 25MHz | V3 24MHz vs LimeCam 25MHz | **BLOCKED** | Resolve before layout |
 | P0-13 | PP normal vs inverted TTL | LimeMini default inverted; LimeCam supports both | **BLOCKED** | Verify exact receiver setting |
-| P0-14 | JLCEDA board name/ERC | Board renamed `Shark_Sub_G030`; GUI DRC run | **PARTIAL** | One `CHECKFLOATPIN` warning for intentionally unused pins; not ERC-clean |
-| P0-15 | G030 schematic | Real JLCEDA project with system-library symbols; 45 components, 137 stubs, 32 nets | **DRAFTED** | Netlist export matches CSV 137/137; PCB empty; DRC warning; connector/footprint review still needed |
+| P0-14 | JLCEDA board name/ERC | Board renamed `Shark_Sub_G030`; GUI DRC run | **PARTIAL** | 137 `NETOBJECTONGRID` + 1 `CHECKFLOATPIN` warning; not ERC-clean |
+| P0-15 | G030 schematic | Real four-page A3 JLCEDA project with system-library symbols; 45 components, 137 stubs, 32 nets | **DRAFTED** | Netlist export matches CSV 137/137; PCB empty; 138 DRC warnings; connector/footprint review still needed |
 | P0-16 | F407 RF/firmware correspondence | E01C-ML01S not proven LimeCam-compatible | **BLOCKED** | `buoy_rf_board.md` dependency table |
 | P0-17 | LED net: R7 fed from 3V3 | Netlist rows | **FIXED in netlist/docs** | PB0 -> R7.1 -> LED_A/LED1.1 -> GND |
 | P0-18 | Net-name aliases | 3V3/5V, JAW, CAM_VIDEO, BUOY_TX, split BUOY_RX | **FIXED in docs/netlist** | `+3V3`, `+5V`, `JAW_SERVO`, `CVBS_VIDEO`, `PP_DOWN`/`BUOY_RX`, `TELEM_UP` |
@@ -41,7 +41,7 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P1-03 | L1 SRP6060FA-220M saturation/thermal | TBD | 22uH, Isat 5.6A, Irms 3.8A; measure at 3.0V/1A |
 | P1-04 | J7/J1/cable current | TBD | XT30; JST-PH proposed; measure 5V + motor peak + servo stall |
 | P1-05 | SWD/BOOT0 option bytes | TBD | SWD NRST; nBOOT_SEL option |
-| P1-06 | ERC/DRC | PARTIAL | DRC run: one unused-pin warning; still no clean ERC/DRC |
+| P1-06 | ERC/DRC | PARTIAL | DRC run: 137 NETOBJECTONGRID + one unused-pin warning; still no clean ERC/DRC |
 | P1-07 | Servo stall / 5V headroom | TBD | Measure; 0.52A other load + 0.5A servo already exceeds 1A |
 | P1-08 | Q1 copper/thermal | TBD | PowerPAK 1212-8S land pattern/copper at ~6.5A peak |
 | P1-09 | MT3608 replacement | BLOCKED | Select larger boost or split/reduce 5V load |
@@ -58,7 +58,7 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 - JST PH datasheet: 2A at AWG24, AWG32-24, insulation OD 0.5-1.5mm; B6B-PH-K-S / PHR-6 / SPH-002T-P0.5S.
 - KEMET T520A107M006ATE070: 100uF 6.3V polymer tantalum, 70mohm, 1.035A ripple at 45C.
 - `check_netlist.py` and `tests/run_negative_tests.py`: structural results only, not EDA ERC.
-- JLCEDA GUI verification: project opens; 45 system-library components, 137 net-name stubs, 32 nets; netlist export matches CSV 137/137. DRC: one `CHECKFLOATPIN` warning. Evidence: `hardware/g030_control/`.
+- JLCEDA GUI verification: four-page A3 project opens; 45 system-library components, 137 net-name stubs, 32 nets; netlist export matches CSV 137/137. DRC: 137 `NETOBJECTONGRID` + one `CHECKFLOATPIN` warning. Evidence: `hardware/g030_control/`.
 - Netlist comparison: `hardware/g030_control/netlist_compare.json`; DRC warning list: `hardware/g030_control/drc_result.json`.
 
 ## Not claimed

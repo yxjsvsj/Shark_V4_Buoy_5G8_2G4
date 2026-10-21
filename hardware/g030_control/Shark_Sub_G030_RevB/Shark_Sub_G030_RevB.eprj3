@@ -1,0 +1,123 @@
+{
+  "name": "Shark_Sub_G030_RevB",
+  "owner_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "creator_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "created_at": "2026-10-21 10:43:31",
+  "updated_at": "2026-10-21 10:43:31",
+  "modifier_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "content": "G030 control board - four-page schematic with real library symbols",
+  "archive": false,
+  "cbb_project": 0,
+  "thumb": "",
+  "ticket": 1,
+  "g_ticket": 1,
+  "boards": [],
+  "block_symbol_attrs_groups": {},
+  "default_sheet": "99f9ad6a2e4a2ebb",
+  "branch_uuid": "",
+  "pcb_count": 0,
+  "format": "folder",
+  "profile": {
+    "boards": {
+      "773a60068cf76da8": {
+        "uuid": "773a60068cf76da8",
+        "title": "Shark_Sub_G030",
+        "zIndex": 1
+      }
+    },
+    "schematics": {
+      "fb36cce94ab6aa03": {
+        "uuid": "fb36cce94ab6aa03",
+        "name": "G030_Control",
+        "board": "773a60068cf76da8",
+        "source": "",
+        "version": "1792550718287",
+        "updateTime": 1792550718287
+      }
+    },
+    "sheets": {
+      "1816a307327b8162": {
+        "uuid": "1816a307327b8162",
+        "title": "01_POWER",
+        "schematic_uuid": "fb36cce94ab6aa03",
+        "zIndex": 1,
+        "source": "",
+        "version": "1792550716193",
+        "updateTime": 1792550716193
+      },
+      "3552af81fdcd4bc3": {
+        "uuid": "3552af81fdcd4bc3",
+        "title": "02_G030",
+        "schematic_uuid": "fb36cce94ab6aa03",
+        "zIndex": 2,
+        "source": "",
+        "version": "1792550716942",
+        "updateTime": 1792550716942
+      },
+      "f46a630bb8f1ae15": {
+        "uuid": "f46a630bb8f1ae15",
+        "title": "03_MOTOR",
+        "schematic_uuid": "fb36cce94ab6aa03",
+        "zIndex": 3,
+        "source": "",
+        "version": "1792550717618",
+        "updateTime": 1792550717618
+      },
+      "ba43ed1451ce3893": {
+        "uuid": "ba43ed1451ce3893",
+        "title": "04_IO",
+        "schematic_uuid": "fb36cce94ab6aa03",
+        "zIndex": 4,
+        "source": "",
+        "version": "1792550718287",
+        "updateTime": 1792550718287
+      }
+    },
+    "pcbs": {
+      "2f1e6364214059c0": {
+        "uuid": "2f1e6364214059c0",
+        "title": "PCB1",
+        "board": "773a60068cf76da8",
+        "parent_uuid": "",
+        "source": "",
+        "version": "1792550612843",
+        "updateTime": 1792550612843
+      }
+    },
+    "panels": {
+      "9fc9864bf5195de0": {
+        "uuid": "9fc9864bf5195de0",
+        "title": "Panel1",
+        "zIndex": null
+      }
+    },
+    "blockSymbols": {},
+    "owner": {
+      "uuid": "8470ff7b08204e4b91556aa49c3adf02"
+    },
+    "simSchematics": {},
+    "simulations": {}
+  },
+  "config": {
+    "defaultSheet": "99f9ad6a2e4a2ebb",
+    "settings": {
+      "UNIVERSAL": {
+        "dataType": "UNIVERSAL",
+        "data": {
+          "allowLibRename": true,
+          "defaultNetName": true,
+          "wireMultipleNet": true,
+          "netFlagCrossLayerConnection": true,
+          "netLabelCrossPageConnection": true,
+          "busGenerateNetClass": true,
+          "relevanceDisplayRow": "SINGLE",
+          "relevanceBelongSchPage": "NAME",
+          "relevanceLocation": "ZONE",
+          "multipartCrossLayer": true,
+          "nonElectronicAddIntoBom": false,
+          "nonElectronicUpdatePcb": false
+        }
+      }
+    }
+  }
+}
