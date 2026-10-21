@@ -1,4 +1,4 @@
-﻿# P0/P1 status after fifth-round review
+﻿# P0/P1 status after round 7 review
 
 Branch: `p0-g030-remediation`. Audit baseline: `abe8bc3e3f010765ddc304744eabf1a2dc9dec09`; earlier rounds: `6e78020`, `f93bf6b`, `5d7ef5a`, `2b874fc`, `e58a1cc`.
 No PCB was ordered, no Gerber was generated, no production-ready claim is made.
@@ -41,6 +41,10 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-32 | Actual EDA netlist export after RevB edit | `g030_export.net` corrected only provisionally | **GUI BLOCKED** | JLCEDA Pro opened and Q1/D1 visually checked; export dialog opened but Protel type could not be selected reliably; no GUI export produced; see `netlist_export_status.json` |
 | P0-33 | 5V power device decision | MT3608 remains marginal above 0.4A; load TBD | **PARTIAL** | `power_options.md`: split two MT3608 rails or replace with TPS61022; TPS61022 preferred, not yet in schematic |
 | P0-34 | J8 debug connector mismatch | Actual J8 is HDR1X5 2.54mm; BOM previously claimed 1.27mm pogo | **PARTIAL** | Proposed Tag-Connect TC2030 6-pad 1.27mm + TC2030-IDC; BOM marked DO NOT FAB; schematic symbol still placeholder |
+| P0-35 | LimeRC reference compatibility | Actual schematic/source now reviewed; AS01-ML01S, 25MHz, OV2640, XOR PP | **PARTIAL** | PP default inverted/disabled; E01C/AS01 equivalence, final firmware and CVBS compatibility BLOCKED |
+| P0-36 | 5m depth sensing absent | No pressure sensor in RevB; PA4/PA5 are not I2C | **BLOCKED** | Proposed I2C1 on PB6/PB7 + J10; MS5837-02BA needs 1.5-1.8bar characterization; no schematic change |
+| P0-37 | 5m buoy cable | Current design is 50cm/24AWG/JST-PH | **BLOCKED** | 18-20AWG power or separate IP68 connector, coax, TVS, strain relief, drop/ripple test required |
+| P0-38 | MX113H thermal/current | 1A cont at 25C, 0.4ohm, 220C/W; 1.5A peak; J2-J4 1A | **MEASUREMENT_REQUIRED** | Sealed-hull continuous current must be derated; three 1A motors not approved; connector upgrade TBD |
 
 ## P1
 
@@ -67,6 +71,8 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P1-19 | 5V converter selection | **PARTIAL** | TPS61022 preferred, target 1.5A at 3.0V; split-MT3608 fallback; actual schematic/BOM change not made; stall/VTX current TBD |
 | P1-20 | J8 1.27mm pogo implementation | **PARTIAL** | Tag-Connect TC2030 6-pad + TC2030-IDC proposed; actual J8 symbol/footprint still HDR1X5 |
 | P1-21 | Footprint/polarity audit | **PARTIAL** | Symbol pin maps checked; PCB pad numbering, D1 cathode, C1-C3 positive marking and connector mechanical pads still require layout inspection |
+| P1-22 | Round 7 reference audit | **PARTIAL** | LimeRC schematic/source reviewed; LimeMini hardware archive still BLOCKED |
+| P1-23 | Round 7 static regression | **PASS** | 18/18 existing and 10/10 new static tests; not ERC/DRC or physical test |
 
 ## Evidence
 

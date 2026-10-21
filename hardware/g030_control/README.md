@@ -59,6 +59,20 @@ The real RevB `01_POWER` page had Q1.1 on PWR_GATE and Q1.4 on VBAT, and D1.1 K 
 
 See `revb_q1_d1_fix.md`. JLCEDA Pro V4.1.78 was reopened and the page was visually checked: after screenshots are in `Shark_Sub_G030_RevB/01_POWER_after_q1_2026-10-21.png` and `01_POWER_after_d1_2026-10-21.png`. The GUI Protel export and full DRC log are still **BLOCKED**; do not claim the physical board is repaired.
 
+## Round 7 reviews
+
+- `reviews/round7_schematic_audit.md` - four-page audit and gap list.
+- `reviews/limemini_limerc_reference_audit.md` - actual LimeRC schematic/source evidence.
+- `reviews/round7_pin_net_matrix.csv` - 137-pin matrix.
+- `reviews/round7_power_review.md` - magnetic switch and 5V options.
+- `reviews/round7_thruster_review.md` - MX113H thermal/connector limits.
+- `reviews/round7_depth_control.md` - 5 m depth proposal; PB6/PB7, not PA4/PA5.
+- `reviews/round7_buoy_interface.md` - J7, PP polarity, 5 m cable and video.
+- `reviews/round7_eda_verification.json` - actual GUI/export/DRC status.
+- `reviews/round7_blockers.md` and `reviews/round7_next_actions.md`.
+
+The depth interface, J8 TC2030, TPS61022 and 5 m cable are **not** implemented in the actual RevB schematic.
+
 ## DRC
 
 `drc_result.json` records only an aggregate **138 warnings**:

@@ -1,6 +1,6 @@
 # PP link-loss behavior and G030 safety logic
 
-Status: **source review complete; hardware verification pending.**
+Status: **source + schematic review complete; hardware verification pending.**
 Source: `pingyun001/LimeRC`, commit `a9beb0102be529bc43736acc8ca2f508560c46d6` (2025-12-24), GPL-3.0 repository.
 This is evidence for the PP receiver behavior, not proof that a new F407 board or a different receiver build is compatible.
 
@@ -12,6 +12,8 @@ The relevant code is `SOFTWARE/LimeCam_Release/Agreement/agreement_hal.c`:
 - `AgreementOut_RunHandle()` sends a frame when `isNewPackLoaded` is set.
 - If no new packet arrives for more than **100 ms**, it sets channels 0-3 to **2048**, sends **one** neutral PP frame, and sets `isOffline = true`.
 - After that, it sends nothing until a new valid NRF packet arrives.
+
+At receiver boot, `nrfMessage.c` calls `AgreementOut_ChangeCodecTo(PP, true, false)`: the XOR control is set to invert and output is disabled until the receiver settings enable it. The GUI normally shows Normal/Inverted/Silent; the Shark chain must select **Normal TTL** and verify it.
 
 Therefore the current PP behavior is:
 
@@ -74,9 +76,9 @@ Each option needs a new schematic block, a defined off behavior, and a quiescent
 | Upstream source available | **AVAILABLE**: `pingyun001/LimeRC`, commit `a9beb0102be529bc43736acc8ca2f508560c46d6`, GPL-3.0 LICENSE |
 | Exact final source version compiles | **TBD** — build the exact version and record toolchain |
 | Third-party dependencies/license review | **TBD** — inventory each dependency |
-| Exact receiver RF chip/pin map | **BLOCKED** |
+| Receiver RF module | **VERIFIED AS AS01-ML01S**; F407 E01C equivalence **UNVERIFIED** |
 | HSE 24 vs 25 MHz | **BLOCKED** |
-| PP normal vs inverted level | **BLOCKED** |
+| PP normal vs inverted level | **VERIFIED source default inverted/disabled; final setting must be captured** |
 | Final firmware loss behavior | **TBD** — real UART capture required; source behavior is evidence, not hardware proof |
 | G030 500 ms timeout | **design requirement; firmware/test still TBD** |
 | F407/LimeRC layout compatibility | **BLOCKED**; this document does not unblock the buoy RF PCB |

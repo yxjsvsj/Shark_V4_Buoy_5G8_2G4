@@ -1,0 +1,73 @@
+{
+  "round": 7,
+  "baseline": "62098cf50e9f6f31fd8a4b299709aea62787db8d",
+  "date": "2026-10-21",
+  "gui": {
+    "software": "JLCEDA Pro V4.1.78",
+    "projectOpened": true,
+    "project": "hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3",
+    "pageNodesPresent": [
+      "01_POWER",
+      "02_G030",
+      "03_MOTOR",
+      "04_IO"
+    ],
+    "pageVisualChecks": [
+      "01_POWER",
+      "02_G030",
+      "04_IO"
+    ],
+    "q1": {
+      "status": "VISUAL_PASS",
+      "evidence": "Q1.1/2/3 VBAT; Q1.4 PWR_GATE; Q1.5-8 VMOTOR",
+      "screenshot": "Shark_Sub_G030_RevB/01_POWER_after_q1_2026-10-21.png"
+    },
+    "d1": {
+      "status": "VISUAL_PASS",
+      "evidence": "D1.1 K +5V; D1.2 A SW",
+      "screenshot": "Shark_Sub_G030_RevB/01_POWER_after_d1_2026-10-21.png"
+    },
+    "netlistExport": {
+      "status": "BLOCKED",
+      "reason": "Export dialog opened, but the Protel netlist-type selector could not be changed reliably through the available desktop automation. No file was exported by the GUI.",
+      "guiFileProduced": false
+    },
+    "ercDrc": {
+      "status": "BLOCKED",
+      "fullLogProduced": false,
+      "aggregateWarnings": 138,
+      "counts": {
+        "NETOBJECTONGRID": 137,
+        "CHECKFLOATPIN": 1
+      },
+      "pageDistribution": null,
+      "rawLog": null
+    }
+  },
+  "netlistEvidence": {
+    "provisionalFile": "Shark_Sub_G030_RevB/g030_export.net",
+    "provisional": true,
+    "semanticReport": "semantic_report.json",
+    "semanticResult": "PASS for Q1/D1 physical pins and CSV net match; NOT a GUI export",
+    "guiNetlist": null
+  },
+  "tests": {
+    "existingNegative": {
+      "file": "tests/negative_test_results.json",
+      "result": "18/18 PASS (static/semantic; not ERC)"
+    },
+    "round7Static": {
+      "file": "tests/round7_design_test_results.json",
+      "result": "10/10 PASS (static rules; not ERC)"
+    }
+  },
+  "notClaimed": [
+    "No GUI-exported netlist",
+    "No ERC pass",
+    "No DRC pass",
+    "No PCB footprint verification",
+    "No physical electrical test",
+    "No 5 m pressure test",
+    "No production readiness"
+  ]
+}

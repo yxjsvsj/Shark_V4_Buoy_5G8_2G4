@@ -16,15 +16,15 @@ SWCLK/BOOT0,PA14,25,AF0,SWCLK,SWCLK; BOOT0 option bit; no separate BOOT0 pin
 VDD/VDDA,VDD/VDDA,4,PWR,+3V3,Merged pin; 100nF + 4.7uF; canonical net +3V3
 VSS/VSSA,VSS/VSSA,5,PWR,GND,Merged pin
 NRST,NRST,6,RST,NRST,100nF to GND; connect to SWD NRST
-Spare,PA4,11,-,NC,Keep pad
-Spare,PA5,12,-,NC,Keep pad
+Spare,PA4,11,-,NC,Keep pad; NOT I2C (SPI1_NSS/SPI2_MOSI/TIM14_CH1)
+Spare,PA5,12,-,NC,Keep pad; NOT I2C (SPI1_SCK)
 Spare,PA12,23,-,NC,PA12[PA10]; unused
 Spare,PB2,17,-,NC,Keep pad
 Spare,PB3,27,-,NC,Keep pad
 Spare,PB4,28,-,NC,Keep pad
 Spare,PB5,29,-,NC,Keep pad
-Spare,PB6,30,-,NC,Keep pad
-Spare,PB7,31,-,NC,Keep pad
+Spare,PB6,30,-,NC,Keep pad; I2C1_SCL available; proposed Bar02 depth
+Spare,PB7,31,-,NC,Keep pad; I2C1_SDA available; proposed Bar02 depth
 Spare,PB8,32,-,NC,Keep pad
 Spare,PB9,1,-,NC,Keep pad
 Spare,PC6,20,-,NC,TIM3_CH1 alternative; unused

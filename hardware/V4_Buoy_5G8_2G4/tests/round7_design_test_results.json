@@ -1,0 +1,90 @@
+{
+  "ok": true,
+  "category": "STATIC_NETLIST_AND_PINOUT_RULES",
+  "note": "Static checks only; not GUI ERC/DRC, not footprint or physical test. I2C is a proposed PB6/PB7 interface, not present in RevB.",
+  "tests": [
+    {
+      "name": "baseline_static_rules",
+      "expected": "PASS",
+      "passed": true,
+      "errors": []
+    },
+    {
+      "name": "q1_gate_source_swap",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "Q1.1 must be VBAT",
+        "Q1.4 must be PWR_GATE"
+      ]
+    },
+    {
+      "name": "d1_anode_cathode_swap",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "D1.1 K must be +5V",
+        "D1.2 A must be SW"
+      ]
+    },
+    {
+      "name": "supply_voltage_wrong",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "U1.4 must be +3V3"
+      ]
+    },
+    {
+      "name": "mcu_pin_conflict",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "U1.9 also on BAT_SENSE (resource conflict)"
+      ]
+    },
+    {
+      "name": "vertical_motor_swap",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "U4.5 must be VERT_IN1",
+        "U4.6 must be VERT_IN2"
+      ]
+    },
+    {
+      "name": "j7_pp_telemetry_direction_swap",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "J7.5 must be PP_DOWN / buoy-to-shark",
+        "J7.6 must be TELEM_UP / shark-to-buoy"
+      ]
+    },
+    {
+      "name": "j8_swd_swap",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "J8.3 must be SWDIO",
+        "J8.4 must be SWCLK"
+      ]
+    },
+    {
+      "name": "u5_nc_missing",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "U5.6 is NC but connected to GND"
+      ]
+    },
+    {
+      "name": "i2c_on_pa4_rejected",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "PA4 must be marked NOT I2C"
+      ]
+    }
+  ]
+}

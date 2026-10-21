@@ -88,7 +88,7 @@ Notes:
 | J5 | JST-SH 3P | +5V, GND, JAW_SERVO |
 | J6 | JST-SH 3P | +5V, GND, CVBS_VIDEO |
 | J7 | JST-PH 6P (proposed) | 1 +5V, 2 GND_PWR (board GND), 3 CVBS_VIDEO, 4 GND_VIDEO (board GND), 5 PP_DOWN, 6 TELEM_UP |
-| J8 | 5 pogo | +3V3, GND, SWDIO, SWCLK, NRST |
+| J8 | HDR1X5 2.54mm placeholder | +3V3, GND, SWDIO, SWCLK, NRST; replace with Tag-Connect TC2030 6-pad 1.27mm pogo before layout |
 | J9 | JST-SH 2P | leak pad, GND |
 
 - J2-J4 are JST-SH 1A-class; if measured motor stall >1A, use JST-XH or solder pads.
@@ -148,4 +148,8 @@ Notes:
 - C1-C3 are **100uF 6.3V polymer tantalum 1206**, not 100uF/0805 X5R. C15/C16/C17 add LDO input and connector decoupling.
 - G030 schematic: `hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3`; four A3 pages, real library symbols, 45 components, 137 net stubs, 32 nets. Netlist matches CSV; DRC has 138 warnings (137 NETOBJECTONGRID + 1 unused-pin); PCB empty.
 - `check_netlist.py` results: 137 rows, 32 nets, 45 refs; six negative tests pass. This is **not** EDA ERC.
+- Round 7 adds no depth sensor to the real RevB schematic. Proposed I2C1 is **PB6/PB7**, not PA4/PA5 (PA4/PA5 have no I2C function on STM32G030). See `reviews/round7_depth_control.md`.
+- LimeRC receiver boots PP inverted/output-disabled; set it to normal TTL and capture the UART. LimeRC video is OV2640 digital, not CVBS; Shark J6/J7 CVBS is an independent chain.
+- A 5 m cable cannot use the 50 cm/24AWG/JST-PH power assumption. Use 18-20AWG power or a separate IP68 connector; exact type TBD.
+- MX113H is 1A continuous at 25C/0.4ohm/220C/W; sealed-hull continuous current must be derated, and J2-J4 JST-SH 1A connectors are not approved for 1.5A peaks.
 - Motor current, servo current/stall, protection current, MT3608 thermal, C1-C3 ripple, and board fit remain **BLOCKED/TBD** until measured.
