@@ -63,10 +63,10 @@ Notes:
 - Protected 1S pack with PCM, XT30 connector; J1 XT30.
 - Q1 **SiSS23DN-T1-GE3** P-MOS, PowerPAK 1212-8S: pin 1 gate, pins 2-4 source to VBAT, pins 5-8 drain to VMOTOR. R5 100k gate pull-up; SW1 reed to GND; C14 100nF gate-source. This replaces AON7403, which does not specify RDS(on) at VGS=-2.5V.
 - Q1 budget: 3x MX113H at 1A continuous = 3A, plus 5V rail input at 3.0V/85% = 1.96A -> **~4.96A continuous**; 3x 1.5A MX113H peak + 1.96A = **~6.46A peak**. SiSS23DN is 50A package-limited, 27A at TA=25C, and 6.3mohm max at VGS=-2.5V. At 6.5A and 1.4x hot RDS(on), P ~= 0.37W; with 63C/W steady-state RthJA, rise ~23C. Verify copper and temperature.
-- U5 **MT3608** SOT-23-6 is retained only as a **candidate**. At 3.0V input, 85% efficiency and 40C ambient, its calculated TJ is about 128C at 5V/0.4A, **199C at 0.72A** and **261C at 1A**, using the datasheet 250C/W thetaJA. The package PD is exceeded at 0.72A. **The 5V/0.72A and 5V/1A cases are thermally rejected.**
-- MT3608 parts: L1 **Bourns SRP6060FA-220M** 22uH, 6.6x6.4mm, Isat 5.6A, Irms 3.8A, DCR 55mohm; D1 SS34; C7/C8 22uF 25V 0805 X5R; R1 73.2k / R2 10k.
-- 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input. See `power_budget.md` for the full table.
-- Servo stall is **TBD** and not assumed to be 0.2A. With 0.52A of other load, even 0.5A servo current exceeds the 1A boost; the 0.72A nominal case already fails MT3608 thermal. **Do not mark the 5V rail capable.** Resize/split the 5V source or reduce the load after measuring the actual servo.
+- U5 **MT3608** SOT-23-6 is retained only as a **candidate and is BLOCKED**. The corrected loss split (SS34, L1 DCR/core, MT3608 conduction/switching/gate/quiescent) gives MT3608 TJ roughly 63-86C at 0.4A, 83-129C at 0.72A, and **106-180C at 1A** (40C ambient, 250C/W). The 1A max case exceeds the junction limit; the typical case is about 106C. This is an uncertainty, not a proven pass or fail.
+- MT3608 parts: L1 **Bourns SRP6060FA-220M** 22uH, 6.6x6.4mm, Isat 5.6A, Irms 3.8A, DCR 55mohm; D1 SS34; C7/C8 22uF 25V 0805 X5R; R1 73.2k / R2 10k. See `power_budget.md` for loss allocation and sensitivity.
+- 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input. The 85% figure is optimistic at 1A; measure efficiency.
+- Servo stall is **TBD** and not assumed to be 0.2A. With 0.52A of other load, 0.5A servo current already exceeds 1A. **Do not mark the 5V rail capable or failed until the load/thermal test is run.** Resize/split the source or reduce the load after measuring.
 - C1/C2/C3: **KEMET T520A107M006ATE070**, 100uF 6.3V polymer tantalum, 1206/3216, 70mohm ESR. This replaces the unreliable 100uF/0805 X5R assumption. Ripple rating is 1.035A at 45C, 724.5mA at 85C; verify 20kHz motor ripple and case temperature.
 - C15 adds 1uF at the TLV70033 input; C16/C17 add 100nF at the camera and buoy connectors.
 - U6 **TLV70033** 3.3V **200mA max** (not 300mA); G030 load is ~20mA; C9/C15 1uF and C10/C11 decoupling.
@@ -137,10 +137,10 @@ Notes:
 
 ## 9. Status
 
-- Third-round review adds PP link-loss evidence, MT3608 thermal rejection, polymer motor capacitors, J7 dimensional model, and a candidate `.esch2`.
+- Third-round review adds PP link-loss evidence, corrected MT3608 loss/TJ analysis, polymer motor capacitors, separate J7 models, and candidate schematic checks.
 - Q1 is **SiSS23DN-T1-GE3** with a published 6.3mohm max at VGS=-2.5V; AON7403 is not approved for 1S gate drive.
 - J7 is proposed as **JST-PH 6P**; the series change is pending confirmation. Cable OD is **5.0-5.5mm**, not 3mm; top-entry plus bend is tight.
-- **MT3608 is not approved for 0.72A or 1A at 3.0V** because of package thermal limits. The 5V architecture is BLOCKED pending a larger boost/split rail/load reduction.
+- **MT3608 is BLOCKED pending measured efficiency/case temperature**; corrected chip-loss analysis is 63-86C at 0.4A, 83-129C at 0.72A and 106-180C at 1A. The 5V architecture is not approved or declared impossible.
 - L1 is now **SRP6060FA-220M** (22uH, Isat 5.6A, Irms 3.8A); the previous 6x6 1.8A part is insufficient.
 - C1-C3 are **100uF 6.3V polymer tantalum 1206**, not 100uF/0805 X5R. C15/C16/C17 add LDO input and connector decoupling.
 - G030 schematic: `hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3`; four A3 pages, real library symbols, 45 components, 137 net stubs, 32 nets. Netlist matches CSV; DRC has 138 warnings (137 NETOBJECTONGRID + 1 unused-pin); PCB empty.

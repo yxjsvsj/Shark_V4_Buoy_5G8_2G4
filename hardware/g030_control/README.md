@@ -17,6 +17,26 @@ Project tree:
   - `04_IO`
 - PCB: `PCB1` (empty by design)
 
+## Legacy generated candidate (audit fixture)
+
+`build_schematic_candidate.py` generates `Shark_Sub_G030.eprj3` + `sch/Schematic1/Shark_Sub_G030.esch2` for the P0 geometry/metadata audit. It is **not** the primary project:
+
+- 45 project-local generic symbols, 137 net stubs, 32 nets.
+- Geometry check: 0 conflicts; report `geometry_report.json`.
+- Metadata check: board/schematic/page UUIDs and `Schematic1.ecfg` pass.
+- Footprint binding: **BLOCKED**; generic symbols are not real library bindings.
+- GUI: not opened; no ERC.
+
+Run:
+
+```powershell
+python hardware/g030_control/build_schematic_candidate.py
+python hardware/g030_control/check_schematic_geometry.py
+python hardware/V4_Buoy_5G8_2G4/tests/run_negative_tests.py
+```
+
+The four-page RevB project below is the real-library schematic; the legacy candidate is only for the requested generator/geometry/metadata checks.
+
 ## What is real
 
 - 45 components placed from the JLCEDA system library with real symbols, footprints, LCSC part numbers and 3D model links.

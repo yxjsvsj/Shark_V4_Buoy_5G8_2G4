@@ -1,121 +1,135 @@
-# G030 power budget and component review
+# G030 power budget and MT3608 loss analysis
 
-Status: **calculated only; no hardware measurement yet.**
-Do not mark the 5V rail, Q1, L1, C1-C3 or servo supply as verified until the tests in this document are run.
+Status: **CALCULATED / NOT VALIDATED / MT3608 REMAINS BLOCKED.**
+No 5V load test has been run. Do not mark the 5V rail passed or failed from this document alone.
 
-## 1. Assumptions
+## 1. Assumptions and what changed
 
-- Battery: protected 1S, 3.0 V minimum, 4.2 V maximum.
-- Boost: MT3608, 1.2 MHz, 22 uH, 5.0 V output.
-- Efficiency used for the table: **85%** at 3.0 V input. This is a planning assumption, not a measured value.
-- MT3608 datasheet: `thetaJA = 250 C/W`, `PD(max) = 0.6 W`, `TJ(max) = 160 C` (thermal shutdown typ 155 C).
-- Ambient used for the junction estimate: **40 C** inside the sealed shark. A 25 C estimate is also shown for reference.
-- Duty cycle `D = 1 - Vin/Vout = 0.4`.
-- Inductor ripple `dIL = Vin * D / (f * L) = 3.0 * 0.4 / (1.2e6 * 22e-6) = 0.045 A`.
+The earlier version treated **all** converter loss as MT3608 chip loss. That was wrong. The converter loss is split here into:
 
-## 2. MT3608 at 3.0 V input
+- SS34 diode conduction loss,
+- L1 winding loss,
+- estimated L1 core loss,
+- MT3608 internal MOSFET conduction loss,
+- MT3608 switching loss,
+- gate-drive and quiescent loss.
 
-| 5 V load | Pout | Pin at 85% | Input current | Inductor peak | Loss in MT3608 | TJ at 40 C ambient | TJ at 25 C ambient |
-|---:|---:|---:|---:|---:|---:|---:|---:|
-| 0.40 A | 2.00 W | 2.35 W | 0.784 A | 0.807 A | 0.353 W | **128 C** | 113 C |
-| 0.72 A | 3.60 W | 4.24 W | 1.412 A | 1.434 A | 0.635 W | **199 C** | 184 C |
-| 1.00 A | 5.00 W | 5.88 W | 1.961 A | 1.984 A | 0.882 W | **261 C** | 246 C |
+The MT3608 junction temperature is calculated only from the losses physically attributed to the MT3608 package.
 
-At 40 C ambient, the maximum loss that keeps `TJ <= 160 C` is:
+Inputs:
 
-`(160 - 40) / 250 = 0.48 W`
+- Vin = 3.0 V (minimum 1S), Vout = 5.0 V.
+- fsw = 1.2 MHz, L = 22 uH, D = 1 - Vin/Vout = 0.4.
+- Inductor ripple `dIL = Vin*D/(fsw*L) = 0.045 A`.
+- L1: Bourns SRP6060FA-220M, DCR = 55 mohm max.
+- D1: SS34, Vf assumed 0.40 V at 0.4 A, 0.45 V at 0.72 A, 0.50 V at 1 A; sensitivity 0.35-0.55 V.
+- MT3608 switch: RDS(on) 80 mohm typ, 150 mohm max at 25 C; hot multiplier 1.4 for the max case.
+- Switch rise+fall time: 20 ns typ, 60 ns max (datasheet does not provide this directly).
+- Gate charge estimate: 5-15 nC (not a datasheet guarantee).
+- Quiescent/control: 1.6-2.2 mA at Vin.
+- MT3608 thetaJA = 250 C/W (datasheet, JEDEC-like board). This is not a guarantee for the sealed shark PCB.
+- Ambient used for junction estimate: 40 C; sealed-case sensitivity also shown.
 
-At 85% efficiency, that corresponds to:
+## 2. Bottom-up loss calculation at 3.0 V input
 
-`Pout = 0.48 * 0.85 / 0.15 = 2.72 W`, or about **0.54 A at 5 V**.
+### 2.1 Switch current
 
-**Conclusion:** the MT3608 SOT-23-6 is **not thermally viable at 0.72 A or 1.0 A from 3.0 V**, even before adding margin for a sealed enclosure. The 0.40 A case is the only table point below the absolute junction limit, and it still reaches about 128 C at 40 C ambient. The 0.72 A nominal load is already above the package dissipation rating (0.635 W > 0.6 W).
+Boost switch RMS current is approximated by:
 
-This is a **P0 blocker** for the current 5 V architecture. Options, to be chosen before layout:
+`Isw_rms = Iin * sqrt(D)`
 
-1. Replace MT3608 with a larger boost with a real thermal pad and specified efficiency at 3 V/1 A (not yet selected).
-2. Reduce the 5 V load to a measured maximum below about 0.4 A and move the servo to a separate supply.
-3. Use a boost module with a much larger copper area and verify case temperature; a bare SOT-23-6 is not enough.
-4. Use a 2S battery and a different power tree; this is an architecture change.
+| Load | Iin at 85% | Isw_rms |
+|---:|---:|---:|
+| 0.40 A | 0.784 A | 0.496 A |
+| 0.72 A | 1.412 A | 0.893 A |
+| 1.00 A | 1.961 A | 1.240 A |
 
-Do not claim “MT3608 5V/1A” as a completed design.
+### 2.2 Loss table
 
-## 3. Inductor
+| Load | Pout | Diode loss | L1 DCR loss | L1 core loss (est.) | MT3608 conduction typ/max | MT3608 switching typ/max | Gate + quiescent | MT3608 total typ/max | Converter total typ/max | Efficiency typ/max |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0.40 A | 2.00 W | 0.160 W | 0.034 W | 0.040 W | 0.020 / 0.052 W | 0.047 / 0.071 W | 0.024 W | **0.091 / 0.183 W** | **0.325 / 0.417 W** | **86.0 / 82.7%** |
+| 0.72 A | 3.60 W | 0.324 W | 0.110 W | 0.060 W | 0.064 / 0.168 W | 0.085 / 0.127 W | 0.024 W | **0.173 / 0.355 W** | **0.667 / 0.849 W** | **84.4 / 80.9%** |
+| 1.00 A | 5.00 W | 0.500 W | 0.211 W | 0.080 W | 0.123 / 0.323 W | 0.118 / 0.177 W | 0.024 W | **0.265 / 0.560 W** | **1.056 / 1.351 W** | **82.6 / 78.7%** |
 
-Required at 3.0 V/1 A:
+The core-loss number is an **estimate**, not a vendor core-loss calculation: the SRP6060FA-220M core-loss curve is not in the basic datasheet. Treat 0.04/0.06/0.08 W as a placeholder and measure inductor temperature.
 
-- Average input current: 1.96 A.
-- Peak: about 1.98 A with 22 uH at 1.2 MHz.
-- Recommended part: **Bourns SRP6060FA-220M**, 22 uH, 6.6 x 6.4 mm, DCR 55 mohm max, Isat 5.6 A, Irms 3.8 A.
-- LCSC `C2045802` was out of stock at review time; verify Mouser/DigiKey/LCSC before ordering.
-- A 6 x 6 mm 22 uH part with only 1.8 A rating / 2.2 A saturation (for example SWPA6045S220MT) is **not sufficient** for the 1 A case.
+### 2.3 MT3608 junction estimate
 
-Even with the correct inductor, the MT3608 package thermal limit above still applies.
+Using only the MT3608-attributed loss:
 
-## 4. Diode and capacitors
+`TJ = Tamb + Pchip * thetaJA`
 
-- D1 SS34: 3 A average, 40 V; output current is 0.4-1.0 A. Verify temperature at 1 A; the diode loss is not included separately in the 85% assumption.
-- C7/C8: **22 uF, 25 V, 0805 X5R**, `CL21A226MAYNNNE` (`C602037`). The 25 V rating reduces DC-bias loss at 5 V; effective capacitance is still lower than nominal and must be measured.
-- C9: 1 uF, 25 V, 0603 X7R, `CL10B105KA8NNNC` (`C29936`) at the TLV70033 output.
-- C15: same 1 uF part at the TLV70033 input.
-- C16/C17: 100 nF, 50 V, 0402 X7R, `GRM155R71H104KE14D` (`C77020`) at the camera and buoy connectors.
-- C10/C12/C13/C14/C4-C6: same 100 nF part.
+| Load | Pchip typ/max | TJ rise typ/max at 250 C/W | TJ at 40 C | TJ at 60 C |
+|---:|---:|---:|---:|---:|
+| 0.40 A | 0.091 / 0.183 W | 23 / 46 C | 63 / 86 C | 83 / 106 C |
+| 0.72 A | 0.173 / 0.355 W | 43 / 89 C | 83 / 129 C | 103 / 149 C |
+| 1.00 A | 0.265 / 0.560 W | 66 / 140 C | **106 / 180 C** | **126 / 200 C** |
 
-## 5. C1/C2/C3 motor decoupling
+At 1 A the **maximum-loss** case exceeds the 150 C junction limit; the typical-loss case is about 106 C. This is a real uncertainty, not a proven failure. At 0.72 A the max case is close to the limit. At 0.4 A the estimate is below the limit but still depends on copper and ambient.
 
-The original “100 uF / 0805” requirement is not credible as a guaranteed 100 uF at 4.2 V. A 100 uF 0805 X5R such as `GRM21BR60J107ME15L` is a real part, but its effective capacitance falls sharply with DC bias; the marked value must not be used as the effective value.
+## 3. Top-down cross-check
 
-Selected replacement:
+If the whole converter is assumed to be 85% efficient, total loss is:
 
-- **KEMET T520A107M006ATE070** (`C561794`), 100 uF, 6.3 V polymer tantalum, 1206/3216, ESR 70 mohm max.
-- Ripple current: 1.035 A rms at 45 C, 724.5 mA rms at 85 C, 258.75 mA at 105 C (100 kHz).
-- Capacitance is stable with DC bias, unlike the 0805 X5R.
-- Add the existing 100 nF C4/C5/C6 in parallel.
-- The 6.3 V rating gives 1.5x margin over 4.2 V. Do not operate above 4.2 V.
-- Estimate motor ripple current and verify capacitor case temperature at 20 kHz PWM; the 100 kHz rating is a reference, not a 20 kHz guarantee.
+| Load | Total loss at 85% | Residual after diode + L1 DCR + core | Comment |
+|---:|---:|---:|---|
+| 0.40 A | 0.353 W | 0.119 W | plausible |
+| 0.72 A | 0.635 W | 0.141 W | lower than bottom-up chip estimate |
+| 1.00 A | 0.882 W | 0.091 W | **not self-consistent** with bottom-up 0.265 W typical |
 
-If the 1206 polymer part is not acceptable mechanically, the alternative is a 1206/1210 100 uF X5R with measured effective capacitance, or two smaller ceramics in parallel. Do not keep an 0805 100 uF part without a bias measurement.
+The 85% assumption is therefore optimistic at 1 A. The bottom-up estimate implies roughly 79-83% at 1 A, 81-84% at 0.72 A and 83-86% at 0.4 A. Measure efficiency rather than assuming 85%.
+
+## 4. Sensitivity
+
+| Parameter | Range | Effect |
+|---|---|---|
+| SS34 Vf | 0.35-0.55 V | 0.14-0.55 W diode loss; at 1 A a 0.1 V change is 0.1 W |
+| L1 DCR | 55-116 mohm | 0.03-0.45 W at 1.4-2.0 A |
+| Core loss | 0.03-0.15 W | changes converter efficiency and local heating |
+| MT3608 RDS(on) | 80-150 mohm, x1.4 hot | chip conduction 0.05-0.32 W at 1 A |
+| Switching time | 20-60 ns total | chip switching 0.05-0.18 W at 1 A |
+| Gate charge | 5-15 nC | 0.018-0.054 W |
+| thetaJA | 150-250 C/W with copper | TJ can change by tens of degrees |
+| Ambient | 40-60 C sealed | TJ rises directly with ambient |
+
+## 5. Conclusion
+
+- **MT3608 is BLOCKED, not approved and not declared impossible.** The corrected analysis no longer supports the earlier 128/199/261 C “chip junction” numbers; those were total-converter losses.
+- The corrected estimate is roughly 63-86 C at 0.4 A, 83-129 C at 0.72 A, and 106-180 C at 1 A (40 C ambient, 250 C/W), with the 1 A maximum case over the junction limit.
+- The result depends strongly on RDS(on) hot, switching time, inductor/core loss, copper area, sealed-case ambient, and actual efficiency.
+- Required before a decision: 3.0 V input, 0.4/0.72/1.0 A load; measure Vin, Iin, Vout, efficiency, MT3608 case temperature, L1 temperature, SS34 temperature, and 5 V ripple in the sealed enclosure. Do not use typical curves as guaranteed whole-product values.
+- If the measured 1 A case is too hot, select a larger boost with a datasheet thermal pad/thetaJA and specified efficiency; no alternative is approved in this document yet.
 
 ## 6. Servo and 5 V headroom
 
-The servo model and stall current are not fixed. The current nominal budget is:
+The servo model and stall current are still unspecified. Other 5 V load is camera 0.10 A + buoy 0.40 A + LDO 0.02 A = 0.52 A.
 
-`camera 0.10 + buoy 0.40 + LDO 0.02 = 0.52 A` before the servo.
+| Servo current | Total 5 V | Result |
+|---:|---:|---|
+| 0.20 A running | 0.72 A | at the uncertain MT3608 0.72 A point |
+| 0.50 A | 1.02 A | exceeds 1 A rating |
+| 1.00 A | 1.52 A | exceeds 1 A |
+| 1.50 A | 2.02 A | exceeds 1 A |
 
-| Servo current | Total 5 V | MT3608 1 A rating | MT3608 thermal at 3.0 V/40 C |
-|---:|---:|---|---|
-| 0.20 A running | 0.72 A | within 1 A | **fails** (~199 C) |
-| 0.50 A | 1.02 A | exceeds | fails |
-| 1.00 A | 1.52 A | exceeds | fails |
-| 1.50 A | 2.02 A | exceeds | fails |
+Do not mark the 5V rail capable. Measure servo stall and transient; use a larger boost, split rail, or load limit if needed.
 
-**Do not mark the 5V supply capable.** The servo stall current must be measured, and the 5V source must be resized or split before the schematic is frozen. The camera/buoy/servo loads also need a startup/transient test.
+## 7. Other loads
 
-## 7. Q1 high-temperature conduction
+- C1-C3: 100 uF 6.3 V polymer tantalum 1206 (T520A107M006ATE070); stable at 4.2 V, but ripple/temperature at 20 kHz must be measured.
+- Q1: SiSS23DN, 6.3 mohm max at -2.5 V; ~0.37 W at 6.5 A peak with 1.4x hot RDS(on); copper/thermal not verified.
+- L1: SRP6060FA-220M, 22 uH, Isat 5.6 A, Irms 3.8 A, DCR 55 mohm.
+- D1: SS34, 3 A/40 V.
+- C7/C8: 22 uF 25 V 0805 X5R; effective capacitance at 5 V must be measured.
+- TLV70033: 1 uF input C15, 1 uF output C9.
 
-- Q1: SiSS23DN-T1-GE3, 6.3 mohm max at VGS = -2.5 V.
-- Budget with all three MX113H at 1 A and 5V/1A input: 4.96 A continuous; 6.46 A peak.
-- Use a 1.4x RDS(on) multiplier at high junction temperature as a conservative estimate.
-- At 6.5 A: `P = 6.5^2 * 0.0063 * 1.4 = 0.372 W`.
-- With the datasheet steady-state `RthJA = 63 C/W`: rise about 23 C; at 40 C ambient, TJ about 63 C. With a poorer 100 C/W layout, TJ about 77 C.
-- This is acceptable only with short/widened VBAT/VMOTOR copper and thermal vias under the PowerPAK 1212-8S exposed drain pad. The land pattern must be created/verified in JLCEDA; the schematic candidate does not prove it.
+## 8. Required measurements
 
-## 8. LDO and local decoupling
+1. MT3608 case/ambient and 5V ripple at 3.0 V, 0.4/0.72/1.0 A, sealed enclosure.
+2. Efficiency at each point; inductor and diode temperatures.
+3. Q1 temperature at 6.5 A peak.
+4. C1-C3 ripple/case temperature at 20 kHz.
+5. Servo stall/startup and 5V transient.
+6. J7 voltage drop and connector temperature.
 
-- TLV70033 requires a 1 uF ceramic output capacitor; C9 is 1 uF.
-- C15 adds 1 uF at the input. C10 100 nF and C11 4.7 uF are at the G030 VDD/VDDA pin.
-- C16/C17 add 100 nF at the camera and buoy connectors.
-- The buoy-end 100 uF + 100 nF and optional ferrite/LC filter remain off-board and must be placed at the buoy cable entry.
-- Keep the boost inductor/diode and motor PWM away from the CVBS path; use a separate video return and shield.
-
-## 9. Required measurements
-
-1. MT3608 case temperature and 5 V ripple at 3.0 V input, 0.4/0.72/1.0 A, in the sealed enclosure.
-2. L1 temperature and saturation check at 3.0 V/1 A; current waveform if possible.
-3. Q1 case temperature at 6.5 A peak and at the measured motor running current.
-4. C1-C3 case temperature/ripple at 20 kHz; effective capacitance if a ceramic alternative is used.
-5. Servo model, running current, startup peak and stall current; 5 V transient at the servo connector.
-6. J7 voltage drop and connector temperature at the measured 5 V load.
-7. Camera/buoy input ripple with the cable and filters installed.
-
-Until these are recorded, the power tree is **calculated, not validated**.
+Until these are recorded, the power tree is **calculated, BLOCKED**.

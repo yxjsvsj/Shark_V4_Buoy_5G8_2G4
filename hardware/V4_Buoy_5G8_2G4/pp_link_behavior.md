@@ -69,8 +69,17 @@ Each option needs a new schematic block, a defined off behavior, and a quiescent
 
 ## 5. Status
 
-- PP source behavior: **confirmed from source**.
-- 500 ms G030 timeout: **design requirement; firmware/test still TBD**.
-- Exact production receiver firmware: **verify by UART capture**.
-- F407/LimeRC hardware compatibility: **still BLOCKED**; this document does not unblock the buoy RF PCB.
-- Magnet switch: **hold-to-run confirmed**; toggle latch **not designed**.
+| Item | Status |
+|---|---|
+| Upstream source available | **AVAILABLE**: `pingyun001/LimeRC`, commit `a9beb0102be529bc43736acc8ca2f508560c46d6`, GPL-3.0 LICENSE |
+| Exact final source version compiles | **TBD** — build the exact version and record toolchain |
+| Third-party dependencies/license review | **TBD** — inventory each dependency |
+| Exact receiver RF chip/pin map | **BLOCKED** |
+| HSE 24 vs 25 MHz | **BLOCKED** |
+| PP normal vs inverted level | **BLOCKED** |
+| Final firmware loss behavior | **TBD** — real UART capture required; source behavior is evidence, not hardware proof |
+| G030 500 ms timeout | **design requirement; firmware/test still TBD** |
+| F407/LimeRC layout compatibility | **BLOCKED**; this document does not unblock the buoy RF PCB |
+| Magnet switch | **hold-to-run confirmed**; toggle latch **not designed** |
+
+The upstream source is not “completely missing.” It is public and reviewable. That still does not authorize treating the F407 buoy board as ready to prototype.

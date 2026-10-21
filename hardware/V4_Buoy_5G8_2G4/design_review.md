@@ -37,7 +37,7 @@ Control: LimeRC remote -> buoy 2.4G -> `pp` -> 50 cm cable -> G030.
 - 5V -> 3.3V LDO, or a dedicated 3.3V buck-boost for G030/F407.
 - Do not stack a second boost without checking the original LimeMini power design.
 - Budget: MT3608 +5V/1A at 3.0V/85% is ~1.96A input; L1 is SRP6060FA-220M (22uH, 5.6A Isat, 3.8A Irms). TLV70033 is 200mA max.
-- **MT3608 thermal rejection:** with 250C/W thetaJA, TJ is ~199C at 5V/0.72A and ~261C at 1A in 40C ambient. The package also exceeds 0.6W PD at 0.72A. The 5V architecture is BLOCKED until the boost is replaced or the load is reduced/split. See `power_budget.md`.
+- **MT3608 corrected loss analysis:** total converter loss is split into SS34, L1 DCR/core and MT3608 conduction/switching/gate/quiescent loss. The chip TJ is roughly 63-86C at 0.4A, 83-129C at 0.72A and 106-180C at 1A (40C ambient, 250C/W). The 1A max case exceeds the limit; 0.72A is marginal. MT3608 remains **BLOCKED** until measured; do not declare a pass or a guaranteed failure. See `power_budget.md`.
 - Q1: SiSS23DN-T1-GE3, 20V/50A, 6.3mohm max at VGS=-2.5V, PowerPAK 1212-8S. AON7403 has no published -2.5V RDS(on) and is not approved for 1S.
 - Servo stall current is not measured; do not assume 0.2A. With 0.52A other load, 0.5A servo already exceeds the 1A boost.
 - C1-C3 are 100uF 6.3V polymer tantalum 1206; the 100uF/0805 X5R assumption is rejected because of DC-bias loss.

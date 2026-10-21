@@ -1,14 +1,32 @@
 {
   "ok": true,
-  "generatedAt": "2026-10-20T10:11:12.393012+00:00",
-  "checker": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\V4_Buoy_5G8_2G4\\check_netlist.py",
-  "note": "These are structural negative tests, not EDA ERC.",
+  "generatedAt": "2026-10-21T03:08:28.526628+00:00",
+  "categories": {
+    "STRUCTURAL": "PASS",
+    "GEOMETRY": "PASS",
+    "METADATA": "PASS",
+    "FOOTPRINT": "BLOCKED",
+    "ERC": "NOT_RUN"
+  },
+  "note": "Structural, geometry and metadata tests; not EDA ERC. Footprint is explicitly BLOCKED.",
   "tests": [
     {
+      "name": "baseline_netlist_pass",
+      "category": "STRUCTURAL",
+      "expected": "PASS",
+      "passed": true,
+      "exitCode": 0,
+      "parseError": null,
+      "errors": []
+    },
+    {
       "name": "short_led",
+      "category": "STRUCTURAL",
       "mutation": "R7.2 moved onto LED_GPIO (shorted series resistor)",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "net 'LED_A' has fewer than two nodes",
         "expected R7.2 on 'LED_A', found 'LED_GPIO'",
@@ -18,9 +36,12 @@
     },
     {
       "name": "swap_q1_gate_source",
+      "category": "STRUCTURAL",
       "mutation": "Q1 gate and source pins exchanged",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "expected Q1.1 on 'PWR_GATE', found 'VBAT'",
         "expected Q1.2 on 'VBAT', found 'PWR_GATE'"
@@ -28,9 +49,12 @@
     },
     {
       "name": "swap_j7_video_power",
+      "category": "STRUCTURAL",
       "mutation": "J7 pin1/pin3 nets exchanged",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "expected J7.3 on 'CVBS_VIDEO', found '+5V'",
         "expected J7.1 on '+5V', found 'CVBS_VIDEO'"
@@ -38,30 +62,191 @@
     },
     {
       "name": "mcu_pin_two_nets",
+      "category": "STRUCTURAL",
       "mutation": "U1.15 added to +3V3 while still on LED_GPIO",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "U1.15 on two nets: LED_GPIO, +3V3"
       ]
     },
     {
       "name": "missing_bom_part",
+      "category": "STRUCTURAL",
       "mutation": "C15 removed from BOM",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "netlist ref C15 is missing from BOM"
       ]
     },
     {
       "name": "change_motor_power",
+      "category": "STRUCTURAL",
       "mutation": "U2.4 moved from VMOTOR to VBAT",
-      "rejected": true,
+      "expected": "REJECT",
+      "passed": true,
       "exitCode": 1,
+      "parseError": null,
       "errors": [
         "expected U2.4 on 'VMOTOR', found 'VBAT'"
       ]
+    },
+    {
+      "name": "baseline_geometry_pass",
+      "category": "GEOMETRY",
+      "expected": "PASS",
+      "passed": true,
+      "conflicts": []
+    },
+    {
+      "name": "geometry_page_parse",
+      "category": "GEOMETRY",
+      "expected": "PASS",
+      "passed": true,
+      "segments": 137,
+      "nets": 32,
+      "conflicts": []
+    },
+    {
+      "name": "geometry_different_net_overlap",
+      "category": "GEOMETRY",
+      "expected": "REJECT",
+      "passed": true,
+      "conflicts": [
+        {
+          "type": "overlap",
+          "nets": [
+            "VMOTOR",
+            "GND"
+          ],
+          "segments": [
+            [
+              "Q1",
+              5,
+              3425,
+              2730.0,
+              3455,
+              2730.0
+            ],
+            [
+              "J1",
+              2,
+              3430,
+              2730.0,
+              3460,
+              2730.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "geometry_different_net_endpoint",
+      "category": "GEOMETRY",
+      "expected": "REJECT",
+      "passed": true,
+      "conflicts": [
+        {
+          "type": "endpoint",
+          "nets": [
+            "VBAT",
+            "PWR_GATE"
+          ],
+          "segments": [
+            [
+              "J1",
+              1,
+              2298,
+              1180,
+              2268,
+              1180
+            ],
+            [
+              "Q1",
+              1,
+              2268,
+              1180,
+              3245,
+              2730.0
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "name": "geometry_pin_contact",
+      "category": "GEOMETRY",
+      "expected": "REJECT",
+      "passed": true,
+      "conflicts": [
+        {
+          "type": "endpoint",
+          "nets": [
+            "VMOTOR",
+            "GND"
+          ],
+          "segments": [
+            [
+              "Q1",
+              5,
+              3425,
+              2730.0,
+              230,
+              2770.0
+            ],
+            [
+              "U1",
+              5,
+              230,
+              2770.0,
+              200,
+              2770.0
+            ]
+          ]
+        },
+        {
+          "type": "pin_contact",
+          "nets": [
+            "VMOTOR",
+            "GND"
+          ],
+          "pin": [
+            "U1",
+            5,
+            230,
+            2770.0
+          ],
+          "segment": [
+            "Q1",
+            5,
+            3425,
+            2730.0,
+            230,
+            2770.0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "metadata_uuid_mismatch",
+      "category": "METADATA",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "ecfg board deadbeefdeadbeef != a1b2c3d4e5f60718"
+      ]
+    },
+    {
+      "name": "footprint_binding_status",
+      "category": "FOOTPRINT",
+      "expected": "BLOCKED",
+      "passed": true,
+      "reported": "BLOCKED"
     }
   ]
 }

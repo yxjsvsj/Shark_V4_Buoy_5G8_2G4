@@ -3,7 +3,7 @@ U1,1,STM32G030K8T6,LQFP32,64KB flash 8KB RAM; VDD/VDDA pin4; VSS/VSSA pin5
 U2,1,MX113H,SOT-23-6,Main motor H-bridge
 U3,1,MX113H,SOT-23-6,Lateral motor H-bridge
 U4,1,MX113H,SOT-23-6,Vertical motor H-bridge
-U5,1,MT3608,SOT-23-6,5V boost candidate only; thermal budget fails at 0.72A/1A from 3.0V; do not approve
+U5,1,MT3608,SOT-23-6,5V boost candidate only; corrected chip TJ 63-86C/83-129C/106-180C at 0.4/0.72/1A; BLOCKED pending measured efficiency and case temperature
 U6,1,TLV70033,SOT-23-5,3.3V 200mA max; 1uF input C15 and 1uF output C9
 Q1,1,SiSS23DN-T1-GE3,PowerPAK 1212-8S,P-MOS 20V/50A; RDS(on) 6.3mohm max at VGS=-2.5V; pin1 gate pins2-4 source pins5-8 drain; replaces AON7403; footprint verify
 L1,1,SRP6060FA-220M,6.6x6.4mm,22uH; Isat 5.6A; Irms 3.8A; DCR 55mohm; LCSC C2045802 OOS; verify distributor stock

@@ -11,19 +11,22 @@ Status: **BLOCKED / minimum-system and interface draft only. RF nets are not fro
 
 These are **candidates**, not verified against the actual LimeCam receiver hardware.
 
-A public LimeRC source review (`pp_link_behavior.md`) confirms the PP link-loss behavior of that source tree, but it does **not** prove the exact receiver hardware, firmware build, RF module, clock or pairing. F407 remains BLOCKED.
+The upstream source is now **available**, not “completely missing”: `pingyun001/LimeRC` is public with a GPL-3.0 LICENSE, and the source tree contains the 100ms timeout/one-neutral-frame logic in `agreement_hal.c`. This does **not** prove that the final production receiver build compiles, that the RF module/pins match, that the clock is 24 or 25MHz, that PP polarity is normal, or that a new F407 board can run it. The final firmware link-loss behavior still needs a real UART capture. F407 remains BLOCKED for layout.
 
 ## Firmware dependencies
 
 | Dependency | Status | Action |
 |---|---|---|
-| Legally usable, compilable LimeRC receiver source | BLOCKED | Ask author/license; do not rely on HEX alone |
+| Upstream LimeRC source available | **AVAILABLE** | `pingyun001/LimeRC`, commit `a9beb0102be529bc43736acc8ca2f508560c46d6`, GPL-3.0 LICENSE |
+| Final production version compiles | TBD | Build the exact version and record compiler/toolchain; public source does not prove buildability |
+| Third-party source/license dependencies | TBD | Inventory each dependency; GPL-3.0 source availability is not a full license review |
 | Exact RF module/chip (NRF2) | BLOCKED | Verify AS01/E01C/LimeCam actual part |
 | CE/CSN/IRQ/EN and SPI2 pins | BLOCKED | Verify against real LimeCam schematic |
 | USART1 `pp` pins/baud | TBD | Verify |
 | Pairing/flash storage | BLOCKED | Source + hardware match |
 | HSE 24MHz vs 25MHz and PLL | BLOCKED | Match final firmware; V3 project is 24MHz, original code 25MHz |
 | PP normal vs inverted 3.3V TTL | BLOCKED | Measure/verify; new design uses normal TTL |
+| Final firmware link-loss behavior | TBD | UART capture on the exact receiver build; source review is not hardware proof |
 | NRF1/video task removal | BLOCKED | Prove control link before removing |
 | Camera task / `nrfPhotoTask_Suspend` | BLOCKED | Do not stub blindly; dependencies unknown |
 | 5.8G VTX 75 ohm termination | TBD | Check VTX input |

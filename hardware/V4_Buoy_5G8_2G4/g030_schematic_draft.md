@@ -74,7 +74,7 @@ See `control_pinout.csv` for the authoritative pin/AF table.
 ## 7. Not verified / BLOCKED
 
 - JLCEDA project is opened and drafted with real library symbols, but DRC has 137 `NETOBJECTONGRID` warnings plus one unused-pin warning; no PCB layout, no footprints placed on a board, no clean ERC claim.
-- MT3608 thermal budget fails at 0.72A/1A from 3.0V; the 5V rail is not approved. See `power_budget.md`.
+- MT3608 remains BLOCKED; corrected chip TJ is 63-86C at 0.4A, 83-129C at 0.72A and 106-180C at 1A. The 5V rail is neither approved nor proven impossible. See `power_budget.md`.
 - Board outline/placement: PCB is empty; 26x40-46mm is a first-pass target only.
 - Motor current/thrust/MX113H thermal: not measured.
 - L1 SRP6060FA-220M saturation/thermal: calculated only, not measured.

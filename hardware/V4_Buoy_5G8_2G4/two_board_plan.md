@@ -54,7 +54,7 @@ Use a separate shielded video pair/coax; not only the overall shield. 100uF at b
 - Protected 1S -> Q1 SiSS23DN -> `VMOTOR` -> 3x MX113H.
 - Protected 1S -> MT3608 5V candidate -> camera/buoy/servo -> TLV70033 3.3V/200mA -> G030.
 - Do not use a 1S-to-3.3V LDO; do not stack a second boost without checking the LimeMini original.
-- **MT3608 is thermally rejected for 0.72A/1A at 3.0V**; see `power_budget.md`. Replace/split/reduce before layout.
+- **MT3608 remains BLOCKED**; corrected chip-loss/TJ analysis is 63-86C at 0.4A, 83-129C at 0.72A, 106-180C at 1A. Measure before layout; see `power_budget.md`.
 - +5V load ~0.72A nominal; +5V/1A at 3.0V/85% is ~1.96A input, plus motor peaks; L1 is SRP6060FA-220M (5.6A Isat, 3.8A Irms).
 - Q1 SiSS23DN-T1-GE3: 6.3mohm max at VGS=-2.5V; ~4.96A continuous / ~6.46A peak budget.
 - C1-C3: 100uF 6.3V polymer 1206; do not use unmeasured 100uF/0805 X5R.

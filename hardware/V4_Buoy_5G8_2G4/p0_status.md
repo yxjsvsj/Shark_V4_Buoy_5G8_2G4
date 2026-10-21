@@ -10,14 +10,14 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-01 | TIM3 conflict: PA6/PA7 vertical PWM, PB1 jaw, PB0 LED | STM32G030x6/x8 datasheet Table 12/13 | **FIXED in docs** | Pinout/control board updated; JLCEDA schematic not ERC-verified |
 | P0-02 | PA14-BOOT0/SWCLK | Datasheet pin 25 | **FIXED in docs** | No separate BOOT0 pin/resistor; SWD NRST; option bytes TBD |
 | P0-03 | VDD/VDDA and VSS/VSSA merged | Datasheet pins 4/5 | **FIXED in docs** | Single `+3V3`/GND pins |
-| P0-04 | MT3608 5V/1A at 3.0V and package thermal | MT3608 thetaJA 250C/W, PD 0.6W | **BLOCKED** | TJ ~128C at 0.4A, ~199C at 0.72A, ~261C at 1A (40C ambient). 0.72A/1A rejected; replace boost, split rail or reduce load |
+| P0-04 | MT3608 5V/1A at 3.0V and package thermal | MT3608 thetaJA 250C/W, PD 0.6W; loss split into diode/L1/chip | **BLOCKED** | Corrected chip TJ ~63-86C at 0.4A, 83-129C at 0.72A, 106-180C at 1A (40C, 250C/W). Not a proven pass/fail; measure efficiency and case temperature |
 | P0-05 | TLV70033 current | 200mA max, not 300mA | **FIXED in docs** | 1uF input C15 + 1uF output C9 added |
 | P0-06 | Q1 AON7403 had no -2.5V RDS(on) | AON7403 datasheet | **FIXED in docs** | SiSS23DN-T1-GE3, 6.3mohm max at -2.5V; pin1 gate, 2-4 source, 5-8 drain; footprint/thermal verify |
 | P0-07 | Battery/J1/protection current | ~4.96A continuous / ~6.46A peak including 5V input | **PARTIAL** | J1 XT30; actual motor/servo/protection current BLOCKED |
 | P0-08 | J7 power/video connector and cable | JST-SH is 1A/28-32AWG; 24AWG incompatible | **PARTIAL** | JST-PH 6P proposed; 24AWG OD 0.9-1.5mm; mechanical fit PENDING |
 | P0-09 | Buoyancy | mechanical.md said negative/neutral | **FIXED in docs** | Slightly positive; tank test still required |
 | P0-10 | BOM duplicate refs/either-or | C1 Qty=3, AON7403/AO3401 | **FIXED in control BOM** | Unique refs; one selected part per function |
-| P0-11 | LimeRC receiver source/license | Public GPL-3.0 source exists, but production hardware/HEX compatibility is not proven | **BLOCKED** | Do not freeze buoy RF PCB; verify source/license/hardware match |
+| P0-11 | LimeRC receiver source/license | Public GPL-3.0 source exists (`pingyun001/LimeRC`, commit `a9beb0…`); final build/hardware not proven | **PARTIAL** | Source available; final compile, RF pins, clock, pairing, PP polarity and UART loss behavior still BLOCKED; do not freeze buoy RF PCB |
 | P0-12 | F407 HSE 24 vs 25MHz | V3 24MHz vs LimeCam 25MHz | **BLOCKED** | Resolve before layout |
 | P0-13 | PP normal vs inverted TTL | LimeMini default inverted; LimeCam supports both | **BLOCKED** | Verify exact receiver setting |
 | P0-14 | JLCEDA board name/ERC | Board renamed `Shark_Sub_G030`; GUI DRC run | **PARTIAL** | 137 `NETOBJECTONGRID` + 1 `CHECKFLOATPIN` warning; not ERC-clean |
@@ -30,7 +30,10 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-21 | Magnet switch assumed toggle | Current SW1/R5/Q1 is hold-to-run | **FIXED in docs** | Magnet must remain; latch not designed and not added |
 | P0-22 | 100uF/0805 ceramic effective capacitance | 0805 X5R loses large capacitance at 1S bias | **FIXED in BOM** | T520A107M006ATE070 100uF 6.3V polymer 1206; ripple/temperature TBD |
 | P0-23 | J7/cable 3mm OD assumption | 2x24AWG + 2x28AWG + coax + jacket | **FIXED in docs/model** | ~5.0-5.5mm OD; 30mm static/55mm dynamic bend; physical fit PENDING |
-| P0-24 | Negative regression tests | Six deliberate faults | **FIXED** | All six rejected; results retained in `tests/negative_test_results.json` |
+| P0-24 | Negative/regression tests | Six netlist faults + geometry/metadata tests | **FIXED** | 14/14 pass: baseline, six netlist negatives, page parse, overlap/endpoint/pin-contact, metadata mismatch, footprint BLOCKED; results in `tests/negative_test_results.json` |
+| P0-25 | `.esch2` wire geometry overlaps/contacts | 137 LINE segments; old candidate had 21 conflicts | **FIXED in generator** | 500x380 placement, 30-unit stubs; 137 segments/32 nets/0 conflicts; `geometry_report.json`; negative tests pass |
+| P0-26 | `.eprj3` / `.ecfg` / `.esch2` UUID mismatch | Old ecfg was F407 SCH/board | **FIXED in generator** | ecfg `b2c3…` / board `a1b2…` / `Schematic1`; metadata PASS; candidate still not GUI-verified |
+| P0-27 | MT3608 thermal analysis assigned all converter loss to chip | Efficiency loss is system loss | **FIXED in docs** | Split diode/L1 core+DCR/chip conduction+switching+gate; TJ ranges/sensitivity in `power_budget.md`; MT3608 remains BLOCKED |
 
 ## P1
 
@@ -48,6 +51,10 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P1-10 | Schematic GUI/ERC/footprint binding | PARTIAL | Project opens; real library symbols/footprints; PCB empty; connector/footprint mapping review and DRC cleanup remain |
 | P1-11 | J7/cable/gland physical fit | TBD | Print mock-up, 24AWG crimp pull test, bend/gland check |
 | P1-12 | C1-C3 polymer ripple/temperature | TBD | 20kHz motor ripple and case temperature |
+| P1-13 | J7 mechanical model used wrong assembly object | **PARTIAL** | Separate shark-side G030/J7/hull/gland and buoy-side F407/VTX/shell models; sizes TBD |
+| P1-14 | Symbol/footprint binding | **PARTIAL** | RevB uses real JLCEDA library symbols/footprints for 45 parts; old generator candidate explicitly FOOTPRINT BLOCKED; connector/NC review remains |
+| P1-15 | Automatic test categories | **FIXED** | STRUCTURAL/GEOMETRY/METADATA/FOOTPRINT/ERC categories; parser crashes not counted as pass |
+| P1-16 | LimeRC source status | **PARTIAL** | Upstream GPL-3.0 source available; final build, RF pins, clock, PP polarity, UART loss behavior and third-party licenses remain BLOCKED/TBD |
 
 ## Evidence
 
@@ -57,7 +64,10 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 - Vishay SiSS23DN datasheet: 20V/50A package-limited, 6.3mohm max at VGS=-2.5V, PowerPAK 1212-8S pinout.
 - JST PH datasheet: 2A at AWG24, AWG32-24, insulation OD 0.5-1.5mm; B6B-PH-K-S / PHR-6 / SPH-002T-P0.5S.
 - KEMET T520A107M006ATE070: 100uF 6.3V polymer tantalum, 70mohm, 1.035A ripple at 45C.
-- `check_netlist.py` and `tests/run_negative_tests.py`: structural results only, not EDA ERC.
+- `check_netlist.py` and `tests/run_negative_tests.py`: STRUCTURAL/GEOMETRY/METADATA tests, not EDA ERC.
+- Geometry: `hardware/g030_control/geometry_report.json` — 137 segments, 32 nets, 0 conflicts; `check_schematic_geometry.py` re-parses the actual `.esch2` LINE/NET records. Negative tests cover overlap, endpoint and pin contact.
+- Metadata: `.eprj3`, `Schematic1.ecfg`, and `.esch2` match board `a1b2…`, schematic `b2c3…`, page `c3d4…`; candidate project still not GUI-verified.
+- RevB binding review: `hardware/g030_control/component_binding.md`; 45 real library devices, exact connector/NC/PCB checks remain PARTIAL.
 - JLCEDA GUI verification: four-page A3 project opens; 45 system-library components, 137 net-name stubs, 32 nets; netlist export matches CSV 137/137. DRC: 137 `NETOBJECTONGRID` + one `CHECKFLOATPIN` warning. Evidence: `hardware/g030_control/`.
 - Netlist comparison: `hardware/g030_control/netlist_compare.json`; DRC warning list: `hardware/g030_control/drc_result.json`.
 

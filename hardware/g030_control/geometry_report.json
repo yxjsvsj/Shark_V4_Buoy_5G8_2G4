@@ -1,0 +1,139 @@
+{
+  "ok": true,
+  "segments": 137,
+  "nets": 32,
+  "conflicts": [],
+  "perNet": {
+    "+3V3": {
+      "segments": 7,
+      "pins": 7
+    },
+    "+5V": {
+      "segments": 11,
+      "pins": 11
+    },
+    "BAT_SENSE": {
+      "segments": 4,
+      "pins": 4
+    },
+    "BUOY_RX": {
+      "segments": 2,
+      "pins": 2
+    },
+    "CVBS_VIDEO": {
+      "segments": 2,
+      "pins": 2
+    },
+    "FB": {
+      "segments": 3,
+      "pins": 3
+    },
+    "GND": {
+      "segments": 33,
+      "pins": 33
+    },
+    "JAW_SERVO": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LAT_IN1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LAT_IN2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LAT_OUT1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LAT_OUT2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LEAK": {
+      "segments": 3,
+      "pins": 3
+    },
+    "LED_A": {
+      "segments": 2,
+      "pins": 2
+    },
+    "LED_GPIO": {
+      "segments": 2,
+      "pins": 2
+    },
+    "MAIN_IN1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "MAIN_IN2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "MAIN_OUT1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "MAIN_OUT2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "NRST": {
+      "segments": 3,
+      "pins": 3
+    },
+    "PP_DOWN": {
+      "segments": 2,
+      "pins": 2
+    },
+    "PWR_GATE": {
+      "segments": 4,
+      "pins": 4
+    },
+    "SW": {
+      "segments": 3,
+      "pins": 3
+    },
+    "SWCLK": {
+      "segments": 2,
+      "pins": 2
+    },
+    "SWDIO": {
+      "segments": 2,
+      "pins": 2
+    },
+    "TELEM_UP": {
+      "segments": 2,
+      "pins": 2
+    },
+    "VBAT": {
+      "segments": 6,
+      "pins": 6
+    },
+    "VERT_IN1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "VERT_IN2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "VERT_OUT1": {
+      "segments": 2,
+      "pins": 2
+    },
+    "VERT_OUT2": {
+      "segments": 2,
+      "pins": 2
+    },
+    "VMOTOR": {
+      "segments": 18,
+      "pins": 18
+    }
+  },
+  "page": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\sch\\Schematic1\\Shark_Sub_G030.esch2",
+  "manifest": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\schematic_geometry_manifest.json",
+  "note": "Geometry parsed from .esch2 LINE/NET records; pin coordinates from the generated manifest. Not EDA ERC."
+}

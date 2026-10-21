@@ -1,0 +1,186 @@
+{
+  "ok": true,
+  "status": "CANDIDATE_BLOCKED_FOOTPRINT",
+  "categories": {
+    "STRUCTURAL": "PASS",
+    "GEOMETRY": "PASS",
+    "METADATA": "PASS",
+    "FOOTPRINT": "BLOCKED",
+    "ERC": "NOT_RUN"
+  },
+  "structural": {
+    "ok": true,
+    "status": "FORMAT_OK_NOT_GUI_VERIFIED",
+    "page": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\sch\\Schematic1\\Shark_Sub_G030.esch2",
+    "project": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\Shark_Sub_G030.eprj3",
+    "records": 1269,
+    "docTypes": {
+      "SYMBOL": 15,
+      "DEVICE": 45,
+      "SCH_PAGE": 1
+    },
+    "components": 45,
+    "wires": 137,
+    "netAttributes": 137,
+    "nets": 32,
+    "netlistRows": 137,
+    "refs": 45,
+    "errors": [],
+    "note": "Candidate .esch2 only. It has not been opened in JLCEDA Pro; no ERC/DRC and no footprint binding verification."
+  },
+  "geometry": {
+    "ok": true,
+    "segments": 137,
+    "nets": 32,
+    "conflicts": [],
+    "perNet": {
+      "+3V3": {
+        "segments": 7,
+        "pins": 7
+      },
+      "+5V": {
+        "segments": 11,
+        "pins": 11
+      },
+      "BAT_SENSE": {
+        "segments": 4,
+        "pins": 4
+      },
+      "BUOY_RX": {
+        "segments": 2,
+        "pins": 2
+      },
+      "CVBS_VIDEO": {
+        "segments": 2,
+        "pins": 2
+      },
+      "FB": {
+        "segments": 3,
+        "pins": 3
+      },
+      "GND": {
+        "segments": 33,
+        "pins": 33
+      },
+      "JAW_SERVO": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LAT_IN1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LAT_IN2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LAT_OUT1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LAT_OUT2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LEAK": {
+        "segments": 3,
+        "pins": 3
+      },
+      "LED_A": {
+        "segments": 2,
+        "pins": 2
+      },
+      "LED_GPIO": {
+        "segments": 2,
+        "pins": 2
+      },
+      "MAIN_IN1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "MAIN_IN2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "MAIN_OUT1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "MAIN_OUT2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "NRST": {
+        "segments": 3,
+        "pins": 3
+      },
+      "PP_DOWN": {
+        "segments": 2,
+        "pins": 2
+      },
+      "PWR_GATE": {
+        "segments": 4,
+        "pins": 4
+      },
+      "SW": {
+        "segments": 3,
+        "pins": 3
+      },
+      "SWCLK": {
+        "segments": 2,
+        "pins": 2
+      },
+      "SWDIO": {
+        "segments": 2,
+        "pins": 2
+      },
+      "TELEM_UP": {
+        "segments": 2,
+        "pins": 2
+      },
+      "VBAT": {
+        "segments": 6,
+        "pins": 6
+      },
+      "VERT_IN1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "VERT_IN2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "VERT_OUT1": {
+        "segments": 2,
+        "pins": 2
+      },
+      "VERT_OUT2": {
+        "segments": 2,
+        "pins": 2
+      },
+      "VMOTOR": {
+        "segments": 18,
+        "pins": 18
+      }
+    }
+  },
+  "metadata": {
+    "ok": true,
+    "boardUuid": "a1b2c3d4e5f60718",
+    "schematicUuid": "b2c3d4e5f6071829",
+    "pageUuid": "c3d4e5f60718293a",
+    "schematicName": "Schematic1",
+    "ecfg": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\sch\\Schematic1\\Schematic1.ecfg",
+    "page": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\sch\\Schematic1\\Shark_Sub_G030.esch2",
+    "project": "C:\\AA_project\\Shark\\Shark_V4_Buoy_5G8_2G4\\hardware\\g030_control\\Shark_Sub_G030.eprj3",
+    "errors": []
+  },
+  "footprint": {
+    "status": "BLOCKED",
+    "reason": "Project-local generic symbols and footprint strings are not verified JLCEDA library bindings."
+  },
+  "erc": {
+    "status": "NOT_RUN",
+    "reason": "No GUI ERC/DRC has been run for this candidate."
+  }
+}
