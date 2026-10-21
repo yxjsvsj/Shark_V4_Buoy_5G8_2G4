@@ -1,6 +1,6 @@
 # RevB Q1 / D1 physical-pin correction
 
-Status: **SOURCE CORRECTED / GUI EXPORT AND DRC BLOCKED / DO NOT POWER OR FABRICATE.**
+Status: **SOURCE CORRECTED / GUI VISUAL PASS / GUI EXPORT AND DRC BLOCKED / DO NOT POWER OR FABRICATE.**
 
 This file records the fifth-round fix in the real RevB project, not only in the generator fixture.
 
@@ -9,7 +9,7 @@ This file records the fifth-round fix in the real RevB project, not only in the 
 - Baseline: `abe8bc3e3f010765ddc304744eabf1a2dc9dec09`.
 - Before export: `Shark_Sub_G030_RevB/g030_export.net` at `abe8bc3`.
 - Before screenshot: `Shark_Sub_G030_RevB/01_POWER_before_q1_d1.png` (copied from the existing `01_POWER.png`).
-- After screenshot: **BLOCKED**; JLCEDA Pro was not opened to render the edited page.
+- After screenshots: `01_POWER_after_q1_2026-10-21.png` and `01_POWER_after_d1_2026-10-21.png`; JLCEDA Pro V4.1.78 reopened and visually checked on 2026-10-21.
 - Corrected page: `Shark_Sub_G030_RevB/sch/G030_Control/01_POWER.esch2`.
 - Export status: `Shark_Sub_G030_RevB/netlist_export_status.json`.
 
@@ -59,7 +59,7 @@ The fixture `tests/fixtures/g030_export_abe8bc3_wrong.net` fails with exactly:
 
 ## Unblock conditions
 
-1. Open the actual RevB project in JLCEDA Pro and confirm the edited `01_POWER` page visually.
+1. Re-open the actual RevB project and confirm the edited `01_POWER` page visually; this has been done, but repeat after any further edit.
 2. Re-run ERC/DRC and export the GUI netlist.
 3. Run `verify_g030_netlist.py` against that GUI export and require `ok: true`, zero CSV mismatches, and no Q1/D1 errors.
 4. Verify the SS34 footprint cathode marking on the PCB.

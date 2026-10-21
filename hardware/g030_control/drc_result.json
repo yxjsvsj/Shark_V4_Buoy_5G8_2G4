@@ -60,5 +60,7 @@
     "J9.3"
   ],
   "ncStatus": "UNMARKED",
-  "note": "Only the aggregate 138-warning summary is available. The previous file repeated 138 for every page; that was not a page-attributed count. No full object/net/coordinate/page/rule DRC log was exported. Grid alignment and explicit NC flags remain BLOCKED; do not claim DRC clean."
+  "note": "JLCEDA Pro was opened and Q1/D1 visually checked, but the full DRC object log and page distribution were not exported. Aggregate 138 remains; no DRC-clean claim.",
+  "guiRun": false,
+  "guiOpened": true
 }

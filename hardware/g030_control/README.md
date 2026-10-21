@@ -57,7 +57,7 @@ The real RevB `01_POWER` page had Q1.1 on PWR_GATE and Q1.4 on VBAT, and D1.1 K 
 - D1.1 K -> +5V.
 - D1.2 A -> SW.
 
-See `revb_q1_d1_fix.md`. The GUI export and after screenshot are **BLOCKED**; do not claim the physical board is repaired.
+See `revb_q1_d1_fix.md`. JLCEDA Pro V4.1.78 was reopened and the page was visually checked: after screenshots are in `Shark_Sub_G030_RevB/01_POWER_after_q1_2026-10-21.png` and `01_POWER_after_d1_2026-10-21.png`. The GUI Protel export and full DRC log are still **BLOCKED**; do not claim the physical board is repaired.
 
 ## DRC
 
@@ -85,7 +85,12 @@ This is **not ERC/DRC-clean**. The schematic is a draft, not a release schematic
 - `Shark_Sub_G030_RevB/01_POWER.png` ... `04_IO.png` - exported page images.
 - `Shark_Sub_G030_RevB/g030_export.net` - provisional corrected Protel netlist; see `netlist_export_status.json` (not GUI regenerated).
 - `Shark_Sub_G030_RevB/01_POWER_before_q1_d1.png` - before screenshot.
+- `Shark_Sub_G030_RevB/01_POWER_after_q1_2026-10-21.png` - GUI after screenshot, Q1.
+- `Shark_Sub_G030_RevB/01_POWER_after_d1_2026-10-21.png` - GUI after screenshot, D1.
+- `Shark_Sub_G030_RevB/gui_verification.json` - GUI date/version/checks and export-blocked status.
 - `revb_q1_d1_fix.md` - Q1/D1 evidence and unblock conditions.
+- `package_polarity_review.md` - footprint, D1/C1-C3 polarity and J8 proposal.
+- `../V4_Buoy_5G8_2G4/power_options.md` - split-MT3608 vs TPS61022.
 - `semantic_report.json` - physical pin function/net and CSV comparison.
 - `verify_g030_netlist.py` - semantic checker.
 - `netlist_compare.json` - exact CSV-vs-export comparison.

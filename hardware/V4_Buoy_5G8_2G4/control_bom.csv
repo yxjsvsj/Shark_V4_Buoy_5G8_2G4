@@ -3,7 +3,7 @@ U1,1,STM32G030K8T6,LQFP32,64KB flash 8KB RAM; VDD/VDDA pin4; VSS/VSSA pin5
 U2,1,MX113H,SOT-23-6,Main motor H-bridge
 U3,1,MX113H,SOT-23-6,Lateral motor H-bridge
 U4,1,MX113H,SOT-23-6,Vertical motor H-bridge
-U5,1,MT3608,SOT-23-6,5V boost candidate only; corrected chip TJ 63-86C/83-129C/106-180C at 0.4/0.72/1A; BLOCKED pending measured efficiency and case temperature
+U5,1,MT3608,SOT-23-6,5V boost candidate only; corrected chip TJ 63-86C/83-129C/106-180C at 0.4/0.72/1A; BLOCKED; TPS61022 preferred in power_options.md but not yet in schematic
 U6,1,TLV70033,SOT-23-5,3.3V 200mA max; 1uF input C15 and 1uF output C9
 Q1,1,SiSS23DN-T1-GE3,PowerPAK 1212-8S,P-MOS 20V/50A; RDS(on) 6.3mohm max at VGS=-2.5V; pins1-3 source; pin4 gate; pins5-8 drain; replaces AON7403; footprint verify
 L1,1,SRP6060FA-220M,6.6x6.4mm,22uH; Isat 5.6A; Irms 3.8A; DCR 55mohm; LCSC C2045802 OOS; verify distributor stock
@@ -42,6 +42,6 @@ J4,1,JST-SH 2P,1.0mm,Vertical motor; 1A rating; upgrade if needed
 J5,1,JST-SH 3P,1.0mm,Jaw servo
 J6,1,JST-SH 3P,1.0mm,Camera 5V/GND/VIDEO
 J7,1,JST-PH 6P,2.0mm,Buoy cable; 2A at 24AWG; 24-30AWG; B6B-PH-K-S / PHR-6 / SPH-002T-P0.5S; series change pending confirmation
-J8,1,5 pogo pads,1.27mm,SWD +3V3/GND/SWDIO/SWCLK/NRST
+J8,1,HDR1X5 placeholder (2.54mm),2.54mm,DO NOT FAB; replace with Tag-Connect TC2030 6-pad 1.27mm pogo + TC2030-IDC cable; actual schematic still placeholder
 J9,1,JST-SH 2P,1.0mm,Leak pad
 PCB,1,26x40-46mm 4-layer,1.6mm,First-pass size; not frozen

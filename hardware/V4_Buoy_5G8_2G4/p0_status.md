@@ -34,11 +34,13 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-25 | `.esch2` wire geometry overlaps/contacts | 137 LINE segments; old candidate had 21 conflicts | **FIXED in generator** | 500x380 placement, 30-unit stubs; 137 segments/32 nets/0 conflicts; `geometry_report.json`; negative tests pass |
 | P0-26 | `.eprj3` / `.ecfg` / `.esch2` UUID mismatch | Old ecfg was F407 SCH/board | **FIXED in generator** | ecfg `b2c3…` / board `a1b2…` / `Schematic1`; metadata PASS; candidate still not GUI-verified |
 | P0-27 | MT3608 thermal analysis assigned all converter loss to chip | Efficiency loss is system loss | **FIXED in docs** | Split diode/L1 core+DCR/chip conduction+switching+gate+quiescent; TJ ranges/sensitivity in `power_budget.md`; MT3608 remains BLOCKED |
-| P0-28 | Q1 Source/Gate physical pins reversed in RevB | SiSS23DN pins 1-3 S, 4 G, 5-8 D; RevB had Q1.1 PWR_GATE and Q1.4 VBAT | **SOURCE FIXED / GUI BLOCKED** | RevB page nets corrected to Q1.1/2/3 VBAT, Q1.4 PWR_GATE; provisional export passes semantic check; GUI re-export and screenshot BLOCKED |
-| P0-29 | D1 SS34 Anode/Cathode reversed in RevB | SS34 library pin 1 K, pin 2 A; RevB had K on SW and A on +5V | **SOURCE FIXED / FOOTPRINT BLOCKED** | RevB page corrected to D1.1 K +5V, D1.2 A SW; BOM/docs updated; PCB cathode marking TBD |
+| P0-28 | Q1 Source/Gate physical pins reversed in RevB | SiSS23DN pins 1-3 S, 4 G, 5-8 D; RevB had Q1.1 PWR_GATE and Q1.4 VBAT | **GUI VISUAL PASS / EXPORT BLOCKED** | GUI shows Q1.1/2/3 VBAT, Q1.4 PWR_GATE, Q1.5-8 VMOTOR; after screenshot saved; GUI Protel export still BLOCKED |
+| P0-29 | D1 SS34 Anode/Cathode reversed in RevB | SS34 library pin 1 K, pin 2 A; RevB had K on SW and A on +5V | **GUI VISUAL PASS / FOOTPRINT BLOCKED** | GUI shows D1.1 K +5V and D1.2 A SW; PCB SMA cathode marking still TBD |
 | P0-30 | Pin-number-only netlist comparison missed Q1/D1 semantics | 137/137 numeric match hid reversed physical pins | **FIXED** | `verify_g030_netlist.py` parses Ref/Pin/PinName/Net, checks 60 critical pins and CSV; old `abe8bc3` fixture fails on all four errors; Q1/D1 mutations rejected |
-| P0-31 | 137 NETOBJECTONGRID + 1 CHECKFLOATPIN | Aggregate 138; per-page counts were duplicated | **BLOCKED** | Full object/net/coordinate/rule/page DRC log not exported; grid realignment and explicit NC flags not completed; no DRC-clean claim |
-| P0-32 | Actual EDA netlist export after RevB edit | `g030_export.net` corrected only provisionally | **BLOCKED** | JLCEDA Pro GUI re-export not performed; see `netlist_export_status.json`; do not treat provisional export as GUI evidence |
+| P0-31 | 137 NETOBJECTONGRID + 1 CHECKFLOATPIN | Aggregate 138; per-page counts were duplicated | **GUI BLOCKED** | JLCEDA Pro opened, but the full DRC object/net/coordinate/rule/page log was not exported; grid realignment and explicit NC flags not completed; no DRC-clean claim |
+| P0-32 | Actual EDA netlist export after RevB edit | `g030_export.net` corrected only provisionally | **GUI BLOCKED** | JLCEDA Pro opened and Q1/D1 visually checked; export dialog opened but Protel type could not be selected reliably; no GUI export produced; see `netlist_export_status.json` |
+| P0-33 | 5V power device decision | MT3608 remains marginal above 0.4A; load TBD | **PARTIAL** | `power_options.md`: split two MT3608 rails or replace with TPS61022; TPS61022 preferred, not yet in schematic |
+| P0-34 | J8 debug connector mismatch | Actual J8 is HDR1X5 2.54mm; BOM previously claimed 1.27mm pogo | **PARTIAL** | Proposed Tag-Connect TC2030 6-pad 1.27mm + TC2030-IDC; BOM marked DO NOT FAB; schematic symbol still placeholder |
 
 ## P1
 
@@ -60,8 +62,11 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P1-14 | Symbol/footprint binding | **PARTIAL** | RevB uses real JLCEDA library symbols/footprints for 45 parts; old generator candidate explicitly FOOTPRINT BLOCKED; connector/NC review remains |
 | P1-15 | Automatic test categories | **FIXED** | STRUCTURAL/GEOMETRY/METADATA/FOOTPRINT/ERC categories; parser crashes not counted as pass |
 | P1-16 | LimeRC source status | **PARTIAL** | Upstream GPL-3.0 source available; final build, RF pins, clock, PP polarity, UART loss behavior and third-party licenses remain BLOCKED/TBD |
-| P1-17 | RevB Q1/D1 screenshots and DRC object log | **BLOCKED** | Before screenshot retained; after screenshot, full DRC log, grid realignment and NC flags require JLCEDA GUI |
+| P1-17 | RevB Q1/D1 screenshots and DRC object log | **PARTIAL** | Q1 and D1 after screenshots captured in GUI; full DRC object log, grid realignment and NC flags still BLOCKED |
 | P1-18 | Q1/D1 first-power test | **BLOCKED** | No battery or PCB; first power only with current-limited supply, no motors/servo/camera/buoy; verify no short and 5V/3.3V rails |
+| P1-19 | 5V converter selection | **PARTIAL** | TPS61022 preferred, target 1.5A at 3.0V; split-MT3608 fallback; actual schematic/BOM change not made; stall/VTX current TBD |
+| P1-20 | J8 1.27mm pogo implementation | **PARTIAL** | Tag-Connect TC2030 6-pad + TC2030-IDC proposed; actual J8 symbol/footprint still HDR1X5 |
+| P1-21 | Footprint/polarity audit | **PARTIAL** | Symbol pin maps checked; PCB pad numbering, D1 cathode, C1-C3 positive marking and connector mechanical pads still require layout inspection |
 
 ## Evidence
 
