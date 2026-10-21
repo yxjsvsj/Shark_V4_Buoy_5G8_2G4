@@ -96,7 +96,7 @@ Recommended 6-core pinout:
 
 ## P0 remediation
 
-See p0_status.md for the P0/P1 status table, evidence and remaining BLOCKED items. The G030 candidate schematic is `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; it is format-validated but has not been opened in JLCEDA, has generic symbols, no footprint binding, and no ERC. `g030_schematic_draft.md` + `g030_netlist_draft.csv` remain the connection-level reference.
+See p0_status.md for the P0/P1 status table, evidence and remaining BLOCKED items. The G030 project is `hardware/g030_control/Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3`; it opens in JLCEDA with real library symbols, 45 components, 137 net-name stubs and 32 nets. The netlist export matches `g030_netlist_draft.csv` 137/137; DRC has one unused-pin warning, and the PCB is empty. `g030_schematic_draft.md` + `g030_netlist_draft.csv` remain the connection-level reference.
 
 ## Repo note
 

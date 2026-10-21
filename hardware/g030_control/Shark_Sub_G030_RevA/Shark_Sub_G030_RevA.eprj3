@@ -1,0 +1,96 @@
+{
+  "name": "Shark_Sub_G030_RevA",
+  "owner_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "creator_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "created_at": "2026-10-21 10:20:35",
+  "updated_at": "2026-10-21 10:20:35",
+  "modifier_uuid": "8470ff7b08204e4b91556aa49c3adf02",
+  "content": "G030 control board - real library symbols and net ports",
+  "archive": false,
+  "cbb_project": 0,
+  "thumb": "",
+  "ticket": 1,
+  "g_ticket": 1,
+  "boards": [],
+  "block_symbol_attrs_groups": {},
+  "default_sheet": "507d6fd7399f13cf",
+  "branch_uuid": "",
+  "pcb_count": 0,
+  "format": "folder",
+  "profile": {
+    "boards": {
+      "26b585d1ee47e542": {
+        "uuid": "26b585d1ee47e542",
+        "title": "Shark_Sub_G030",
+        "zIndex": 1
+      }
+    },
+    "schematics": {
+      "b5ab6a4793ad7fb4": {
+        "uuid": "b5ab6a4793ad7fb4",
+        "name": "G030_Control",
+        "board": "26b585d1ee47e542",
+        "source": "",
+        "version": "1792549924232",
+        "updateTime": 1792549924232
+      }
+    },
+    "sheets": {
+      "c621def9cc9c3662": {
+        "uuid": "c621def9cc9c3662",
+        "title": "01_G030_CONTROL",
+        "schematic_uuid": "b5ab6a4793ad7fb4",
+        "zIndex": 1,
+        "source": "",
+        "version": "1792549924232",
+        "updateTime": 1792549924232
+      }
+    },
+    "pcbs": {
+      "e47052a314852104": {
+        "uuid": "e47052a314852104",
+        "title": "PCB1",
+        "board": "26b585d1ee47e542",
+        "parent_uuid": "",
+        "source": "",
+        "version": "1792549237456",
+        "updateTime": 1792549237456
+      }
+    },
+    "panels": {
+      "2b76108ff4c37994": {
+        "uuid": "2b76108ff4c37994",
+        "title": "Panel1",
+        "zIndex": null
+      }
+    },
+    "blockSymbols": {},
+    "owner": {
+      "uuid": "8470ff7b08204e4b91556aa49c3adf02"
+    },
+    "simSchematics": {},
+    "simulations": {}
+  },
+  "config": {
+    "defaultSheet": "507d6fd7399f13cf",
+    "settings": {
+      "UNIVERSAL": {
+        "dataType": "UNIVERSAL",
+        "data": {
+          "allowLibRename": true,
+          "defaultNetName": true,
+          "wireMultipleNet": true,
+          "netFlagCrossLayerConnection": true,
+          "netLabelCrossPageConnection": true,
+          "busGenerateNetClass": true,
+          "relevanceDisplayRow": "SINGLE",
+          "relevanceBelongSchPage": "NAME",
+          "relevanceLocation": "ZONE",
+          "multipartCrossLayer": true,
+          "nonElectronicAddIntoBom": false,
+          "nonElectronicUpdatePcb": false
+        }
+      }
+    }
+  }
+}

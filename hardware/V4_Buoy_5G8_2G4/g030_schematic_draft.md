@@ -1,7 +1,7 @@
 # G030 schematic draft (connection level)
 
-Status: **DRAFT / CANDIDATE `.esch2` FORMAT-VALIDATED / NOT GUI-OPENED / NOT EDA-ERC VERIFIED / NOT PRODUCTION READY.**
-The connection-level reference is still this file plus `g030_netlist_draft.csv`. A generated candidate page exists at `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; it uses project-local generic symbols and is not a manufacturer-library or ERC-verified schematic.
+Status: **DRAFTED IN JLCEDA PRO / REAL LIBRARY SYMBOLS / DRC HAS 1 WARNING / PCB EMPTY / NOT PRODUCTION READY.**
+The connection-level reference is still this file plus `g030_netlist_draft.csv`. The real project is `hardware/g030_control/Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3`; open the `Shark_Sub_G030` board -> `G030_Control` -> `01_G030_CONTROL` page. It has 45 real library components, 137 net-name stub wires and 32 nets. The netlist export matches the CSV exactly. DRC is not clean: one `CHECKFLOATPIN` warning covers intentionally unused pins. The PCB is empty by design.
 
 ## 1. Page plan
 
@@ -66,14 +66,16 @@ See `control_pinout.csv` for the authoritative pin/AF table.
 - `g030_netlist_draft.csv` - 137 connections, 32 nets, 45 refs. Automated structural check passes; this is **not** an EDA ERC.
 - `check_netlist.py` - committed structural checker; run `python hardware/V4_Buoy_5G8_2G4/check_netlist.py`.
 - `tests/run_negative_tests.py` - six negative tests; all rejected as expected.
-- `hardware/g030_control/` - candidate `.eprj3`/`.esch2`; 45 components, 137 wires, 32 nets, 15 generic symbol docs, 45 device docs. Format-only validation; no GUI/ERC.
+- `hardware/g030_control/Shark_Sub_G030_RevA/` - real JLCEDA Pro project; 45 system-library components, 137 net-name stubs, 32 nets. Netlist export matches CSV; DRC has one `CHECKFLOATPIN` warning; PCB empty.
+- `hardware/g030_control/netlist_compare.json` - exported netlist vs CSV: 137/137 pins, 32/32 nets, no missing/extra.
+- `hardware/g030_control/drc_result.json` - GUI DRC warning list.
 - `control_bom.csv` - unique refs; MT3608/TLV70033/SiSS23DN are fixed, no "or" selection; no BOOT0 resistor; no separate VDDA/VSSA. C1-C3 are polymer 1206, C15-C17 added.
 
 ## 7. Not verified / BLOCKED
 
-- JLCEDA candidate `.esch2` exists, but has not been opened in the GUI; no ERC/DRC. Symbols are generic; footprints are not bound.
+- JLCEDA project is opened and drafted with real library symbols, but DRC has one `CHECKFLOATPIN` warning; no PCB layout, no footprints placed on a board, no clean ERC claim.
 - MT3608 thermal budget fails at 0.72A/1A from 3.0V; the 5V rail is not approved. See `power_budget.md`.
-- Board outline/placement: not drawn; 26x40-46mm is a first-pass target only.
+- Board outline/placement: PCB is empty; 26x40-46mm is a first-pass target only.
 - Motor current/thrust/MX113H thermal: not measured.
 - L1 SRP6060FA-220M saturation/thermal: calculated only, not measured.
 - Servo current/stall and simultaneous +5V load: not measured.

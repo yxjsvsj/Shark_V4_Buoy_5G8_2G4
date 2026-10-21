@@ -143,6 +143,6 @@ Notes:
 - **MT3608 is not approved for 0.72A or 1A at 3.0V** because of package thermal limits. The 5V architecture is BLOCKED pending a larger boost/split rail/load reduction.
 - L1 is now **SRP6060FA-220M** (22uH, Isat 5.6A, Irms 3.8A); the previous 6x6 1.8A part is insufficient.
 - C1-C3 are **100uF 6.3V polymer tantalum 1206**, not 100uF/0805 X5R. C15/C16/C17 add LDO input and connector decoupling.
-- G030 candidate schematic: `hardware/g030_control/sch/Schematic1/Shark_Sub_G030.esch2`; format-validated only. **Not opened in JLCEDA, no ERC/DRC, generic symbols, no footprint binding.**
+- G030 schematic: `hardware/g030_control/Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3`; real library symbols, 45 components, 137 nets stubs, 32 nets. Netlist matches CSV; DRC has one unused-pin warning; PCB empty.
 - `check_netlist.py` results: 137 rows, 32 nets, 45 refs; six negative tests pass. This is **not** EDA ERC.
 - Motor current, servo current/stall, protection current, MT3608 thermal, C1-C3 ripple, and board fit remain **BLOCKED/TBD** until measured.

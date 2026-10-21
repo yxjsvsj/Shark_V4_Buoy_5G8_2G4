@@ -136,7 +136,7 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - `power_budget.md` - MT3608/Q1/servo/capacitor budget and measured-data gaps.
 - `pp_link_behavior.md` - LimeCam PP link-loss behavior and G030 safety logic.
 - `mechanical/j7_assembly.md` - J7/cable dimensions, bend radius and fit conclusion.
-- `g030_control/` - candidate JLCEDA Pro `.eprj3`/`.esch2` schematic; format-validated only.
+- `g030_control/` - real JLCEDA Pro project with 45 system-library components, 137 net-name stubs and 32 nets; DRC has one warning, PCB empty.
 - `buoy_rf_board.md` - stripped F407 buoy RF board and firmware gate.
 - `two_board_plan.md` - two-board redesign plan.
 - `keep_remove.md` - keep/remove from the open-source boards.
@@ -150,6 +150,6 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - **Firmware gate:** LimeRC receiver source/license, RF module, pairing, clock (V3 24MHz vs original 25MHz), PP polarity. If only HEX is available, use the original LimeCam board or get source/permission; do not stub tasks blindly.
 - **Motor gate:** measure thruster current/thrust and MX113H thermal before layout.
 - **Power/connector gate:** MT3608 0.72A/1A thermal rejection, Q1 footprint/thermal, L1 SRP6060FA-220M, servo stall, C1-C3 ripple, and J7 mechanical fit must be closed before layout freeze.
-- **Schematic gate:** `Shark_Sub_G030.esch2` is a candidate with generic symbols and no footprint binding. Open it in JLCEDA, run ERC, and fix it before calling it drafted.
+- **Schematic gate:** `hardware/g030_control/Shark_Sub_G030_RevA/Shark_Sub_G030_RevA.eprj3` is now a real JLCEDA project with system-library symbols. The netlist matches 137/137, but DRC has one unused-pin warning, the PCB is empty, and connector/footprint mappings still need review.
 - **Size gate:** board sizes are not frozen; layout first.
 - If the buoy/cable proves troublesome, the fallback is a thin shore tether or a smaller antenna float.

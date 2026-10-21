@@ -1,0 +1,115 @@
+{
+  "drcPassed": false,
+  "violationCount": 1,
+  "warnings": [
+    {
+      "ref": "U5",
+      "pin": "6"
+    },
+    {
+      "ref": "U6",
+      "pin": "4"
+    },
+    {
+      "ref": "U1",
+      "pin": "1"
+    },
+    {
+      "ref": "U1",
+      "pin": "2"
+    },
+    {
+      "ref": "U1",
+      "pin": "3"
+    },
+    {
+      "ref": "U1",
+      "pin": "11"
+    },
+    {
+      "ref": "U1",
+      "pin": "12"
+    },
+    {
+      "ref": "U1",
+      "pin": "17"
+    },
+    {
+      "ref": "U1",
+      "pin": "20"
+    },
+    {
+      "ref": "U1",
+      "pin": "23"
+    },
+    {
+      "ref": "U1",
+      "pin": "26"
+    },
+    {
+      "ref": "U1",
+      "pin": "27"
+    },
+    {
+      "ref": "U1",
+      "pin": "28"
+    },
+    {
+      "ref": "U1",
+      "pin": "29"
+    },
+    {
+      "ref": "U1",
+      "pin": "30"
+    },
+    {
+      "ref": "U1",
+      "pin": "31"
+    },
+    {
+      "ref": "U1",
+      "pin": "32"
+    },
+    {
+      "ref": "J5",
+      "pin": "0"
+    },
+    {
+      "ref": "J6",
+      "pin": "0"
+    },
+    {
+      "ref": "J9",
+      "pin": "4"
+    },
+    {
+      "ref": "J9",
+      "pin": "3"
+    },
+    {
+      "ref": "J2",
+      "pin": "4"
+    },
+    {
+      "ref": "J2",
+      "pin": "3"
+    },
+    {
+      "ref": "J3",
+      "pin": "4"
+    },
+    {
+      "ref": "J3",
+      "pin": "3"
+    },
+    {
+      "ref": "J4",
+      "pin": "4"
+    },
+    {
+      "ref": "J4",
+      "pin": "3"
+    }
+  ],
+  "note": "Single CHECKFLOATPIN warning covers intentionally unused MCU/IC pins and connector shield/extra pins; not an ERC-clean schematic."
+}
