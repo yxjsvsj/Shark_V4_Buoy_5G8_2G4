@@ -1,6 +1,8 @@
-# V4 shark G030 control board
+﻿# V4 shark G030 control board
 
 V1 uses a new G030 board. It does only: `pp`, 3x MX113H, jaw servo, power, camera/buoy wiring, battery/leak safety. No RF, no camera processing.
+
+Status: Q1 Source/Gate and D1 polarity are corrected in the RevB source, but the GUI netlist export, DRC log and footprint checks are incomplete. **Do not connect a battery or power the board.** The first power-up must use a current-limited supply with no motors, servo, camera or buoy.
 
 ## 1. Block diagram
 
@@ -61,9 +63,10 @@ Notes:
 ## 4. Power
 
 - Protected 1S pack with PCM, XT30 connector; J1 XT30.
-- Q1 **SiSS23DN-T1-GE3** P-MOS, PowerPAK 1212-8S: pin 1 gate, pins 2-4 source to VBAT, pins 5-8 drain to VMOTOR. R5 100k gate pull-up; SW1 reed to GND; C14 100nF gate-source. This replaces AON7403, which does not specify RDS(on) at VGS=-2.5V.
+- Q1 **SiSS23DN-T1-GE3** P-MOS, PowerPAK 1212-8S: pins 1-3 source to VBAT, pin 4 gate to PWR_GATE, pins 5-8 drain to VMOTOR. R5 100k gate pull-up; SW1 reed to GND; C14 100nF gate-source. This replaces AON7403, which does not specify RDS(on) at VGS=-2.5V.
 - Q1 budget: 3x MX113H at 1A continuous = 3A, plus 5V rail input at 3.0V/85% = 1.96A -> **~4.96A continuous**; 3x 1.5A MX113H peak + 1.96A = **~6.46A peak**. SiSS23DN is 50A package-limited, 27A at TA=25C, and 6.3mohm max at VGS=-2.5V. At 6.5A and 1.4x hot RDS(on), P ~= 0.37W; with 63C/W steady-state RthJA, rise ~23C. Verify copper and temperature.
 - U5 **MT3608** SOT-23-6 is retained only as a **candidate and is BLOCKED**. The corrected loss split (SS34, L1 DCR/core, MT3608 conduction/switching/gate/quiescent) gives MT3608 TJ roughly 63-86C at 0.4A, 83-129C at 0.72A, and **106-180C at 1A** (40C ambient, 250C/W). The 1A max case exceeds the junction limit; the typical case is about 106C. This is an uncertainty, not a proven pass or fail.
+- D1 SS34: library pin 1 K -> +5V, pin 2 A -> SW. PCB SMA cathode marking remains TBD.
 - MT3608 parts: L1 **Bourns SRP6060FA-220M** 22uH, 6.6x6.4mm, Isat 5.6A, Irms 3.8A, DCR 55mohm; D1 SS34; C7/C8 22uF 25V 0805 X5R; R1 73.2k / R2 10k. See `power_budget.md` for loss allocation and sensitivity.
 - 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input. The 85% figure is optimistic at 1A; measure efficiency.
 - Servo stall is **TBD** and not assumed to be 0.2A. With 0.52A of other load, 0.5A servo current already exceeds 1A. **Do not mark the 5V rail capable or failed until the load/thermal test is run.** Resize/split the source or reduce the load after measuring.

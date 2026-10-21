@@ -81,7 +81,8 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 - **MT3608 remains BLOCKED.** Corrected loss allocation gives chip TJ roughly 63-86C at 0.4A, 83-129C at 0.72A and 106-180C at 1A (40C ambient, 250C/W). The 1A max case exceeds the limit; 0.72A is marginal. This is not a proven pass or guaranteed failure. See `power_budget.md`.
 - +5V nominal load is ~0.72A, but servo stall is not measured and may exceed 1A with the other loads. **The 5V source must be resized or split before layout.**
 - +5V/1A at 3.0V/85% is ~1.96A input; L1 is SRP6060FA-220M, Isat 5.6A, Irms 3.8A.
-- Q1 is rated 20V/50A and 6.3mohm max at VGS=-2.5V; AON7403 is not approved for 1S gate drive.
+- Q1 is SiSS23DN-T1-GE3, 20V/50A, 6.3mohm max at VGS=-2.5V; pins 1-3 Source, pin 4 Gate, pins 5-8 Drain. AON7403 is not approved for 1S gate drive.
+- D1 SS34: pin 1 K -> +5V, pin 2 A -> SW. The PCB SMA cathode marking is still TBD.
 - C1-C3 are **100uF 6.3V polymer tantalum 1206** (T520A107M006ATE070), not 100uF/0805 X5R.
 - Cable: 50 cm, 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax. Finished OD is **~5.0-5.5mm**, not 3mm.
 - J7: **JST-PH 6P, 2.0mm, 2A at 24AWG** (proposed; series change pending confirmation). JST-SH 1A/28-32AWG cannot take 24AWG.
@@ -150,6 +151,6 @@ Pass: stable 640x480 video, no control dropout, no leaks, buoy upright, no cable
 - **Firmware gate:** LimeRC receiver source/license, RF module, pairing, clock (V3 24MHz vs original 25MHz), PP polarity. If only HEX is available, use the original LimeCam board or get source/permission; do not stub tasks blindly.
 - **Motor gate:** measure thruster current/thrust and MX113H thermal before layout.
 - **Power/connector gate:** MT3608 corrected loss/TJ test, Q1 footprint/thermal, L1 SRP6060FA-220M, servo stall, C1-C3 ripple, and separate J7 shark/buoy mechanical fit must be closed before layout freeze.
-- **Schematic gate:** `hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3` is now a real four-page JLCEDA project with system-library symbols. The netlist matches 137/137, but DRC has 138 warnings, the PCB is empty, and connector/footprint mappings still need review.
+- **Schematic gate:** `hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3` is now a real four-page JLCEDA project with system-library symbols. The RevB source was corrected for Q1 Source/Gate and D1 polarity, but the GUI netlist re-export and after screenshot are BLOCKED. DRC has an aggregate 138 warnings, the PCB is empty, and connector/footprint/NC mappings still need review.
 - **Size gate:** board sizes are not frozen; layout first.
 - If the buoy/cable proves troublesome, the fallback is a thin shore tether or a smaller antenna float.

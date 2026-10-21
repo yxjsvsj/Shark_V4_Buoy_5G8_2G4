@@ -1,6 +1,6 @@
 # Shark_Sub_G030 JLCEDA Pro project (RevB, four pages)
 
-Status: **REAL JLCEDA PROJECT / FOUR-PAGE SCHEMATIC DRAFT / DRC HAS 138 WARNINGS / PCB EMPTY / NOT PRODUCTION READY.**
+Status: **REAL JLCEDA PROJECT / FOUR-PAGE SCHEMATIC DRAFT / Q1-D1 SOURCE CORRECTED / EXPORT + DRC BLOCKED / PCB EMPTY / NOT PRODUCTION READY.**
 
 Open:
 
@@ -32,6 +32,7 @@ Run:
 ```powershell
 python hardware/g030_control/build_schematic_candidate.py
 python hardware/g030_control/check_schematic_geometry.py
+python hardware/g030_control/verify_g030_netlist.py
 python hardware/V4_Buoy_5G8_2G4/tests/run_negative_tests.py
 ```
 
@@ -42,17 +43,32 @@ The four-page RevB project below is the real-library schematic; the legacy candi
 - 45 components placed from the JLCEDA system library with real symbols, footprints, LCSC part numbers and 3D model links.
 - 137 net-name stub wires, one per `g030_netlist_draft.csv` row.
 - 32 nets across the four pages.
-- Exported netlist matches the CSV exactly: **137/137 pins, 32/32 nets, no missing or extra connections**.
+- The provisional corrected netlist matches the CSV exactly: **137/137 pins, 32/32 nets**.
+- Q1/D1 physical-pin semantics: `semantic_report.json` passes 60 critical pins and reports zero CSV mismatches.
 - All four pages are A3 and have title blocks.
+
+## Q1 and D1 correction
+
+The real RevB `01_POWER` page had Q1.1 on PWR_GATE and Q1.4 on VBAT, and D1.1 K on SW with D1.2 A on +5V. The page source was corrected to:
+
+- Q1.1/Q1.2/Q1.3 Source -> VBAT.
+- Q1.4 Gate -> PWR_GATE.
+- Q1.5-Q1.8 Drain -> VMOTOR.
+- D1.1 K -> +5V.
+- D1.2 A -> SW.
+
+See `revb_q1_d1_fix.md`. The GUI export and after screenshot are **BLOCKED**; do not claim the physical board is repaired.
 
 ## DRC
 
-`drc_result.json` records **138 warnings**:
+`drc_result.json` records only an aggregate **138 warnings**:
 
-- 137 `NETOBJECTONGRID` warnings from the net-name stubs.
-- 1 `CHECKFLOATPIN` warning for intentionally unused U1/U5/U6 pins and connector shield/extra pins.
+- 137 `NETOBJECTONGRID`.
+- 1 `CHECKFLOATPIN` class.
 
-This is **not ERC-clean**. The schematic is a netlist-valid draft, not a release schematic.
+The previous per-page 138 values were aggregate copies, not page-attributed counts. The full object/net/coordinate/rule/page log is **BLOCKED**. NC flags are **UNMARKED**.
+
+This is **not ERC/DRC-clean**. The schematic is a draft, not a release schematic.
 
 ## Limitations
 
@@ -67,9 +83,13 @@ This is **not ERC-clean**. The schematic is a netlist-valid draft, not a release
 - `Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3` - JLCEDA project.
 - `Shark_Sub_G030_RevB/sch/G030_Control/01_POWER.esch2` ... `04_IO.esch2` - four page sources.
 - `Shark_Sub_G030_RevB/01_POWER.png` ... `04_IO.png` - exported page images.
-- `Shark_Sub_G030_RevB/g030_export.net` - exported Protel netlist.
+- `Shark_Sub_G030_RevB/g030_export.net` - provisional corrected Protel netlist; see `netlist_export_status.json` (not GUI regenerated).
+- `Shark_Sub_G030_RevB/01_POWER_before_q1_d1.png` - before screenshot.
+- `revb_q1_d1_fix.md` - Q1/D1 evidence and unblock conditions.
+- `semantic_report.json` - physical pin function/net and CSV comparison.
+- `verify_g030_netlist.py` - semantic checker.
 - `netlist_compare.json` - exact CSV-vs-export comparison.
-- `drc_result.json` - DRC warning summary.
+- `drc_result.json` - aggregate DRC warning summary.
 - `schematic_pinmap.csv` - Ref/Pin/PinName/Net/Package mapping.
 
 ## Open in JLCEDA

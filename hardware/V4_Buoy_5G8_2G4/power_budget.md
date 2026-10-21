@@ -46,13 +46,24 @@ Boost switch RMS current is approximated by:
 
 ### 2.2 Loss table
 
-| Load | Pout | Diode loss | L1 DCR loss | L1 core loss (est.) | MT3608 conduction typ/max | MT3608 switching typ/max | Gate + quiescent | MT3608 total typ/max | Converter total typ/max | Efficiency typ/max |
-|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| 0.40 A | 2.00 W | 0.160 W | 0.034 W | 0.040 W | 0.020 / 0.052 W | 0.047 / 0.071 W | 0.024 W | **0.091 / 0.183 W** | **0.325 / 0.417 W** | **86.0 / 82.7%** |
-| 0.72 A | 3.60 W | 0.324 W | 0.110 W | 0.060 W | 0.064 / 0.168 W | 0.085 / 0.127 W | 0.024 W | **0.173 / 0.355 W** | **0.667 / 0.849 W** | **84.4 / 80.9%** |
-| 1.00 A | 5.00 W | 0.500 W | 0.211 W | 0.080 W | 0.123 / 0.323 W | 0.118 / 0.177 W | 0.024 W | **0.265 / 0.560 W** | **1.056 / 1.351 W** | **82.6 / 78.7%** |
+| Load | Pout | Diode loss | L1 DCR loss | L1 core loss (est.) | MT3608 conduction typ/max | MT3608 switching typ/max | Gate drive typ/max | Quiescent typ/max | MT3608 total typ/max | Converter total typ/max | Efficiency typ/max |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 0.40 A | 2.00 W | 0.160 W | 0.034 W | 0.040 W | 0.020 / 0.052 W | 0.047 / 0.071 W | 0.018 / 0.054 W | 0.005 / 0.007 W | **0.090 / 0.184 W** | **0.324 / 0.418 W** | **86.1 / 82.7%** |
+| 0.72 A | 3.60 W | 0.324 W | 0.110 W | 0.060 W | 0.064 / 0.168 W | 0.085 / 0.127 W | 0.018 / 0.054 W | 0.005 / 0.007 W | **0.172 / 0.356 W** | **0.666 / 0.850 W** | **84.4 / 80.9%** |
+| 1.00 A | 5.00 W | 0.500 W | 0.211 W | 0.080 W | 0.123 / 0.323 W | 0.118 / 0.177 W | 0.018 / 0.054 W | 0.005 / 0.007 W | **0.264 / 0.561 W** | **1.055 / 1.352 W** | **82.6 / 78.7%** |
+
+The maximum column varies the MT3608 conduction, switching, gate and quiescent losses; diode and L1 values are nominal in that column. It is not a simultaneous worst case for every component. The sensitivity table covers diode/L1 variation.
 
 The core-loss number is an **estimate**, not a vendor core-loss calculation: the SRP6060FA-220M core-loss curve is not in the basic datasheet. Treat 0.04/0.06/0.08 W as a placeholder and measure inductor temperature.
+
+The gate-drive and quiescent terms are deliberately separated:
+
+- `Pgate = Qg * 3.0V * 1.2MHz = 0.018W` typ (5nC) and `0.054W` max (15nC).
+- `Pq = 1.6mA * 3.0V = 0.0048W` typ and `2.2mA * 3.0V = 0.0066W` max.
+- `Pgate + Pq = 0.023W` typ and `0.061W` max.
+- `Pchip = Pconduction + Pswitching + Pgate + Pq`.
+
+For example, the 0.40A maximum case is `0.052 + 0.071 + 0.054 + 0.007 = 0.184W`, and the converter maximum is `0.160 + 0.034 + 0.040 + 0.184 = 0.418W`. The corresponding efficiency is `2.00 / (2.00 + 0.418) = 82.7%`.
 
 ### 2.3 MT3608 junction estimate
 
@@ -62,9 +73,9 @@ Using only the MT3608-attributed loss:
 
 | Load | Pchip typ/max | TJ rise typ/max at 250 C/W | TJ at 40 C | TJ at 60 C |
 |---:|---:|---:|---:|---:|
-| 0.40 A | 0.091 / 0.183 W | 23 / 46 C | 63 / 86 C | 83 / 106 C |
-| 0.72 A | 0.173 / 0.355 W | 43 / 89 C | 83 / 129 C | 103 / 149 C |
-| 1.00 A | 0.265 / 0.560 W | 66 / 140 C | **106 / 180 C** | **126 / 200 C** |
+| 0.40 A | 0.090 / 0.184 W | 23 / 46 C | 63 / 86 C | 83 / 106 C |
+| 0.72 A | 0.172 / 0.356 W | 43 / 89 C | 83 / 129 C | 103 / 149 C |
+| 1.00 A | 0.264 / 0.561 W | 66 / 140 C | **106 / 180 C** | **126 / 200 C** |
 
 At 1 A the **maximum-loss** case exceeds the 150 C junction limit; the typical-loss case is about 106 C. This is a real uncertainty, not a proven failure. At 0.72 A the max case is close to the limit. At 0.4 A the estimate is below the limit but still depends on copper and ambient.
 
@@ -76,7 +87,7 @@ If the whole converter is assumed to be 85% efficient, total loss is:
 |---:|---:|---:|---|
 | 0.40 A | 0.353 W | 0.119 W | plausible |
 | 0.72 A | 0.635 W | 0.141 W | lower than bottom-up chip estimate |
-| 1.00 A | 0.882 W | 0.091 W | **not self-consistent** with bottom-up 0.265 W typical |
+| 1.00 A | 0.882 W | 0.091 W | **not self-consistent** with bottom-up 0.264 W typical |
 
 The 85% assumption is therefore optimistic at 1 A. The bottom-up estimate implies roughly 79-83% at 1 A, 81-84% at 0.72 A and 83-86% at 0.4 A. Measure efficiency rather than assuming 85%.
 
@@ -89,7 +100,7 @@ The 85% assumption is therefore optimistic at 1 A. The bottom-up estimate implie
 | Core loss | 0.03-0.15 W | changes converter efficiency and local heating |
 | MT3608 RDS(on) | 80-150 mohm, x1.4 hot | chip conduction 0.05-0.32 W at 1 A |
 | Switching time | 20-60 ns total | chip switching 0.05-0.18 W at 1 A |
-| Gate charge | 5-15 nC | 0.018-0.054 W |
+| Gate charge | 5-15 nC | gate drive 0.018-0.054 W |
 | thetaJA | 150-250 C/W with copper | TJ can change by tens of degrees |
 | Ambient | 40-60 C sealed | TJ rises directly with ambient |
 

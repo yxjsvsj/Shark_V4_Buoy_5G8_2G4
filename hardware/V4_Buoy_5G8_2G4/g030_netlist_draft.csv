@@ -1,11 +1,11 @@
 Net,RefDes,Pin,Notes
 VBAT,J1,1,XT30 battery positive
+VBAT,Q1,1,P-MOS source
 VBAT,Q1,2,P-MOS source
 VBAT,Q1,3,P-MOS source
-VBAT,Q1,4,P-MOS source
 VBAT,R5,1,Gate pull-up
 VBAT,C14,1,Gate-source cap
-PWR_GATE,Q1,1,P-MOS gate
+PWR_GATE,Q1,4,P-MOS gate
 PWR_GATE,R5,2,Gate pull-up
 PWR_GATE,SW1,2,Reed switch
 PWR_GATE,C14,2,Gate-source cap
@@ -29,8 +29,8 @@ VMOTOR,U5,4,MT3608 EN
 VMOTOR,R3,1,Battery divider top
 SW,L1,2,Boost inductor switch
 SW,U5,1,MT3608 SW
-SW,D1,1,Schottky anode
-+5V,D1,2,Schottky cathode
++5V,D1,1,Schottky cathode K
+SW,D1,2,Schottky anode A
 +5V,C8,1,Boost output cap
 +5V,R1,1,Feedback top
 +5V,U6,1,LDO input

@@ -1,28 +1,35 @@
 {
+  "status": "BLOCKED",
   "drcPassed": false,
+  "aggregateViolations": 138,
+  "counts": {
+    "NETOBJECTONGRID": 137,
+    "CHECKFLOATPIN": 1
+  },
   "pages": [
     {
       "name": "01_POWER",
-      "violations": 138,
-      "passed": false
+      "violations": null,
+      "rawLog": null
     },
     {
       "name": "02_G030",
-      "violations": 138,
-      "passed": false
+      "violations": null,
+      "rawLog": null
     },
     {
       "name": "03_MOTOR",
-      "violations": 138,
-      "passed": false
+      "violations": null,
+      "rawLog": null
     },
     {
       "name": "04_IO",
-      "violations": 138,
-      "passed": false
+      "violations": null,
+      "rawLog": null
     }
   ],
-  "note": "NETOBJECTONGRID warnings from net-name stubs plus unused-pin CHECKFLOATPIN; schematic not ERC-clean.",
+  "pageDistribution": null,
+  "rawLog": null,
   "unusedPins": [
     "U5.6",
     "U6.4",
@@ -51,5 +58,7 @@
     "J6.0",
     "J9.4",
     "J9.3"
-  ]
+  ],
+  "ncStatus": "UNMARKED",
+  "note": "Only the aggregate 138-warning summary is available. The previous file repeated 138 for every page; that was not a page-attributed count. No full object/net/coordinate/page/rule DRC log was exported. Grid alignment and explicit NC flags remain BLOCKED; do not claim DRC clean."
 }

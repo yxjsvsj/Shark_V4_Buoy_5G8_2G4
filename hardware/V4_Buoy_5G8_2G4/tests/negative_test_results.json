@@ -1,14 +1,15 @@
 {
   "ok": true,
-  "generatedAt": "2026-10-21T03:08:28.526628+00:00",
+  "generatedAt": "2026-10-21T03:30:19.488569+00:00",
   "categories": {
     "STRUCTURAL": "PASS",
     "GEOMETRY": "PASS",
     "METADATA": "PASS",
+    "SEMANTIC": "PASS",
     "FOOTPRINT": "BLOCKED",
     "ERC": "NOT_RUN"
   },
-  "note": "Structural, geometry and metadata tests; not EDA ERC. Footprint is explicitly BLOCKED.",
+  "note": "Structural, geometry, metadata and physical-pin semantic tests; not EDA ERC. Footprint is explicitly BLOCKED.",
   "tests": [
     {
       "name": "baseline_netlist_pass",
@@ -43,8 +44,8 @@
       "exitCode": 1,
       "parseError": null,
       "errors": [
-        "expected Q1.1 on 'PWR_GATE', found 'VBAT'",
-        "expected Q1.2 on 'VBAT', found 'PWR_GATE'"
+        "expected Q1.1 on 'VBAT', found 'PWR_GATE'",
+        "expected Q1.4 on 'PWR_GATE', found 'VBAT'"
       ]
     },
     {
@@ -168,11 +169,11 @@
             ],
             [
               "Q1",
-              1,
+              4,
               2268,
               1180,
               3245,
-              2730.0
+              2670.0
             ]
           ]
         }
@@ -239,6 +240,46 @@
       "passed": true,
       "errors": [
         "ecfg board deadbeefdeadbeef != a1b2c3d4e5f60718"
+      ]
+    },
+    {
+      "name": "semantic_fixed_export_pass",
+      "category": "SEMANTIC",
+      "expected": "PASS",
+      "passed": true,
+      "pinsChecked": 60,
+      "errors": []
+    },
+    {
+      "name": "semantic_abe8bc3_wrong_must_fail",
+      "category": "SEMANTIC",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "Q1.1 function S expected net 'VBAT', found 'PWR_GATE'",
+        "Q1.4 function G expected net 'PWR_GATE', found 'VBAT'",
+        "D1.1 function K expected net '+5V', found 'SW'",
+        "D1.2 function A expected net 'SW', found '+5V'"
+      ]
+    },
+    {
+      "name": "semantic_q1_gate_source_swap",
+      "category": "SEMANTIC",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "Q1.1 function S expected net 'VBAT', found 'PWR_GATE'",
+        "Q1.4 function G expected net 'PWR_GATE', found 'VBAT'"
+      ]
+    },
+    {
+      "name": "semantic_d1_anode_cathode_swap",
+      "category": "SEMANTIC",
+      "expected": "REJECT",
+      "passed": true,
+      "errors": [
+        "D1.1 function K expected net '+5V', found 'SW'",
+        "D1.2 function A expected net 'SW', found '+5V'"
       ]
     },
     {

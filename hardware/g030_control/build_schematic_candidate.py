@@ -76,7 +76,7 @@ def pin_names(ref):
     if ref == "U6":
         return {1: "IN", 2: "GND", 3: "EN", 4: "NC", 5: "OUT"}
     if ref == "Q1":
-        return {1: "G", 2: "S", 3: "S", 4: "S", 5: "D", 6: "D", 7: "D", 8: "D"}
+        return {1: "S", 2: "S", 3: "S", 4: "G", 5: "D", 6: "D", 7: "D", 8: "D"}
     if ref == "J7":
         return {1: "+5V", 2: "GND", 3: "CVBS", 4: "GND", 5: "PP_DOWN", 6: "TELEM_UP"}
     if ref in ("J5", "J6"):
@@ -86,7 +86,7 @@ def pin_names(ref):
     if ref in ("J1", "J2", "J3", "J4", "J9"):
         return {1: "1", 2: "2"}
     if ref == "D1":
-        return {1: "A", 2: "K"}
+        return {1: "K", 2: "A"}
     if ref == "LED1":
         return {1: "A", 2: "K"}
     if ref == "SW1":

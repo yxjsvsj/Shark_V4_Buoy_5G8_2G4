@@ -1,0 +1,40 @@
+{
+  "baseline": "abe8bc3e3f010765ddc304744eabf1a2dc9dec09",
+  "before": "hardware/g030_control/tests/fixtures/g030_export_abe8bc3_wrong.net",
+  "after": "hardware/g030_control/Shark_Sub_G030_RevB/g030_export.net",
+  "differences": [
+    {
+      "ref": "Q1",
+      "pin": 1,
+      "pinName": "S",
+      "beforeNet": "PWR_GATE",
+      "afterNet": "VBAT",
+      "requiredNet": "VBAT"
+    },
+    {
+      "ref": "Q1",
+      "pin": 4,
+      "pinName": "G",
+      "beforeNet": "VBAT",
+      "afterNet": "PWR_GATE",
+      "requiredNet": "PWR_GATE"
+    },
+    {
+      "ref": "D1",
+      "pin": 1,
+      "pinName": "K",
+      "beforeNet": "SW",
+      "afterNet": "+5V",
+      "requiredNet": "+5V"
+    },
+    {
+      "ref": "D1",
+      "pin": 2,
+      "pinName": "A",
+      "beforeNet": "+5V",
+      "afterNet": "SW",
+      "requiredNet": "SW"
+    }
+  ],
+  "note": "Only these four net memberships differ from the abe8bc3 export. The after export is provisional because JLCEDA Pro was not used to regenerate it."
+}

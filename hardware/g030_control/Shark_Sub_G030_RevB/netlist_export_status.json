@@ -1,0 +1,14 @@
+{
+  "status": "PROVISIONAL_NOT_GUI_EXPORTED",
+  "guiExported": false,
+  "source": "hardware/g030_control/Shark_Sub_G030_RevB/sch/G030_Control/01_POWER.esch2",
+  "baseline": "abe8bc3e3f010765ddc304744eabf1a2dc9dec09",
+  "changes": [
+    "Q1.1 net PWR_GATE -> VBAT",
+    "Q1.4 net VBAT -> PWR_GATE",
+    "D1.1 net SW -> +5V (K)",
+    "D1.2 net +5V -> SW (A)"
+  ],
+  "reason": "The corrected .esch2 page was edited as source, but JLCEDA Pro was not used to re-export the netlist in this environment.",
+  "requiredBeforeProduction": "Open RevB in JLCEDA Pro, run ERC/DRC, export the netlist, and compare the GUI export with semantic_report.json."
+}

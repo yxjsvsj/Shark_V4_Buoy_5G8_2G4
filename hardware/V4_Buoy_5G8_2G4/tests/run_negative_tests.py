@@ -22,6 +22,7 @@ sys.path.insert(0, str(G030))
 import schematic_geometry
 import build_schematic_candidate as candidate
 import check_schematic_geometry as page_geometry
+import verify_g030_netlist as semantic
 
 
 def read_csv(path):
@@ -55,8 +56,8 @@ def short_led(rows, bom):
 
 
 def swap_q1(rows, bom):
-    gate = find(rows, "Q1", 1)
-    source = find(rows, "Q1", 2)
+    source = find(rows, "Q1", 1)
+    gate = find(rows, "Q1", 4)
     gate["Net"], source["Net"] = source["Net"], gate["Net"]
 
 
@@ -224,6 +225,65 @@ def test_metadata_mismatch():
     }
 
 
+def semantic_result(text):
+    return semantic.verify(text, G030.parent / "V4_Buoy_5G8_2G4" / "g030_netlist_draft.csv")
+
+
+def test_semantic_fixed_export():
+    text = (G030 / "Shark_Sub_G030_RevB" / "g030_export.net").read_text(encoding="utf-8", errors="replace")
+    result = semantic_result(text)
+    return {
+        "name": "semantic_fixed_export_pass",
+        "category": "SEMANTIC",
+        "expected": "PASS",
+        "passed": result["ok"] is True,
+        "pinsChecked": result["pinsChecked"],
+        "errors": result["errors"],
+    }
+
+
+def test_semantic_old_fixture_fails():
+    path = G030 / "tests" / "fixtures" / "g030_export_abe8bc3_wrong.net"
+    result = semantic.verify(path.read_text(encoding="utf-8", errors="replace"), None)
+    expected = ("Q1.1", "Q1.4", "D1.1", "D1.2")
+    passed = not result["ok"] and all(any(item.startswith(prefix) for item in result["errors"]) for prefix in expected)
+    return {
+        "name": "semantic_abe8bc3_wrong_must_fail",
+        "category": "SEMANTIC",
+        "expected": "REJECT",
+        "passed": passed,
+        "errors": result["errors"],
+    }
+
+
+def test_semantic_q1_swap_fails():
+    text = (G030 / "Shark_Sub_G030_RevB" / "g030_export.net").read_text(encoding="utf-8", errors="replace")
+    bad = semantic.retarget(text, {("Q1", 1): "PWR_GATE", ("Q1", 4): "VBAT"})
+    result = semantic.verify(bad, None)
+    passed = not result["ok"] and any("Q1.1" in item for item in result["errors"]) and any("Q1.4" in item for item in result["errors"])
+    return {
+        "name": "semantic_q1_gate_source_swap",
+        "category": "SEMANTIC",
+        "expected": "REJECT",
+        "passed": passed,
+        "errors": result["errors"],
+    }
+
+
+def test_semantic_d1_swap_fails():
+    text = (G030 / "Shark_Sub_G030_RevB" / "g030_export.net").read_text(encoding="utf-8", errors="replace")
+    bad = semantic.retarget(text, {("D1", 1): "SW", ("D1", 2): "+5V"})
+    result = semantic.verify(bad, None)
+    passed = not result["ok"] and any("D1.1" in item for item in result["errors"]) and any("D1.2" in item for item in result["errors"])
+    return {
+        "name": "semantic_d1_anode_cathode_swap",
+        "category": "SEMANTIC",
+        "expected": "REJECT",
+        "passed": passed,
+        "errors": result["errors"],
+    }
+
+
 def test_footprint_blocked():
     report = json.loads((G030 / "schematic_candidate_report.json").read_text(encoding="utf-8"))
     footprint = report.get("categories", {}).get("FOOTPRINT")
@@ -246,6 +306,10 @@ def main():
     results.append(geometry_negative("geometry_different_net_endpoint", make_endpoint))
     results.append(geometry_negative("geometry_pin_contact", make_pin_contact))
     results.append(test_metadata_mismatch())
+    results.append(test_semantic_fixed_export())
+    results.append(test_semantic_old_fixture_fails())
+    results.append(test_semantic_q1_swap_fails())
+    results.append(test_semantic_d1_swap_fails())
     results.append(test_footprint_blocked())
 
     all_passed = all(item["passed"] for item in results)
@@ -256,10 +320,11 @@ def main():
             "STRUCTURAL": "PASS" if all(x["passed"] for x in results if x["category"] == "STRUCTURAL") else "FAIL",
             "GEOMETRY": "PASS" if all(x["passed"] for x in results if x["category"] == "GEOMETRY") else "FAIL",
             "METADATA": "PASS" if all(x["passed"] for x in results if x["category"] == "METADATA") else "FAIL",
+            "SEMANTIC": "PASS" if all(x["passed"] for x in results if x["category"] == "SEMANTIC") else "FAIL",
             "FOOTPRINT": "BLOCKED",
             "ERC": "NOT_RUN",
         },
-        "note": "Structural, geometry and metadata tests; not EDA ERC. Footprint is explicitly BLOCKED.",
+        "note": "Structural, geometry, metadata and physical-pin semantic tests; not EDA ERC. Footprint is explicitly BLOCKED.",
         "tests": results,
     }
     RESULTS.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\r\n")
