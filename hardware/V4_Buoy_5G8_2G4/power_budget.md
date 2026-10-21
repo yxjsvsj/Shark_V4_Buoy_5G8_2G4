@@ -1,6 +1,8 @@
 # G030 power budget and MT3608 loss analysis
 
-Status: **CALCULATED / NOT VALIDATED / MT3608 REMAINS BLOCKED.**
+Status: **CALCULATED / NOT VALIDATED / MT3608 HISTORICAL BUDGET / TPS61022 SELECTED BUT NOT ANALYZED HERE.**
+
+Round 8 selected TPS61022RWUR (C915088) as the replacement direction; this document remains the MT3608 comparison and is not a TPS61022 thermal approval.
 No 5V load test has been run. Do not mark the 5V rail passed or failed from this document alone.
 
 ## 1. Assumptions and what changed

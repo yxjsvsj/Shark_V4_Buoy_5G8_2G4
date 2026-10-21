@@ -36,7 +36,7 @@ Use `buoy_rf_board.md`.
 
 ## 4. Cable
 
-50 cm for shallow testing; longer version for 50 cm depth plus float/connector margin.
+1 m nominal (0.8-1.2 m) for the 0.5 m design; 50 cm is too short.
 
 | Pin | Net | Direction |
 |---|---|---|
@@ -59,7 +59,7 @@ Use a separate shielded video pair/coax; not only the overall shield. 100uF at b
 - Q1 SiSS23DN-T1-GE3: 6.3mohm max at VGS=-2.5V; ~4.96A continuous / ~6.46A peak budget.
 - C1-C3: 100uF 6.3V polymer 1206; do not use unmeasured 100uF/0805 X5R.
 - Check DW01A/FS8205A or chosen protection continuous/peak; check battery 30C and connector.
-- +5V drop over 50cm/24AWG: ~0.08V at 1A, ~0.17V at 2A loop; verify at full load and servo stall. Cable OD is ~5.0-5.5mm.
+- +5V drop over 1m/24AWG: ~0.17V at 1A and ~0.34V at 2A loop; verify at full load and servo stall. Cable OD is ~5.0-5.5mm.
 
 ## 6. Firmware
 
@@ -86,7 +86,7 @@ Remote:
 | PCB fabrication (2 boards) | 50-100 RMB |
 | **Total** | **~400-800 RMB** |
 
-Shark 10-15 cm; buoy 55x70 mm, 50-80 g; cable 50 cm.
+Shark 10-15 cm; buoy 55x70 mm, 50-80 g; cable 1 m (0.8-1.2 m).
 
 ## 8. Alternative: G030 buoy board
 

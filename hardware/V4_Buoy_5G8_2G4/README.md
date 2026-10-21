@@ -1,8 +1,8 @@
 # V4 Buoy 5.8G / 2.4G - ACTIVE
 
 Status: **ACTIVE. Buoy architecture selected. Do not draw the final sub PCB until the buoy link test passes.**
-Goal: fully submerged 10-15 cm freshwater shark, 3 thrusters, jaw, real-time video, no long shore tether.
-The shark tows a short cable to a small surface buoy. All RF stays above water.
+Goal: fully submerged 10-15 cm freshwater shark, **0.5 m maximum design depth**, 3 thrusters, jaw, real-time video, no long shore tether.
+The shark tows a **0.8-1.2 m** cable (1 m nominal) to a small surface buoy. All RF stays above water.
 
 ## 1. Architecture
 
@@ -10,7 +10,7 @@ The shark tows a short cable to a small surface buoy. All RF stays above water.
 [Shark, fully submerged]
   camera CVBS + G030 + 3 ESC/MX113H + jaw servo + 1S + 5V boost
         |
-        | 50 cm, 6-core cable:
+        | 1 m nominal (0.8-1.2 m), 6-core cable:
         | +5V (cable +5V_BUOY), GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
         v
 [Buoy, on the surface]
@@ -42,7 +42,7 @@ The shark tows a short cable to a small surface buoy. All RF stays above water.
 | Buoy battery | none (powered from shark) | 0 |
 | Keel + mast + gland | 10-20 g | 10-20 g |
 | **Buoy total** | ~60 x 80 mm with antenna | **50-80 g** |
-| Cable | 50 cm, 6-core, ~3 mm OD, neutral | 16-24 g |
+| Cable | 100 cm (80-120 cm), 6-core, ~5.0-5.5 mm OD, near neutral | 32-48 g estimated; measure |
 | Shark | 10-15 cm | 90-130 g |
 
 Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and antenna.
@@ -84,7 +84,7 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 - Q1 is SiSS23DN-T1-GE3, 20V/50A, 6.3mohm max at VGS=-2.5V; pins 1-3 Source, pin 4 Gate, pins 5-8 Drain. AON7403 is not approved for 1S gate drive.
 - D1 SS34: pin 1 K -> +5V, pin 2 A -> SW. The PCB SMA cathode marking is still TBD.
 - C1-C3 are **100uF 6.3V polymer tantalum 1206** (T520A107M006ATE070), not 100uF/0805 X5R.
-- Cable: 50 cm, 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax. Finished OD is **~5.0-5.5mm**, not 3mm.
+- Cable: 100 cm (80-120 cm), 6 cores, 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax. Finished OD is **~5.0-5.5mm**, not 3mm.
 - J7: **JST-PH 6P, 2.0mm, 2A at 24AWG** (proposed; series change pending confirmation). JST-SH 1A/28-32AWG cannot take 24AWG.
 - J7/24AWG insulation OD must be 0.9-1.5mm; crimp pull test required. 30mm static / 55mm dynamic bend is tight in a 55mm buoy.
 - Pins: 1=+5V (cable +5V_BUOY), 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN, 6=TELEM_UP.
@@ -92,7 +92,7 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 - PP link loss: LimeCam sends one neutral frame after ~100ms, then stops; use the 500ms G030 frame timeout for failsafe. See `pp_link_behavior.md`.
 - Use a Kevlar/string strength member; the cable must not be the tow load.
 - Waterproof gland at the buoy; potted/gland at the shark; strain relief loop at both ends.
-- 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
+- 100 cm is the 0.5 m-depth baseline; 80-120 cm covers float and connector slack. Do not use a 50 cm cable for the 0.5 m design.
 
 ## 7. Buoy mechanical
 
@@ -116,7 +116,7 @@ Buoy displacement ~150 cm3, so it has enough reserve to float with the cable and
 ## 9. Test plan
 
 1. Buoy leak test, float test, cable strain test; check 5V at the buoy.
-2. 5.8G video in air; then camera in a glass of tank water with the buoy above water; test 10/20/30/40 cm camera depth.
+2. 5.8G video in air; then camera in a glass of tank water with the buoy above water; test 10/20/30/40/50 cm camera depth.
 3. 2.4G control: LimeRC remote -> buoy receiver -> `pp` -> G030; run motors/servo; 10 minutes.
 4. Shark tows buoy in the tank: turns, dive, jaw; check buoy upright, cable not tangled, video/control stable.
 5. Failsafe: unplug cable / remote off -> motors stop, jaw open; shark floats.

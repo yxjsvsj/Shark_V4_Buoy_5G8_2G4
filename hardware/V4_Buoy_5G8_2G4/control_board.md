@@ -59,13 +59,14 @@ Notes:
 - Forward IN1=PWM, IN2=0; reverse IN1=0, IN2=PWM; stop 0/0.
 - 6 PWM, 20kHz; 100uF + 100nF at each VCC.
 - **BLOCKED:** actual thruster running/start/stall current and MX113H temperature are not measured. Do not mark drive capability verified.
+- **Selected replacement (not in schematic):** 3x **DRV8837DSGR**, LCSC C39159, WSON-8 2x2, 1.8A peak, HS+LS 280mohm, 60.9C/W; VCC=+3V3, VM=VMOTOR, nSLEEP=+3V3. Actual RevB still uses MX113H.
 
 ## 4. Power
 
 - Protected 1S pack with PCM, XT30 connector; J1 XT30.
 - Q1 **SiSS23DN-T1-GE3** P-MOS, PowerPAK 1212-8S: pins 1-3 source to VBAT, pin 4 gate to PWR_GATE, pins 5-8 drain to VMOTOR. R5 100k gate pull-up; SW1 reed to GND; C14 100nF gate-source. This replaces AON7403, which does not specify RDS(on) at VGS=-2.5V.
 - Q1 budget: 3x MX113H at 1A continuous = 3A, plus 5V rail input at 3.0V/85% = 1.96A -> **~4.96A continuous**; 3x 1.5A MX113H peak + 1.96A = **~6.46A peak**. SiSS23DN is 50A package-limited, 27A at TA=25C, and 6.3mohm max at VGS=-2.5V. At 6.5A and 1.4x hot RDS(on), P ~= 0.37W; with 63C/W steady-state RthJA, rise ~23C. Verify copper and temperature.
-- U5 **MT3608** SOT-23-6 is retained only as a **candidate and is BLOCKED**. The corrected loss split (SS34, L1 DCR/core, MT3608 conduction/switching/gate/quiescent) gives MT3608 TJ roughly 63-86C at 0.4A, 83-129C at 0.72A, and **106-180C at 1A** (40C ambient, 250C/W). The 1A max case exceeds the junction limit; the typical case is about 106C. This is an uncertainty, not a proven pass or fail.
+- U5 **MT3608** SOT-23-6 is retained only as a **candidate and is BLOCKED**. Selected replacement: **TPS61022RWUR**, LCSC C915088, VQFN-7 2x2, 1.5A target at 3.0V; not yet in RevB. The corrected loss split (SS34, L1 DCR/core, MT3608 conduction/switching/gate/quiescent) gives MT3608 TJ roughly 63-86C at 0.4A, 83-129C at 0.72A, and **106-180C at 1A** (40C ambient, 250C/W). The 1A max case exceeds the junction limit; the typical case is about 106C. This is an uncertainty, not a proven pass or fail.
 - D1 SS34: library pin 1 K -> +5V, pin 2 A -> SW. PCB SMA cathode marking remains TBD.
 - MT3608 parts: L1 **Bourns SRP6060FA-220M** 22uH, 6.6x6.4mm, Isat 5.6A, Irms 3.8A, DCR 55mohm; D1 SS34; C7/C8 22uF 25V 0805 X5R; R1 73.2k / R2 10k. See `power_budget.md` for loss allocation and sensitivity.
 - 5V load nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A. At 3.0V/85%, the 5V rail alone draws **~1.96A** input. The 85% figure is optimistic at 1A; measure efficiency.
@@ -82,25 +83,25 @@ Notes:
 | Ref | Type | Pinout |
 |---|---|---|
 | J1 | XT30 2P | VBAT, GND |
-| J2 | JST-SH 2P | main motor OUT1/OUT2 |
-| J3 | JST-SH 2P | lateral motor |
-| J4 | JST-SH 2P | vertical motor |
+| J2 | JST-SH 2P (selected: JST-XH 2P) | main motor OUT1/OUT2; upgrade before layout |
+| J3 | JST-SH 2P (selected: JST-XH 2P) | lateral motor; upgrade before layout |
+| J4 | JST-SH 2P (selected: JST-XH 2P) | vertical motor; upgrade before layout |
 | J5 | JST-SH 3P | +5V, GND, JAW_SERVO |
 | J6 | JST-SH 3P | +5V, GND, CVBS_VIDEO |
 | J7 | JST-PH 6P (proposed) | 1 +5V, 2 GND_PWR (board GND), 3 CVBS_VIDEO, 4 GND_VIDEO (board GND), 5 PP_DOWN, 6 TELEM_UP |
-| J8 | HDR1X5 2.54mm placeholder | +3V3, GND, SWDIO, SWCLK, NRST; replace with Tag-Connect TC2030 6-pad 1.27mm pogo before layout |
+| J8 | HDR1X5 placeholder (selected: Tag-Connect TC2030) | 1.27mm, 6-pad; +3V3, GND, SWDIO, SWCLK, NRST, spare; not yet in schematic |
 | J9 | JST-SH 2P | leak pad, GND |
 
 - J2-J4 are JST-SH 1A-class; if measured motor stall >1A, use JST-XH or solder pads.
 - **J7 must not remain JST-SH.** JST-SH is 1A and 28-32AWG, so it is not compatible with 24AWG power/GND. Proposed J7 is **JST-PH 6P, 2.0mm, 2A at 24AWG, 24-30AWG**: header `B6B-PH-K-S`, housing `PHR-6`, terminal `SPH-002T-P0.5S`. This series change is **PENDING CONFIRMATION**; if 24AWG crimp/current is marginal or the 5V load rises above 2A, use JST-XH or a larger connector.
 - Camera video J6 pin3 -> J7 pin3; J6 GND -> J7 pin4; the video return is tied to board GND at J7, so the cable still has a dedicated return pin.
 - Buoy PP J7 pin5 -> R8 -> G030 PA3; G030 telemetry J7 pin6 -> buoy F407 RX.
-- +5V/GND J7 pins1/2 -> buoy; 50cm cable: 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax.
-- 24AWG drop at 50cm: about 0.084 ohm loop, ~0.08V at 1A and ~0.17V at 2A; check the buoy input voltage under load.
+- +5V/GND J7 pins1/2 -> buoy; 1 m nominal (0.8-1.2 m) cable: 24AWG for +5V/GND, 28AWG signals, separate shielded video pair/coax.
+- 24AWG drop over a 1 m cable: about 0.168 ohm loop, ~0.12V at 0.72A, ~0.17V at 1A and ~0.34V at 2A; check the buoy input voltage under load.
 - **Cable OD is not 3mm.** Two 24AWG power wires, two 28AWG signal wires, a 75 ohm micro coax, shield/filler and jacket yield about **5.0-5.5mm** finished OD. See `mechanical/j7_assembly.md`.
 - Mated connector envelope is about 13.9 x 4.5 x 8.0mm. A 5.5mm cable needs about 30mm static / 55mm dynamic bend radius. A top-entry J7 plus that bend is tight in the 55x70mm buoy; a side-entry header or larger buoy may be required.
 - 24AWG insulation OD must be 0.9-1.5mm for `SPH-002T-P0.5S`; crimp pull test and housing latch are required.
-- 50cm is a shallow-test version; for 50cm depth plus float/connector margin, make a longer version.
+- 1 m nominal (0.8-1.2 m) is the 0.5 m-depth baseline; 50 cm is too short.
 - CVBS is 75 ohm; check whether the VTX input has 75 ohm termination.
 
 ## 6. Safety
@@ -136,7 +137,7 @@ Notes:
 6. Link loss: disconnect only 2.4GHz; confirm one neutral PP frame then silence, and G030 failsafe within 500ms.
 7. MT3608: 3.0V input at 0.4/0.72/1.0A; record case temperature, 5V ripple and shutdown. Treat 0.72/1.0A as fail if TJ/package limits are exceeded.
 8. J7: 24AWG crimp pull test, housing latch, 30mm bend, gland mock-up.
-9. Full 50cm cable + buoy tank test; positive buoyancy check.
+9. Full 1 m (0.8-1.2 m) cable + buoy tank test; positive buoyancy check.
 
 ## 9. Status
 
@@ -148,8 +149,8 @@ Notes:
 - C1-C3 are **100uF 6.3V polymer tantalum 1206**, not 100uF/0805 X5R. C15/C16/C17 add LDO input and connector decoupling.
 - G030 schematic: `hardware/g030_control/Shark_Sub_G030_RevB/Shark_Sub_G030_RevB.eprj3`; four A3 pages, real library symbols, 45 components, 137 net stubs, 32 nets. Netlist matches CSV; DRC has 138 warnings (137 NETOBJECTONGRID + 1 unused-pin); PCB empty.
 - `check_netlist.py` results: 137 rows, 32 nets, 45 refs; six negative tests pass. This is **not** EDA ERC.
-- Round 7 adds no depth sensor to the real RevB schematic. Proposed I2C1 is **PB6/PB7**, not PA4/PA5 (PA4/PA5 have no I2C function on STM32G030). See `reviews/round7_depth_control.md`.
+- Round 8 baseline is 0.5 m. Selected depth sensor is MS5837-02BA01-50 on I2C1 **PB6/PB7** (not PA4/PA5). See `reviews/round8_scope.md`.
 - LimeRC receiver boots PP inverted/output-disabled; set it to normal TTL and capture the UART. LimeRC video is OV2640 digital, not CVBS; Shark J6/J7 CVBS is an independent chain.
-- A 5 m cable cannot use the 50 cm/24AWG/JST-PH power assumption. Use 18-20AWG power or a separate IP68 connector; exact type TBD.
+- For the 0.5 m design the 1 m/24AWG/JST-PH cable is the baseline; keep the drop/ripple test and do not use the old 5 m assumption.
 - MX113H is 1A continuous at 25C/0.4ohm/220C/W; sealed-hull continuous current must be derated, and J2-J4 JST-SH 1A connectors are not approved for 1.5A peaks.
 - Motor current, servo current/stall, protection current, MT3608 thermal, C1-C3 ripple, and board fit remain **BLOCKED/TBD** until measured.

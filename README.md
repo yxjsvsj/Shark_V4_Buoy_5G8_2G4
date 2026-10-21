@@ -1,7 +1,7 @@
 # Shark V4 Buoy 5.8G / 2.4G
 
 Fully submerged 10-15 cm freshwater shark with a small surface buoy.
-The shark tows a 50 cm cable to the buoy; all RF stays above water.
+Maximum design depth: **0.5 m**. The shark tows a **0.8-1.2 m** cable (1 m nominal) to the buoy; all RF stays above water.
 
 ## Architecture
 
@@ -9,7 +9,7 @@ The shark tows a 50 cm cable to the buoy; all RF stays above water.
 Shark (fully submerged)
   camera CVBS + G030 + 3 thrusters + jaw + protected 1S + 5V boost
         |
-        | 50 cm, 6-core cable:
+        | 1 m nominal (0.8-1.2 m), 6-core cable:
         | +5V_BUOY, GND_PWR, CVBS_VIDEO, GND_VIDEO, PP_DOWN, TELEM_UP
         v
 Buoy (surface)
@@ -23,7 +23,7 @@ Buoy (surface)
 
 - Video: underwater CVBS camera -> cable -> 5.8G VTX on buoy -> receiver at tank edge.
 - Control: LimeRC remote -> 2.4G receiver on buoy -> `pp` -> cable -> G030.
-- No IR, no 433M, no 1.2G. The only underwater link is the 50 cm cable.
+- No IR, no 433M, no 1.2G. The only underwater link is the 0.8-1.2 m cable.
 
 ## Contents
 
@@ -39,14 +39,14 @@ Buoy (surface)
 - **P0 gate:** LimeRC receiver source/license, clock (24 vs 25 MHz), pairing, PP polarity. If only HEX is available, use the original LimeCam board or get source/permission.
 - **P0 gate:** measure thruster current/stall and MX113H thermal before layout.
 - Board sizes are not frozen: first-pass G030 26x40-46 mm, buoy 30x30-30x35 mm.
-- First milestone: 5.8G video + 2.4G `pp` + 50 cm cable test in the tank.
+- First milestone: 5.8G video + 2.4G `pp` + 1 m cable test in the tank.
 - Do not draw/fabricate the final PCBs until the gates pass.
 
 ## Next steps
 
 1. Resolve LimeRC receiver source/license/clock/pin/PP polarity.
 2. Measure thruster current/thrust and MX113H thermal.
-3. Buy the 5.8G VTX, receiver, CVBS camera, antennas, buoy materials, 50 cm cable; run the tank test.
+3. Buy the 5.8G VTX, receiver, CVBS camera, antennas, buoy materials, 1 m cable; run the tank test.
 4. Finish the G030 schematic, then the F407 schematic; layout before freezing sizes.
 5. If a link fails, use 900M analog or a thin tether; do not return to 2.4G/5.8G underwater RF.
 

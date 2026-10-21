@@ -1,0 +1,48 @@
+{
+  "round": 8,
+  "date": "2026-10-21",
+  "baseline": "96515ef53757aa5366f5f3582c98961cc657a1c5",
+  "scope": "0.5 m maximum design depth; 0.8-1.2 m cable",
+  "gui": {
+    "software": "JLCEDA Pro V4.1.78",
+    "opened": true,
+    "visualChecks": [
+      "01_POWER Q1 and D1",
+      "02_G030 page",
+      "04_IO page"
+    ],
+    "03_MOTORVisualCheck": false,
+    "netlistExport": "BLOCKED",
+    "guiNetlistFile": null,
+    "drc": "BLOCKED",
+    "drcFullLog": null,
+    "aggregateWarnings": 138
+  },
+  "actualSchematic": {
+    "changedThisRound": false,
+    "stillContains": [
+      "MT3608",
+      "3x MX113H",
+      "HDR1X5 2.54 mm J8",
+      "no depth sensor"
+    ]
+  },
+  "selections": {
+    "depth": "MS5837-02BA01-50 on I2C1 PB6/PB7",
+    "boost": "TPS61022RWUR, LCSC C915088",
+    "motorDriver": "DRV8837DSGR, LCSC C39159",
+    "debug": "Tag-Connect TC2030 6-pad 1.27 mm",
+    "switch": "DECISION_REQUIRED"
+  },
+  "tests": {
+    "existing": "18/18",
+    "round7Static": "10/10",
+    "notRun": [
+      "GUI ERC",
+      "GUI DRC",
+      "footprint pad check",
+      "physical electrical test",
+      "0.5 m pressure test"
+    ]
+  }
+}

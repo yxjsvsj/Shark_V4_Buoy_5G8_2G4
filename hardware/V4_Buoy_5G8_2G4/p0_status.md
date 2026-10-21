@@ -1,4 +1,4 @@
-﻿# P0/P1 status after round 7 review
+﻿# P0/P1 status after round 8 review
 
 Branch: `p0-g030-remediation`. Audit baseline: `abe8bc3e3f010765ddc304744eabf1a2dc9dec09`; earlier rounds: `6e78020`, `f93bf6b`, `5d7ef5a`, `2b874fc`, `e58a1cc`.
 No PCB was ordered, no Gerber was generated, no production-ready claim is made.
@@ -42,9 +42,12 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P0-33 | 5V power device decision | MT3608 remains marginal above 0.4A; load TBD | **PARTIAL** | `power_options.md`: split two MT3608 rails or replace with TPS61022; TPS61022 preferred, not yet in schematic |
 | P0-34 | J8 debug connector mismatch | Actual J8 is HDR1X5 2.54mm; BOM previously claimed 1.27mm pogo | **PARTIAL** | Proposed Tag-Connect TC2030 6-pad 1.27mm + TC2030-IDC; BOM marked DO NOT FAB; schematic symbol still placeholder |
 | P0-35 | LimeRC reference compatibility | Actual schematic/source now reviewed; AS01-ML01S, 25MHz, OV2640, XOR PP | **PARTIAL** | PP default inverted/disabled; E01C/AS01 equivalence, final firmware and CVBS compatibility BLOCKED |
-| P0-36 | 5m depth sensing absent | No pressure sensor in RevB; PA4/PA5 are not I2C | **BLOCKED** | Proposed I2C1 on PB6/PB7 + J10; MS5837-02BA needs 1.5-1.8bar characterization; no schematic change |
-| P0-37 | 5m buoy cable | Current design is 50cm/24AWG/JST-PH | **BLOCKED** | 18-20AWG power or separate IP68 connector, coax, TVS, strain relief, drop/ripple test required |
-| P0-38 | MX113H thermal/current | 1A cont at 25C, 0.4ohm, 220C/W; 1.5A peak; J2-J4 1A | **MEASUREMENT_REQUIRED** | Sealed-hull continuous current must be derated; three 1A motors not approved; connector upgrade TBD |
+| P0-36 | 0.5m depth sensing absent | No pressure sensor in RevB; PA4/PA5 are not I2C | **SELECTED / NOT IN SCHEMATIC** | MS5837-02BA01-50 on PB6/PB7 I2C1 + J10; 0.5m is inside 300-1200mbar; actual page update blocked |
+| P0-37 | 0.5m buoy cable | Current design was 50cm; new baseline 1m (0.8-1.2m) | **PARTIAL** | 24AWG drop ~0.12/0.17/0.34V at 0.72/1/2A; cable weight/drag and strain relief still need test |
+| P0-38 | MX113H thermal/current | 1A cont at 25C, 0.4ohm, 220C/W; 1.5A peak; J2-J4 1A | **SELECTED REPLACEMENT / NOT IN SCHEMATIC** | DRV8837DSGR C39159 selected (1.8A, 280mohm, 60.9C/W); measure thrusters; J2-J4 upgrade |
+| P0-39 | 5V boost selection | MT3608 marginal above 0.4A | **SELECTED REPLACEMENT / NOT IN SCHEMATIC** | TPS61022RWUR C915088 selected, target 1.5A at 3.0V; footprint/peripheral validation required |
+| P0-40 | Depth baseline change | Old 5m target | **FIXED in active docs** | 0.5m design baseline; round7 5m reports retained as history |
+| P0-41 | 0.5m cable weight/drag | 1m 5.5mm cable | **TBD** | Estimated 32-48g mass, 24g displacement, 10-30g negative; measure and add foam/strain relief |
 
 ## P1
 
@@ -68,11 +71,13 @@ No PCB was ordered, no Gerber was generated, no production-ready claim is made.
 | P1-16 | LimeRC source status | **PARTIAL** | Upstream GPL-3.0 source available; final build, RF pins, clock, PP polarity, UART loss behavior and third-party licenses remain BLOCKED/TBD |
 | P1-17 | RevB Q1/D1 screenshots and DRC object log | **PARTIAL** | Q1 and D1 after screenshots captured in GUI; full DRC object log, grid realignment and NC flags still BLOCKED |
 | P1-18 | Q1/D1 first-power test | **BLOCKED** | No battery or PCB; first power only with current-limited supply, no motors/servo/camera/buoy; verify no short and 5V/3.3V rails |
-| P1-19 | 5V converter selection | **PARTIAL** | TPS61022 preferred, target 1.5A at 3.0V; split-MT3608 fallback; actual schematic/BOM change not made; stall/VTX current TBD |
-| P1-20 | J8 1.27mm pogo implementation | **PARTIAL** | Tag-Connect TC2030 6-pad + TC2030-IDC proposed; actual J8 symbol/footprint still HDR1X5 |
+| P1-19 | 5V converter selection | **SELECTED / NOT IN SCHEMATIC** | TPS61022RWUR C915088, target 1.5A at 3.0V; actual schematic/BOM change blocked; stall/VTX current TBD |
+| P1-20 | J8 1.27mm pogo implementation | **SELECTED / NOT IN SCHEMATIC** | Tag-Connect TC2030 6-pad + TC2030-IDC selected; actual J8 symbol/footprint still HDR1X5 |
 | P1-21 | Footprint/polarity audit | **PARTIAL** | Symbol pin maps checked; PCB pad numbering, D1 cathode, C1-C3 positive marking and connector mechanical pads still require layout inspection |
 | P1-22 | Round 7 reference audit | **PARTIAL** | LimeRC schematic/source reviewed; LimeMini hardware archive still BLOCKED |
-| P1-23 | Round 7 static regression | **PASS** | 18/18 existing and 10/10 new static tests; not ERC/DRC or physical test |
+| P1-23 | Round 7/8 static regression | **PASS** | 18/18 existing and 10/10 new static tests; not ERC/DRC or physical test |
+| P1-24 | 0.5m depth interface | **SELECTED / NOT IN SCHEMATIC** | MS5837-02BA01-50, I2C1 PB6/PB7, J10; actual page not updated |
+| P1-25 | 0.5m cable weight/drag | **TBD** | 1m 5.5mm cable estimate 10-30g negative; add foam/strain relief and measure |
 
 ## Evidence
 

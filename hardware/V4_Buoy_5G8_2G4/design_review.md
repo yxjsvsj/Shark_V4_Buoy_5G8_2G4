@@ -9,8 +9,8 @@ Status: review accepted; architecture confirmed; **device values and board sizes
 | Shark control board | STM32G030 | 3x MX113H brushed + 1 jaw servo | No RF, no camera processing |
 | Buoy RF board | STM32F407 (stripped LimeCam) | none | 2.4G LimeRC + `pp`; 5.8G VTX separate |
 
-Video: CVBS camera -> 50 cm cable -> 5.8G VTX on buoy -> tank-edge receiver.
-Control: LimeRC remote -> buoy 2.4G -> `pp` -> 50 cm cable -> G030.
+Video: CVBS camera -> 0.8-1.2 m cable (1 m nominal) -> 5.8G VTX on buoy -> tank-edge receiver.
+Control: LimeRC remote -> buoy 2.4G -> `pp` -> 1 m (0.8-1.2 m) cable -> G030.
 4-in-1 brushless ESC is **not** used in V1.
 
 ## P0 gates before schematic freeze
@@ -68,8 +68,8 @@ Recommended 6-core pinout:
 - J7: proposed **JST-PH 6P** (2A at 24AWG, 24-30AWG). JST-SH 1A/28-32AWG is incompatible with 24AWG and must not remain.
 - J7/cable mechanical: mated body ~13.9 x 4.5 x 8.0mm; cable OD ~5.0-5.5mm; 30mm static / 55mm dynamic bend. Top-entry plus bend is tight in the 55mm buoy; mechanical fit PENDING. See `mechanical/j7_assembly.md`.
 - CVBS is 75 ohm; check whether the VTX input has a 75 ohm termination to avoid double termination.
-- 50 cm is for shallow testing; for 50 cm depth plus float/connector margin, make a longer version.
-- Define connector, strain relief, neutral buoyancy and max depth.
+- 100 cm is the 0.5 m-depth baseline; 80-120 cm covers float and connector slack. Do not use 50 cm.
+- Define connector, strain relief, near-neutral buoyancy and 0.5 m max depth.
 
 ### 5. Board sizes
 

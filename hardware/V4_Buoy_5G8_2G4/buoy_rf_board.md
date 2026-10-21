@@ -53,7 +53,7 @@ Do not delete `nrfMessage`/`Lime_nrf_slave`/`agreement_pp`/USART1/SPI2 until the
 
 The F407 does not process video.
 
-- J_CAM: 5V, GND, VIDEO from the 50cm cable.
+- J_CAM: 5V, GND, VIDEO from the 1 m (0.8-1.2 m) cable.
 - J_VTX: 5V, GND, VIDEO to the 5.8G VTX.
 - Route with a short shielded trace/coax and a ground guard.
 - CVBS is a 75 ohm system; check whether the VTX input already has 75 ohm termination to avoid double termination.
@@ -61,11 +61,11 @@ The F407 does not process video.
 
 ## 5. Power
 
-- 5V from the 50cm cable -> TLV70033 3.3V/200mA -> F407 + NRF2. No V3 1S protection/TPS63802 and no buoy battery; no reverse feed.
+- 5V from the 1 m (0.8-1.2 m) cable -> TLV70033 3.3V/200mA -> F407 + NRF2. No V3 1S protection/TPS63802 and no buoy battery; no reverse feed.
 - 5V -> 5.8G VTX + camera.
 - Current: F407 0.1A + NRF2 0.03A + VTX 0.2A + camera 0.1A = ~0.43A.
 - 100uF at input; 3.3V LDO TLV70033 200mA (F407+NRF2 ~0.13A); F407 decoupling as usual.
-- Check the +5V drop over 50cm and the buoy connector.
+- Check the +5V drop over 1 m and the buoy connector.
 - The buoy cable connector must mate with the G030 **JST-PH 6P** (2A at 24AWG); do not use JST-SH for 24AWG power/GND.
 
 ## 6. Size and layout

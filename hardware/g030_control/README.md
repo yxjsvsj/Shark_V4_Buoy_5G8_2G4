@@ -66,12 +66,13 @@ See `revb_q1_d1_fix.md`. JLCEDA Pro V4.1.78 was reopened and the page was visual
 - `reviews/round7_pin_net_matrix.csv` - 137-pin matrix.
 - `reviews/round7_power_review.md` - magnetic switch and 5V options.
 - `reviews/round7_thruster_review.md` - MX113H thermal/connector limits.
-- `reviews/round7_depth_control.md` - 5 m depth proposal; PB6/PB7, not PA4/PA5.
-- `reviews/round7_buoy_interface.md` - J7, PP polarity, 5 m cable and video.
+- `reviews/round8_scope.md` - **active 0.5 m baseline**, selected MS5837-02BA / TPS61022 / DRV8837, 1 m cable.
+- `reviews/round7_depth_control.md` - historical 5 m proposal; retained, superseded.
+- `reviews/round7_buoy_interface.md` - historical 5 m cable review; retained, superseded.
 - `reviews/round7_eda_verification.json` - actual GUI/export/DRC status.
 - `reviews/round7_blockers.md` and `reviews/round7_next_actions.md`.
 
-The depth interface, J8 TC2030, TPS61022 and 5 m cable are **not** implemented in the actual RevB schematic.
+The 0.5 m depth interface, J8 TC2030, TPS61022 and DRV8837 selections are **not** implemented in the actual RevB schematic yet. The old 5 m reviews are historical only.
 
 ## DRC
 

@@ -2,14 +2,16 @@
 
 Test the buoy links before drawing the final sub PCB.
 
+Maximum design depth: **0.5 m**. Cable: **0.8-1.2 m** (1 m nominal).
+
 ## 0. Preconditions
 
 - LimeRC receiver source/license resolved; PP polarity normal 3.3V TTL.
-- Thruster running/start/stall current measured; MX113H within 1A continuous / 1.5A peak.
+- Thruster running/start/stall current measured; MX113H derated or replaced by DRV8837; J2-J4 current checked.
 - Servo model and stall current measured; +5V budget includes camera/buoy/servo.
-- 5V power tree and protection current checked; MT3608 thermal test at 3.0V/0.4/0.72/1A; Q1/L1 thermal checked.
+- 5V power tree and protection current checked; TPS61022 selected but not yet in schematic; MT3608 remains BLOCKED; Q1/L1 thermal checked.
 - C1-C3 polymer ripple/case temperature checked at 20kHz PWM.
-- J7 50cm cable: proposed JST-PH 6P, 24AWG +5V/GND (insulation 0.9-1.5mm), separate shielded video; crimp pull test; CVBS 75 ohm VTX termination checked.
+- J7 1 m (0.8-1.2 m) cable: proposed JST-PH 6P, 24AWG +5V/GND (insulation 0.9-1.5mm), separate shielded video; crimp pull test; CVBS 75 ohm VTX termination checked.
 - J7/cable/gland mock-up checked for 5.0-5.5mm OD and 30mm static bend.
 
 ## 1. Buoy bench test
@@ -25,12 +27,12 @@ Test the buoy links before drawing the final sub PCB.
 
 1. Camera + VTX on the bench, 1 m apart; set the receiver to the same channel.
 2. Put the camera in a clear waterproof box with a 2 mm acrylic window; keep the buoy/VTX above water.
-3. Test camera depth 10/20/30/40 cm; record 30 s at each.
+3. Test camera depth 10/20/30/40/50 cm; record 30 s at each.
 4. Try 5.8G channels; pick the cleanest.
 5. Move the receiver antenna; note nulls; keep it vertical.
 6. Check video with the tank LED on/off; check white LED fill.
 
-Pass: stable 640x480 image, no freeze, acceptable noise at 30-40 cm camera depth.
+Pass: stable 640x480 image, no freeze, acceptable noise at 30-50 cm camera depth.
 
 ## 3. 2.4G control test
 
@@ -48,7 +50,7 @@ Pass: no dropouts at the tank distance; failsafe works; link-loss behavior match
 
 ## 4. Integrated tank test
 
-1. Shark tows the buoy; cable 50 cm; buoy stays upright.
+1. Shark tows the buoy; cable 1 m (0.8-1.2 m); buoy stays upright.
 2. Drive forward/back, turn, vertical; watch the cable and buoy.
 3. Open/close the jaw; check camera view.
 4. Run 10 minutes; check leaks, cable tangle, buoy trim.
@@ -68,7 +70,7 @@ Pass: buoy upright, cable not tangled, video/control stable, no leaks.
 
 ## 6. Pass criteria
 
-- 5.8G video: stable 640x480 at 30-40 cm camera depth.
+- 5.8G video: stable 640x480 at 30-50 cm camera depth.
 - 2.4G control: no dropouts for 10 minutes at the tank distance.
 - Buoy: upright, positive buoyancy, no leaks, cable not tangled.
 - Failsafe: motors stop and jaw opens on loss of control.

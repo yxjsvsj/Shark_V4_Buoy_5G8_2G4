@@ -10,7 +10,7 @@ It is **not build-ready**. The G030 schematic still needs to be drawn from `../V
 ## 1. What this board does
 
 - Receives the LimeRC 2.4G remote on NRF2.
-- Outputs `pp` at 115200 on USART1 to the shark over the 50 cm cable.
+- Outputs `pp` at 115200 on USART1 to the shark over the 1 m (0.8-1.2 m) cable.
 - Passes the shark camera CVBS video to the 5.8G VTX on the buoy.
 - No camera processing, no NRF1 video, no motor drivers.
 
@@ -35,7 +35,7 @@ Add:
 - Camera video header: 5V / GND / VIDEO (pass-through to VTX).
 - 100uF + 100nF + LC/ferrite on the 5V/camera rail.
 - 2.4G 31 mm antenna keepout; 5.8G antenna on the buoy.
-- No buoy battery and no reverse feed: 5V comes only from the 50cm cable; TLV70033 200mA for F407+NRF2.
+- No buoy battery and no reverse feed: 5V comes only from the 1 m (0.8-1.2 m) cable; TLV70033 200mA for F407+NRF2.
 
 ## 3. Page changes
 
@@ -68,7 +68,7 @@ Add:
 
 - This is a **copy of the V3 project**; the camera/RF wiring in V3 was incomplete.
 - Do not fabricate as-is.
-- First validate the buoy links (2.4G `pp`, 5.8G video, 50 cm cable) before finalizing this PCB.
+- First validate the buoy links (2.4G `pp`, 5.8G video, 1 m (0.8-1.2 m) cable) before finalizing this PCB.
 
 ## 7. Open
 

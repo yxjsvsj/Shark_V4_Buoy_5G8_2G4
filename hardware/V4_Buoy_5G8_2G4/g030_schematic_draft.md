@@ -24,7 +24,7 @@ VMOTOR -> U5 MT3608 -> +5V
 - Q1 SiSS23DN-T1-GE3: pins 1-3 source = VBAT, pin 4 gate = PWR_GATE, pins 5-8 drain = VMOTOR. R5 100k pull-up, SW1 reed to GND, C14 100nF gate-source.
 - Q1 is rated 20V/50A package-limited; RDS(on) 6.3mohm max at VGS=-2.5V. It replaces AON7403, which has no published -2.5V RDS(on). Verify the PowerPAK 1212-8S footprint and copper.
 - D1 SS34: library pin 1 K -> +5V, pin 2 A -> SW. PCB SMA cathode marking remains TBD.
-- U5 MT3608 is a candidate only: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 SRP6060FA-220M 22uH, D1 SS34, C7/C8 22uF 25V, R1 73.2k, R2 10k -> 5.0V. **MT3608 thermal fails at 0.72A/1A from 3.0V; see `power_budget.md`.**
+- U5 MT3608 is historical/candidate only: VIN/EN = VMOTOR, SW = L1/D1, FB = R1/R2; L1 SRP6060FA-220M 22uH, D1 SS34, C7/C8 22uF 25V, R1 73.2k, R2 10k -> 5.0V. **MT3608 is BLOCKED; TPS61022RWUR C915088 is selected but not yet in the schematic.**
 - U6 TLV70033: IN/EN = +5V, OUT = +3V3; 200mA max; C15 1uF input, C9 1uF output.
 - +5V loads nominal: camera 0.1A + buoy 0.4A + servo 0.2A + LDO 0.02A = ~0.72A; 1A boost not thermally approved.
 - Input current at 3.0V/85% for 5V/1A is ~1.96A; L1 Isat 5.6A, Irms 3.8A.

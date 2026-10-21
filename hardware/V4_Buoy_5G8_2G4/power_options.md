@@ -69,7 +69,7 @@ Disadvantages: new IC/footprint and compensation/layout review; 1 uH inductor an
 
 ## Recommendation
 
-Prefer **Option B (TPS61022)** for the next schematic revision, with a **1.5 A continuous design target at 3.0 V**, because it removes the MT3608 thermal ceiling and reduces board area. Keep **Option A** as the fallback if TPS61022 cannot be sourced or its 3.0 V/1.5 A capability is not demonstrated.
+**Selected direction: Option B, TPS61022RWUR (LCSC C915088)**, with a **1.5 A continuous design target at 3.0 V**, because it removes the MT3608 thermal ceiling and reduces board area. It is not yet in the RevB schematic. Keep **Option A** as the fallback if the TPS61022 footprint or 3.0 V/1.5 A capability is not demonstrated.
 
 Do not change the RevB schematic to TPS61022 until its JLCEDA symbol/footprint are verified. The current BOM remains MT3608 candidate and is marked BLOCKED.
 

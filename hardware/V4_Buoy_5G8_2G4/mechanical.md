@@ -9,13 +9,13 @@
 - Cable exits the bottom through a waterproof gland.
 - Tow loop above the gland takes the cable strain; the cable is not the strength member.
 
-Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and antennas.
+Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with the 0.8-1.2 m cable and antennas. Maximum design depth: 0.5 m.
 
 ## 2. Cable
 
-- 50 cm, 6 cores: **24AWG for +5V/GND_PWR**, 28AWG for signals, separate shielded video pair/coax. 50 cm is for shallow testing; make a longer version for 50 cm depth plus float/connector margin.
+- 100 cm nominal (80-120 cm), 6 cores: **24AWG for +5V/GND_PWR**, 28AWG for signals, separate shielded video pair/coax. This is the 0.5 m-depth baseline; 50 cm is too short.
 - Connector: **JST-PH 6P, 2.0mm, 2A at 24AWG, 24-30AWG** (proposed; series change pending confirmation). JST-SH is only 1A/28-32AWG and cannot take 24AWG.
-- Current check: +5V rail ~0.72A nominal; verify at full load including servo stall. 24AWG drop is ~0.08V at 1A and ~0.17V at 2A over 50cm loop. J7 and cable must be rated for the sum of buoy + camera + servo.
+- Current check: +5V rail ~0.72A nominal; verify at full load including servo stall. 24AWG drop over a 1 m cable is ~0.12V at 0.72A, ~0.17V at 1A and ~0.34V at 2A (10 m loop is not applicable here). J7 and cable must be rated for the sum of buoy + camera + servo.
 - Cable OD is **~5.0-5.5mm**, not 3mm. A 5.5mm cable needs about 30mm static / 55mm dynamic bend radius. The connector and bend are tight in a 55mm buoy; see `mechanical/j7_assembly.md`.
 - Pins: 1=+5V (cable label +5V_BUOY), 2=GND_PWR, 3=CVBS_VIDEO, 4=GND_VIDEO, 5=PP_DOWN (buoy->shark), 6=TELEM_UP (shark->buoy).
 - Kevlar/string strength member inside the jacket; CVBS is 75 ohm; check VTX input termination.
@@ -36,7 +36,7 @@ Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and an
                          |
                     cable gland
                          |
-                    50cm cable
+                    100cm cable
                          |
                       shark
 ```
@@ -52,7 +52,7 @@ Target: 50-80 g buoy, displacement ~150 cm3, positive buoyancy with cable and an
 - UART TX/RX for `pp`; 5V/GND; spare.
 - Waterproof gland or potted cable exit at the top/back.
 - Cable exits above the center of gravity; keep a slack loop so the shark can turn.
-- The shark tows the buoy; the buoy stays on the surface; the cable length 50 cm.
+- The shark tows the buoy; the buoy stays on the surface; the cable length is 0.8-1.2 m (1 m nominal).
 
 ## 5. Buoyancy and trim
 
